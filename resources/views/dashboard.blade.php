@@ -15,7 +15,7 @@
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1 class="">Revenues</h1>
-                    <table class="table-auto border-collapse border border-spacing-2">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Rechnungsdatum:</th>
