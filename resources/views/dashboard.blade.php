@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div id="dashboard_header" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            <ul>
+                @foreach ($years as $year)
+                <li>{{$year}}</li>
+                @endforeach
+            </ul>
+        </div>
     </x-slot>
 
     <div id="dashboard_page" class="py-12">
@@ -16,7 +20,7 @@
                     </a>
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1>Revenues</h1>
+                    <h1>Einnahmen</h1>
                     <div class="total_amounts flex flex-row text-center">
                         <div>
                             <p>Netto</p>

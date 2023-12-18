@@ -6,6 +6,21 @@ h1 {
     @apply text-3xl;
 }
 
+#dashboard_header {
+    ul {
+        @apply flex;
+        @apply flex-row;
+        @apply justify-center;
+        li {
+            @apply mr-6;
+
+            &:last-of-type {
+                @apply mr-0;
+            }
+        }
+    }
+}
+
 #dashboard_page {
     .total_amounts {
         div {
