@@ -21,5 +21,24 @@ h1 {
             @apply border;
             @apply p-2;
         }
+        .currency {
+            @apply text-right;
+            font-family: 'Andale Mono', Courier, 'Courier New', monospace;
+            font-weight: 600;
+        }
+    }
+}
+
+#create_revenue_page {
+    form {
+        input {
+            @apply dark:bg-slate-500;
+            @apply my-2;
+
+            &:invalid {
+                @apply border-red-700;
+                @apply border-2;
+            }
+        }
     }
 }

@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::name('dashboard.')->group(function() {
+    Route::name('dashboard.')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
     });
     Route::prefix('revenue')->name('revenue.')->group(function () {
         Route::get('/create', [RevenueController::class, 'create'])->name('create');
-        Route::post('/', [RevenueController::class,'store'])->name('store');
+        Route::post('/', [RevenueController::class, 'store'])->name('store');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');

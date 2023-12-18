@@ -13,39 +13,35 @@
                     <form method="post" action="{{ route('revenue.store') }}" class="my-2">
                         @csrf
                         <label for="billing_date">Rechnungsdatum:</label><br>
-                        <input type="date" id="billing_date" name="billing_date" value="{{ old('billing_date') }}"
-                            class="dark:bg-slate-500">
-                        <div class="my-2"></div>
+                        <input type="date" id="billing_date" name="billing_date" value="{{ old('billing_date') }}"><br>
 
                         <label for="payment_date">Zahlungseingang:</label><br>
-                        <input type="date" id="payment_date" name="payment_date" value="{{ old('payment_date') }}"
-                            class="dark:bg-slate-500">
-                        <div class="my-2"></div>
+                        <input type="date" id="payment_date" name="payment_date" value="{{ old('payment_date') }}"><br>
 
                         <label for="customers_name">Kunde:</label><br>
                         <input id="customers_name" name="company_name" list="customers"
-                            value="{{ old('company_name') }}" class="dark:bg-slate-500">
-                        <div class="my-2"></div>
+                            value="{{ old('company_name') }}"><br>
+                        <datalist id="customers">
+                            @foreach ($customer_list as $customer)
+                            <option>{{$customer}}</option>
+                            @endforeach
+                        </datalist>
 
                         <label for="invoice_number">Rechnungsnummer:</label><br>
-                        <input id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}"
-                            class="dark:bg-slate-500">
-                        <div class="my-2"></div>
+                        <input id="invoice_number" name="invoice_number" value="{{ old('invoice_number') }}"><br>
 
                         <label for="net">Netto:</label><br>
-                        <input id="net" name="net" type="number" value="{{ old('net') }}" min="0" step="0.01"
-                            class="dark:bg-slate-500"> €
-                        <div class="my-2"></div>
+                        <input id="net" name="net" type="number" value="{{ old('net') }}" min="0" step="0.01"> €<br>
 
                         <label for="tax">Steuer:</label><br>
                         <input id="tax" name="tax" type="number" value="{{ old('tax') }}" min="0" step="0.01"
-                            class="dark:bg-slate-500"> €
-                        <div class="my-2"></div>
+                            style="width: 148px"> €
+                        <input id="tax_rate" type="number" min="0" max="30" value="19" style="width: 78px"> %
+                        <br>
 
                         <label for="gross">Brutto:</label><br>
-                        <input id="gross" name="gross" type="number" value="{{ old('gross') }}" min="0" step="0.01"
-                            class="dark:bg-slate-500"> €
-                        <div class="my-2"></div>
+                        <input id="gross" name="gross" type="number" value="{{ old('gross') }}" min="0" step="0.01">
+                        €<br>
 
                         @if ($errors->any())
                         <div class="text-red-600">
@@ -62,12 +58,6 @@
                                 {{ __('Speichern') }}
                             </x-primary-button>
                         </div>
-
-                        <datalist id="customers">
-                            @foreach ($customer_list as $customer)
-                            <option>{{$customer}}</option>
-                            @endforeach
-                        </datalist>
                     </form>
                 </div>
             </div>
@@ -79,11 +69,24 @@
         document.addEventListener('DOMContentLoaded', function () {
             const net = document.querySelector("#net");
             const tax = document.querySelector("#tax");
+            const tax_rate = document.querySelector("#tax_rate");
             const gross = document.querySelector("#gross");
-            net.addEventListener("keyup", (event) => {
-                tax.value = (parseFloat(net.value)*0.19).toFixed(2);
+            
+            net.addEventListener("keyup", calcValuesForNet);
+            net.addEventListener("change", calcValuesForNet);
+            tax_rate.addEventListener("keyup", calcValuesForNet);
+            tax_rate.addEventListener("change", calcValuesForNet);
+            gross.addEventListener("keyup", calcValuesForGross);
+            gross.addEventListener("change", calcValuesForGross);
+
+            function calcValuesForNet(){
+                tax.value = (parseFloat(net.value)*parseFloat(tax_rate.value)/100).toFixed(2);
                 gross.value = (parseFloat(net.value)+parseFloat(tax.value)).toFixed(2);
-            });
+            }
+            function calcValuesForGross(){
+                tax.value = (parseFloat(gross.value)*parseFloat(tax_rate.value)/(100+parseFloat(tax_rate.value))).toFixed(2);
+                net.value = (parseFloat(gross.value)-parseFloat(tax.value)).toFixed(2);
+            }
         });
     </script>
     @endsection
