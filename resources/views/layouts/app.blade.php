@@ -33,4 +33,5 @@
             </main>
         </div>
     </body>
+    @yield('scripts')
 </html>

@@ -9,6 +9,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard', ['revenues' => Revenue::orderBy('billing_date')->get()]);
+        return view('dashboard', ['revenues' => Revenue::orderBy('billing_date')->orderBy('payment_date')->get()]);
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('billing_date');
             $table->date('payment_date');
             $table->string('company_name');
-            $table->string('invoice_number');
+            $table->string('invoice_number')->unique();
             $table->decimal('net', 10, 2);
             $table->decimal('tax', 10, 2);
             $table->decimal('gross', 11, 2);
