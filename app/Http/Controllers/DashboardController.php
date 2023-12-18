@@ -9,6 +9,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard', ['revenues' => Revenue::orderBy('billing_date')->orderBy('payment_date')->get()]);
+        $revenues = Revenue::orderBy('billing_date')->orderBy('payment_date')->get();
+        return view('dashboard', [
+            'revenues' => $revenues,
+            'netSum' => $revenues->sum('net'),
+            'taxSum' => $revenues->sum('tax'),
+            'grossSum' => $revenues->sum('gross'),
+        ]);
     }
 }

@@ -17,6 +17,20 @@
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Revenues</h1>
+                    <div class="total_amounts flex flex-row text-center">
+                        <div>
+                            <p>Netto</p>
+                            <span>{{ number_format($netSum, 2) }} €</span>
+                        </div>
+                        <div>
+                            <p>Steuer</p>
+                            <span>{{ number_format($taxSum, 2) }} €</span>
+                        </div>
+                        <div>
+                            <p>Brutto</p>
+                            <span>{{ number_format($grossSum, 2) }} €</span>
+                        </div>
+                    </div>
                     <table>
                         <thead>
                             <tr>

@@ -3,10 +3,23 @@
 @tailwind utilities;
 
 h1 {
-    @apply text-2xl;
+    @apply text-3xl;
 }
 
 #dashboard_page {
+    .total_amounts {
+        div {
+            @apply basis-4/12;
+
+            p {
+                @apply text-2xl;
+            }
+            span {
+                @apply text-xl;
+            }
+        }
+    }
+
     table {
         @apply my-4;
         @apply mx-auto;
