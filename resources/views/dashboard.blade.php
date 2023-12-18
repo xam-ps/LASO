@@ -39,10 +39,11 @@
                                 <td class="currency">{{$revenue->net}} €</td>
                                 <td class="currency">{{$revenue->tax}} €</td>
                                 <td class="currency">{{$revenue->gross}} €</td>
-                                <a href="">
-                                    <td class="hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                                        &#9998;</td>
-                                </a>
+                                <td class="hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100 p-0!">
+                                    <a href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
+                                        &#9998;
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

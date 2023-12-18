@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::prefix('revenue')->name('revenue.')->group(function () {
         Route::get('/create', [RevenueController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [RevenueController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [RevenueController::class, 'update'])->name('update');
         Route::post('/', [RevenueController::class, 'store'])->name('store');
     });
     Route::prefix('profile')->group(function () {
