@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class RevenuesSeeder extends Seeder
 {
@@ -15,8 +14,8 @@ class RevenuesSeeder extends Seeder
     public function run(): void
     {
         $net = 589;
-        $tax = $net*19/100;
-        $gross = $net+$tax;
+        $tax = $net * 19 / 100;
+        $gross = $net + $tax;
         DB::table('revenues')->insert([
             'billing_date' => Carbon::create(2023, 8, 31),
             'payment_date' => Carbon::create(2023, 9, 13),
@@ -27,9 +26,9 @@ class RevenuesSeeder extends Seeder
             'gross' => $gross,
         ]);
 
-        $net = $net*1.11;
-        $tax = $net*19/100;
-        $gross = $net+$tax;
+        $net = $net * 1.11;
+        $tax = $net * 19 / 100;
+        $gross = $net + $tax;
         DB::table('revenues')->insert([
             'billing_date' => Carbon::create(2023, 7, 10),
             'payment_date' => Carbon::create(2023, 7, 24),

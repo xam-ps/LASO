@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Revenue;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller

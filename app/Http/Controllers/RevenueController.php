@@ -16,6 +16,7 @@ class RevenueController extends Controller
     public function create()
     {
         $company_names = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
+
         return view('revenues.create', ['customer_list' => $company_names]);
     }
 
@@ -72,6 +73,7 @@ class RevenueController extends Controller
     public function edit($id)
     {
         $company_names = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
+
         return view('revenues.edit', ['revenue' => Revenue::find($id), 'customer_list' => $company_names]);
     }
 
