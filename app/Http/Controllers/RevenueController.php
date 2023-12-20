@@ -27,7 +27,7 @@ class RevenueController extends Controller
     {
         $validatedData = $request->validate([
             'billing_date' => 'required|date',
-            'payment_date' => 'required|date',
+            'payment_date' => 'nullable|date',
             'company_name' => 'required|string',
             'invoice_number' => 'required|string',
             'net' => 'required|decimal:0,2',
@@ -84,7 +84,7 @@ class RevenueController extends Controller
     {
         $validatedData = $request->validate([
             'billing_date' => 'required|date',
-            'payment_date' => 'required|date',
+            'payment_date' => 'nullable|date',
             'company_name' => 'required|string',
             'invoice_number' => 'required|string',
             'net' => 'required|decimal:0,2',

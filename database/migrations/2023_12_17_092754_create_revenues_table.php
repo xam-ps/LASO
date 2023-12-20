@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->date('billing_date');
-            $table->date('payment_date');
+            $table->date('payment_date')->nullable();
             $table->string('company_name');
             $table->string('invoice_number')->unique();
             $table->decimal('net', 10, 2);
