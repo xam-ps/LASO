@@ -1,6 +1,6 @@
 @props(['expenses', 'expNetSum', 'expTaxSum', 'expGrossSum'])
 
-<div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
+<div class="max-w-max mx-auto sm:px-6 lg:px-8 mt-4">
     <div id="expenses" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
         <div class="flex justify-end mt-4 absolute right-4">
             <a href="{{ route('expense.create') }}">
@@ -14,15 +14,15 @@
             <div class="total_amounts flex flex-row text-center">
                 <div>
                     <p>Netto</p>
-                    <span>{{ number_format($expNetSum, 2) }} €</span>
+                    <span>{{Number::currency($expNetSum, in: 'EUR', locale: 'de')}}</span>
                 </div>
                 <div>
                     <p>Steuer</p>
-                    <span>{{ number_format($expTaxSum, 2) }} €</span>
+                    <span>{{Number::currency($expTaxSum, in: 'EUR', locale: 'de')}}</span>
                 </div>
                 <div>
                     <p>Brutto</p>
-                    <span>{{ number_format($expGrossSum, 2) }} €</span>
+                    <span>{{Number::currency($expGrossSum, in: 'EUR', locale: 'de')}}</span>
                 </div>
             </div>
             <table>
@@ -47,9 +47,9 @@
                         <td>{{ $expense->supplier_name }}</td>
                         <td>{{ $expense->product_name }}</td>
                         <td>{{ $expense->invoice_number }}</td>
-                        <td class="currency">{{ $expense->net }}</td>
-                        <td class="currency">{{ $expense->tax }}</td>
-                        <td class="currency">{{ $expense->gross }}</td>
+                        <td class="currency">{{Number::currency($expense->net, in: 'EUR', locale: 'de')}}</td>
+                        <td class="currency">{{Number::currency($expense->tax, in: 'EUR', locale: 'de')}}</td>
+                        <td class="currency">{{Number::currency($expense->gross, in: 'EUR', locale: 'de')}}</td>
                         <td style="background: #{{$expense->costType->color_code}}" class="text-gray-900">{{
                             $expense->costType->short_name }}
                         </td>

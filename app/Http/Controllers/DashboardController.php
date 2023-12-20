@@ -14,8 +14,8 @@ class DashboardController extends Controller
     {
         $year = $request->route('year', Carbon::now()->year);
 
-        $revenues = Revenue::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date')->orderBy('payment_date')->get();
-        $expenses = Expense::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date')->orderBy('payment_date')->get();
+        $revenues = Revenue::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date', 'DESC')->orderBy('payment_date', 'DESC')->get();
+        $expenses = Expense::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date', 'DESC')->orderBy('payment_date', 'DESC')->get();
 
         return view('dashboard', [
             'revenues' => $revenues,

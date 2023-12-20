@@ -32,10 +32,6 @@ table {
         @apply text-right;
         font-family: "Andale Mono", Courier, "Courier New", monospace;
         font-weight: 600;
-
-        &::after {
-            content: " €";
-        }
     }
 }
 
@@ -67,6 +63,17 @@ table {
             }
         }
     }
+
+    #revenues,
+    #expenses {
+        max-height: 350px;
+        overflow: scroll;
+        table {
+            width: 100%;
+            overflow: scroll;
+            max-height: 300px;
+        }
+    }
 }
 
 #create_revenue_page,
@@ -86,6 +93,16 @@ table {
 
         select {
             @apply text-gray-900;
+        }
+    }
+}
+
+#statement_page {
+    table {
+        td {
+            &:last-of-type {
+                text-align: right;
+            }
         }
     }
 }

@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('statement.index')" :active="request()->routeIs('statement.index')">
-                        {{ __('Statement') }}
+                        {{ __('Jahresabschluss') }}
                     </x-nav-link>
                 </div>
             </div>

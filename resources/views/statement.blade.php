@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div id="dashboard_header" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             <ul>
-                @foreach ($years as $year)
-                <li><a href="{{ route('statement.year', ['year' => $year]) }}">{{ $year }}</a></li>
+                @foreach ($years as $year_n)
+                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}">{{ $year_n }}</a></li>
                 @endforeach
             </ul>
         </div>
@@ -17,7 +17,7 @@
                         <h1>Einnahme-Überschuss-Rechnung für {{$year}}</h1>
                         <tbody>
                             <tr>
-                                <td colspan="3">
+                                <td colspan="3" style="text-align: left;">
                                     <h2>Einnahmen</h2>
                                 </td>
                             </tr>
@@ -41,16 +41,32 @@
                                 <td>Gesamt</td>
                                 <td>{{Number::currency($revNetSum+$revTaxSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
+
                             <tr>
-                                <td colspan="3">
+                                <td colspan="3" style="text-align: left;">
                                     <h2>Ausgaben</h2>
                                 </td>
                             </tr>
                             @foreach ($costs as $cost)
                             <tr>
-                                <td>{{$cost->elster_id}}</td>
-                                <td>{{$cost->full_name}}</td>
-                                <td>{{$cost->total_cost}}</td>
+                                @if ($cost->elster_id > 49)
+                                @once
+                            <tr>
+                                <td>49</td>
+                                <td>Internet</td>
+                                <td>0</td>
+                            </tr>
+                            @endonce
+                            @endif
+                            <td>{{$cost->elster_id}}</td>
+                            <td>{{$cost->full_name}}</td>
+                            <td>
+                                @if ($cost->elster_id != 31)
+                                {{Number::currency($cost->total_cost, in: 'EUR', locale: 'de')}}
+                                @else
+                                {{Number::currency(0, in: 'EUR', locale: 'de')}}
+                                @endif
+                            </td>
                             </tr>
                             @endforeach
                             <tr>
@@ -59,13 +75,18 @@
                                 <td>{{Number::currency($expTaxSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr>
+                                <td>64</td>
+                                <td>Abgeführte Ust</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
                                 <td>84</td>
                                 <td>Fahrtkosten</td>
                                 <td></td>
                             </tr>
                             <tr class="font-bold">
                                 <td></td>
-                                <td>Gesamt</td>
+                                <td>Jahresergebnis</td>
                                 <td>{{Number::currency($revNetSum+$revTaxSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                         </tbody>

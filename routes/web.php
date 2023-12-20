@@ -13,7 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('statement')->name('statement.')->group(function () {
         Route::get('/', [StatementController::class, 'index'])->name('index');
-        Route::get('/{year}', [StatementController::class, 'showStatement'])->name('year');
+        Route::get('/{year}', [StatementController::class, 'index'])->name('year');
     });
 
     Route::prefix('revenue')->name('revenue.')->group(function () {
