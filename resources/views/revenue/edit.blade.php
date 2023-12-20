@@ -1,11 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div id="create_revenue_page" class="py-12">
+    <div id="edit_revenue_page" class="py-12">
         <div class="max-w-md mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -13,10 +7,12 @@
                     <form method="post" action="{{ route('revenue.update', ['id'=>$revenue->id]) }}" class="my-2">
                         @csrf
                         <label for="billing_date">Rechnungsdatum:</label><br>
-                        <input type="date" id="billing_date" name="billing_date" value="{{ $revenue->billing_date }}"><br>
+                        <input type="date" id="billing_date" name="billing_date"
+                            value="{{ $revenue->billing_date }}"><br>
 
                         <label for="payment_date">Zahlungseingang:</label><br>
-                        <input type="date" id="payment_date" name="payment_date" value="{{ $revenue->payment_date }}"><br>
+                        <input type="date" id="payment_date" name="payment_date"
+                            value="{{ $revenue->payment_date }}"><br>
 
                         <label for="customers_name">Kunde:</label><br>
                         <input id="customers_name" name="company_name" list="customers"

@@ -4,6 +4,7 @@
 
 h1 {
     @apply text-3xl;
+    @apply mb-2;
 }
 
 #dashboard_header {
@@ -62,7 +63,10 @@ h1 {
     }
 }
 
-#create_revenue_page {
+#create_revenue_page,
+#edit_revenue_page,
+#create_expense_page,
+#edit_expense_page {
     form {
         input {
             @apply dark:bg-slate-500;
@@ -72,6 +76,10 @@ h1 {
                 @apply border-red-700;
                 @apply border-2;
             }
+        }
+
+        select {
+            @apply text-gray-900;
         }
     }
 }

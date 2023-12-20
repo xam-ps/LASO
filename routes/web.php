@@ -26,15 +26,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     Route::prefix('revenue')->name('revenue.')->group(function () {
         Route::get('/create', [RevenueController::class, 'create'])->name('create');
+        Route::post('/', [RevenueController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [RevenueController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [RevenueController::class, 'update'])->name('update');
-        Route::post('/', [RevenueController::class, 'store'])->name('store');
     });
     Route::prefix('expense')->name('expense.')->group(function () {
         Route::get('/create', [ExpenseController::class, 'create'])->name('create');
+        Route::post('/', [ExpenseController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ExpenseController::class, 'update'])->name('update');
-        Route::post('/', [ExpenseController::class, 'store'])->name('store');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');

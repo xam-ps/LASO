@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('billing_date');
             $table->date('payment_date')->nullable();
-            $table->string('company_name');
+            $table->string('supplier_name');
             $table->string('product_name');
             $table->string('invoice_number')->unique();
             $table->decimal('net', 10, 2);

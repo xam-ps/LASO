@@ -41,18 +41,20 @@
                 </thead>
                 <tbody>
                     @foreach ($expenses as $expense)
-                    <tr style="background: #{{$expense->costType->color_code}}">
+                    <tr>
                         <td>{{ $expense->billing_date }}</td>
                         <td>{{ $expense->payment_date }}</td>
-                        <td>{{ $expense->company_name }}</td>
+                        <td>{{ $expense->supplier_name }}</td>
                         <td>{{ $expense->product_name }}</td>
                         <td>{{ $expense->invoice_number }}</td>
                         <td class="currency">{{ $expense->net }}</td>
                         <td class="currency">{{ $expense->tax }}</td>
                         <td class="currency">{{ $expense->gross }}</td>
-                        <td>{{ $expense->costType->short_name }}</td>
+                        <td style="background: #{{$expense->costType->color_code}}" class="text-gray-900">{{
+                            $expense->costType->short_name }}
+                        </td>
                         <td class="hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100 p-0!">
-                            <a href="{{ route('revenue.edit', ['id' => $expense->id]) }}">
+                            <a href="{{ route('expense.edit', ['id' => $expense->id]) }}">
                                 &#9998;
                             </a>
                         </td>

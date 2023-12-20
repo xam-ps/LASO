@@ -64,7 +64,7 @@ class CostTypeSeeder extends Seeder
             'short_name' => 'ÜnRk',
             'full_name' => 'Übernachtungs- und Reisekosten',
             'elster_id' => 50,
-            'color_code' => 'fce4d6',
+            'color_code' => 'fd91ff',
             'description' => 'Übernachtungs- und Reisenebenkosten bei Geschäftsreisen des Steuerpflichtigen',
         ]);
     }

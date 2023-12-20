@@ -15,7 +15,7 @@ class ExpenseSeeder extends Seeder
         Expense::create([
             'billing_date' => now(),
             'payment_date' => now(),
-            'company_name' => 'ABC Inc.',
+            'supplier_name' => 'ABC Inc.',
             'product_name' => 'Business Trip',
             'invoice_number' => 'INV123',
             'net' => 1000,
@@ -27,7 +27,7 @@ class ExpenseSeeder extends Seeder
         Expense::create([
             'billing_date' => now(),
             'payment_date' => now(),
-            'company_name' => 'XYZ Ltd.',
+            'supplier_name' => 'XYZ Ltd.',
             'product_name' => 'Office Supplies Purchase',
             'invoice_number' => 'INV456',
             'net' => 500,

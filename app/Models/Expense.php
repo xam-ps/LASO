@@ -15,7 +15,7 @@ class Expense extends Model
     protected $fillable = ['
         billing_date,
         payment_date,
-        company_name,
+        supplier_name,
         product_name,
         invoice_number,
         net,
