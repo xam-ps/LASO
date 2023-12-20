@@ -48,9 +48,8 @@
                                 </td>
                             </tr>
                             @foreach ($costs as $cost)
-                            <tr>
-                                @if ($cost->elster_id > 49)
-                                @once
+                            @if ($cost->elster_id > 49)
+                            @once
                             <tr>
                                 <td>49</td>
                                 <td>Internet</td>
@@ -58,15 +57,16 @@
                             </tr>
                             @endonce
                             @endif
-                            <td>{{$cost->elster_id}}</td>
-                            <td>{{$cost->full_name}}</td>
-                            <td>
-                                @if ($cost->elster_id != 31)
-                                {{Number::currency($cost->total_cost, in: 'EUR', locale: 'de')}}
-                                @else
-                                {{Number::currency(0, in: 'EUR', locale: 'de')}}
-                                @endif
-                            </td>
+                            <tr>
+                                <td>{{$cost->elster_id}}</td>
+                                <td>{{$cost->full_name}}</td>
+                                <td>
+                                    @if ($cost->elster_id != 31)
+                                    {{Number::currency($cost->total_cost, in: 'EUR', locale: 'de')}}
+                                    @else
+                                    {{Number::currency(0, in: 'EUR', locale: 'de')}}
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                             <tr>
