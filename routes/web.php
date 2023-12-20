@@ -5,6 +5,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\StatementController;
+use App\Http\Controllers\TravelAllowanceController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -30,6 +31,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ExpenseController::class, 'update'])->name('update');
         Route::post('/delete/{id}', [ExpenseController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('travel-allowance')->name('travel-allowance.')->group(function () {
+        Route::get('/all', [TravelAllowanceController::class, 'index'])->name('index');
+        Route::get('/create', [TravelAllowanceController::class, 'create'])->name('create');
+        Route::post('/', [TravelAllowanceController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [TravelAllowanceController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [TravelAllowanceController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [TravelAllowanceController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('profile')->group(function () {

@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call([RevenueSeeder::class]);
         $this->call([CostTypeSeeder::class]);
         $this->call([ExpenseSeeder::class]);
+        $this->call([TravelAllowanceSeeder::class]);
     }
 }
