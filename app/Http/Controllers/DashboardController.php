@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -13,17 +14,18 @@ class DashboardController extends Controller
     {
         $year = $request->route('year', Carbon::now()->year);
 
-        if ($year === Carbon::now()->year) {
-            $revenues = Revenue::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date')->orderBy('payment_date')->get();
-        } else {
-            $revenues = Revenue::whereYear('payment_date', $year)->orderBy('billing_date')->orderBy('payment_date')->get();
-        }
+        $revenues = Revenue::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date')->orderBy('payment_date')->get();
+        $expenses = Expense::whereYear('payment_date', $year)->orWhereNull('payment_date')->orderBy('billing_date')->orderBy('payment_date')->get();
 
         return view('dashboard', [
             'revenues' => $revenues,
-            'netSum' => $revenues->sum('net'),
-            'taxSum' => $revenues->sum('tax'),
-            'grossSum' => $revenues->sum('gross'),
+            'revNetSum' => $revenues->sum('net'),
+            'revTaxSum' => $revenues->sum('tax'),
+            'revGrossSum' => $revenues->sum('gross'),
+            'expenses' => $expenses,
+            'expNetSum' => $expenses->sum('net'),
+            'expTaxSum' => $expenses->sum('tax'),
+            'expGrossSum' => $expenses->sum('gross'),
             'years' => $this->getYearList(),
         ]);
     }

@@ -45,14 +45,19 @@ h1 {
             @apply bg-slate-50;
             @apply dark:bg-slate-950;
         }
-        th, td {
+        th,
+        td {
             @apply border;
             @apply p-2;
         }
         .currency {
             @apply text-right;
-            font-family: 'Andale Mono', Courier, 'Courier New', monospace;
+            font-family: "Andale Mono", Courier, "Courier New", monospace;
             font-weight: 600;
+
+            &::after {
+                content: " €";
+            }
         }
     }
 }

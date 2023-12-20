@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Revenue;
-use App\Models\revenues;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +16,7 @@ class RevenueController extends Controller
     {
         $company_names = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
 
-        return view('revenues.create', ['customer_list' => $company_names]);
+        return view('revenue.create', ['customer_list' => $company_names]);
     }
 
     /**
@@ -62,7 +61,7 @@ class RevenueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(revenues $revenues)
+    public function show(Revenue $revenues)
     {
         //
     }
@@ -74,7 +73,7 @@ class RevenueController extends Controller
     {
         $company_names = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
 
-        return view('revenues.edit', ['revenue' => Revenue::find($id), 'customer_list' => $company_names]);
+        return view('revenue.edit', ['revenue' => Revenue::find($id), 'customer_list' => $company_names]);
     }
 
     /**
@@ -118,7 +117,7 @@ class RevenueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(revenues $revenues)
+    public function destroy(Revenue $revenues)
     {
         //
     }

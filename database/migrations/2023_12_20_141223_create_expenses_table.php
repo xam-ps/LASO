@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('revenues', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->date('billing_date');
             $table->date('payment_date')->nullable();
             $table->string('company_name');
+            $table->string('product_name');
             $table->string('invoice_number')->unique();
             $table->decimal('net', 10, 2);
             $table->decimal('tax', 10, 2);
             $table->decimal('gross', 11, 2);
+            $table->foreignId('cost_type_id')->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('revenues');
+        Schema::dropIfExists('expenses');
     }
 };

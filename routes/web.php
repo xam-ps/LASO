@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RevenueController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [RevenueController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [RevenueController::class, 'update'])->name('update');
         Route::post('/', [RevenueController::class, 'store'])->name('store');
+    });
+    Route::prefix('expense')->name('expense.')->group(function () {
+        Route::get('/create', [ExpenseController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}', [ExpenseController::class, 'update'])->name('update');
+        Route::post('/', [ExpenseController::class, 'store'])->name('store');
     });
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
