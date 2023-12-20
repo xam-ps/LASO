@@ -54,6 +54,12 @@
                                 {{ __('Speichern') }}
                             </x-primary-button>
                         </div>
+
+                    </form>
+
+                    <form method="post" action="{{ route('revenue.delete', ['id'=>$revenue->id]) }}">
+                        @csrf
+                        <x-delete-button class="mt-4 absolute right-10 bottom-8" />
                     </form>
                 </div>
             </div>

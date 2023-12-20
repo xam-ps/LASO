@@ -109,8 +109,10 @@ class RevenueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Revenue $revenues)
+    public function destroy($id)
     {
-        //
+        Revenue::destroy($id);
+
+        return redirect()->route('dashboard.index')->with('success', 'Revenue deleted successfully.');
     }
 }

@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [RevenueController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [RevenueController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [RevenueController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [RevenueController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('expense')->name('expense.')->group(function () {
@@ -28,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', [ExpenseController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [ExpenseController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [ExpenseController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('profile')->group(function () {

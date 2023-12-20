@@ -116,15 +116,17 @@ class ExpenseController extends Controller
         }
 
         // Redirect to a page or route after successful submission
-        return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
+        return redirect()->route('dashboard.index')->with('success', 'Revenue updated successfully.');
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Expense $expense)
+    public function destroy($id)
     {
-        //
+        Expense::destroy($id);
+
+        return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
     }
 }
