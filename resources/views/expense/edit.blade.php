@@ -67,7 +67,8 @@
                         </div>
                     </form>
 
-                    <form method="post" action="{{ route('expense.delete', ['id'=>$expense->id]) }}">
+                    <form method="post" action="{{ route('expense.delete', ['id'=>$expense->id]) }}"
+                        onsubmit="return confirmSubmit()">
                         @csrf
                         <x-delete-button class="mt-4 absolute right-10 bottom-8" />
                     </form>
@@ -100,6 +101,10 @@
                 net.value = (parseFloat(gross.value)-parseFloat(tax.value)).toFixed(2);
             }
         });
+
+        function confirmSubmit() {
+            return window.confirm("Sicher löschen?");
+        }
     </script>
     @endsection
 
