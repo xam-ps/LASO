@@ -7,6 +7,38 @@ h1 {
     @apply mb-2;
 }
 
+h2 {
+    @apply text-lg;
+    @apply mb-1;
+    @apply font-bold;
+}
+
+table {
+    @apply my-4;
+    @apply mx-auto;
+    @apply border;
+    @apply border-spacing-2;
+    @apply border-collapse;
+    thead {
+        @apply bg-slate-50;
+        @apply dark:bg-slate-950;
+    }
+    th,
+    td {
+        @apply border;
+        @apply p-2;
+    }
+    .currency {
+        @apply text-right;
+        font-family: "Andale Mono", Courier, "Courier New", monospace;
+        font-weight: 600;
+
+        &::after {
+            content: " €";
+        }
+    }
+}
+
 #dashboard_header {
     ul {
         @apply flex;
@@ -32,32 +64,6 @@ h1 {
             }
             span {
                 @apply text-xl;
-            }
-        }
-    }
-
-    table {
-        @apply my-4;
-        @apply mx-auto;
-        @apply border;
-        @apply border-spacing-2;
-        @apply border-collapse;
-        thead {
-            @apply bg-slate-50;
-            @apply dark:bg-slate-950;
-        }
-        th,
-        td {
-            @apply border;
-            @apply p-2;
-        }
-        .currency {
-            @apply text-right;
-            font-family: "Andale Mono", Courier, "Courier New", monospace;
-            font-weight: 600;
-
-            &::after {
-                content: " €";
             }
         }
     }
