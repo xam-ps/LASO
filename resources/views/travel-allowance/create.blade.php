@@ -15,13 +15,13 @@
                         <label for="end">End:</label><br>
                         <input type="time" id="end" name="end" value="{{ old('end') }}"><br>
 
-                        <label for="destination">Ziel:</label><br>
+                        <label for="destination">Zielort:</label><br>
                         <input id="destination" name="destination" value="{{ old('destination') }}"><br>
 
                         <label for="reason">Grund:</label><br>
                         <input id="reason" name="reason" value="{{ old('reason') }}"><br>
 
-                        <label for="company_name">Kunde:</label><br>
+                        <label for="company_name">Kunde (optional):</label><br>
                         <input id="company_name" name="company_name" list="companies"
                             value="{{ old('company_name') }}"><br>
                         <datalist id="companies">
@@ -34,7 +34,7 @@
                         <input id="distance" name="distance" type="number" value="{{ old('distance') }}" min="0"
                             step="1"> km<br>
 
-                        <label for="notes">Notizen:</label><br>
+                        <label for="notes">Notizen (optional):</label><br>
                         <input id="notes" name="notes" value="{{ old('notes') }}"><br>
 
                         <label for="refund">Erstattung:</label><br>

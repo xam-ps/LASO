@@ -82,12 +82,28 @@
                             <tr>
                                 <td>84</td>
                                 <td>Fahrtkosten</td>
-                                <td></td>
+                                <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr class="font-bold">
                                 <td></td>
                                 <td>Jahresergebnis</td>
                                 <td>{{Number::currency($revNetSum+$revTaxSum, in: 'EUR', locale: 'de')}}</td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td colspan="3" style="text-align: left;">
+                                    <h2>Entnahmen und Einlagen</h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>125</td>
+                                <td>Entnahmen</td>
+                                <td>- €</td>
+                            </tr>
+                            <tr>
+                                <td>126</td>
+                                <td>Nutzung privat PKW</td>
+                                <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                         </tbody>
                     </table>

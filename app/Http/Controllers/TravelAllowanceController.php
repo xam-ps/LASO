@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TravelAllowance;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,11 +13,22 @@ class TravelAllowanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $travelAllowance = TravelAllowance::all();
+        $year = $request->route('year', Carbon::now()->year);
 
-        return view('travel-allowance.index', ['travel_allowances' => $travelAllowance, 'total' => $travelAllowance->sum('refund')]);
+        $travelAllowance = TravelAllowance::whereYear('travel_date', $year)->orderBy('travel_date', 'DESC')->get();
+        $uniqueYears = TravelAllowance::select(DB::raw('YEAR(travel_date) as year'))
+            ->distinct()
+            ->orderBy('year')
+            ->pluck('year')
+            ->filter();
+
+        return view('travel-allowance.index', [
+            'travel_allowances' => $travelAllowance,
+            'total' => $travelAllowance->sum('refund'),
+            'years' => $uniqueYears,
+        ]);
     }
 
     /**

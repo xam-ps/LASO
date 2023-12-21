@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Revenue;
+use App\Models\TravelAllowance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ class StatementController extends Controller
 
         $revenues = Revenue::whereYear('payment_date', $year)->get();
         $expenses = Expense::whereYear('payment_date', $year)->get();
+        $travelAllowance = TravelAllowance::whereYear('travel_date', $year)->get();
         $costsByCostType = Expense::join('cost_types', 'expenses.cost_type_id', '=', 'cost_types.id')
             ->groupBy('cost_types.id')
             ->select('cost_types.elster_id', 'cost_types.full_name', DB::raw('SUM(expenses.net) as total_cost'))
@@ -31,6 +33,8 @@ class StatementController extends Controller
             'expTaxSum' => $expenses->sum('tax'),
 
             'costs' => $costsByCostType,
+
+            'travelAllowanceTotal' => $travelAllowance->sum('refund'),
 
             'year' => $year,
             'years' => $this->getYearList(),
