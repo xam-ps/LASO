@@ -53,8 +53,8 @@
                         <td style="background: #{{$expense->costType->color_code}}" class="text-gray-900">{{
                             $expense->costType->short_name }}
                         </td>
-                        <td class="hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100 p-0!">
-                            <a href="{{ route('expense.edit', ['id' => $expense->id]) }}">
+                        <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
+                            <a class="p-2 block" href="{{ route('expense.edit', ['id' => $expense->id]) }}">
                                 &#9998;
                             </a>
                         </td>

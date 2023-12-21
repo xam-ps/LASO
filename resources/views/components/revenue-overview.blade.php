@@ -47,8 +47,8 @@
                         <td class="currency">{{Number::currency($revenue->net, in: 'EUR', locale: 'de')}}</td>
                         <td class="currency">{{Number::currency($revenue->tax, in: 'EUR', locale: 'de')}}</td>
                         <td class="currency">{{Number::currency($revenue->gross, in: 'EUR', locale: 'de')}}</td>
-                        <td class="hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100 p-0!">
-                            <a href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
+                        <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
+                            <a class="p-2 block" href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
                                 &#9998;
                             </a>
                         </td>

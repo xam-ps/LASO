@@ -45,8 +45,10 @@
                         <label for="cost_type">Typ:</label><br>
                         <select name="cost_type" id="cost_type">
                             @foreach ($cost_types as $cost_type)
-                            <option style="background: #{{$cost_type->color_code}}" value="{{$cost_type->id}}">
-                                {{$cost_type->short_name}}</option>
+                            <option @if ($cost_type->id == $expense->cost_type_id) selected @endif
+                                style="background: #{{$cost_type->color_code}}" value="{{$cost_type->id}}">
+                                {{$cost_type->short_name}}
+                            </option>
                             @endforeach
                         </select>
 
@@ -101,7 +103,6 @@
                 net.value = (parseFloat(gross.value)-parseFloat(tax.value)).toFixed(2);
             }
         });
-
         function confirmSubmit() {
             return window.confirm("Sicher löschen?");
         }

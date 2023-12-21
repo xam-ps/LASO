@@ -76,10 +76,37 @@ table {
     }
 }
 
+#create_expense_page {
+    #travel-allowences {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+}
+
+#travel-allowance_page {
+    .total_amounts {
+        div {
+            @apply mx-auto;
+
+            p {
+                @apply text-2xl;
+            }
+            span {
+                @apply text-xl;
+            }
+        }
+    }
+}
+
 #create_revenue_page,
 #edit_revenue_page,
 #create_expense_page,
-#edit_expense_page {
+#edit_expense_page,
+#create_travel-allowance_page,
+#edit_travel-allowance_page {
     form {
         input {
             @apply dark:bg-slate-500;
