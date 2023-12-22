@@ -1,4 +1,4 @@
-@props(['expenses', 'expNetSum', 'expTaxSum', 'expGrossSum'])
+@props(['expenses', 'expNetSum', 'expTaxSum', 'expGrossSum', 'year'])
 
 <div class="max-w-max mx-auto sm:px-6 lg:px-8 mt-4">
     <div id="expenses" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
@@ -10,7 +10,7 @@
             </a>
         </div>
         <div class="p-6 text-gray-900 dark:text-gray-100">
-            <h1>Ausgaben</h1>
+            <h1>Ausgaben {{ $year }}</h1>
             <div class="total_amounts flex flex-row text-center">
                 <div>
                     <p>Netto</p>

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CostType;
 use App\Models\Expense;
 use Illuminate\Database\Seeder;
 
@@ -12,28 +13,39 @@ class ExpenseSeeder extends Seeder
      */
     public function run(): void
     {
-        Expense::create([
-            'billing_date' => now(),
-            'payment_date' => now(),
-            'supplier_name' => 'ABC Inc.',
-            'product_name' => 'Business Trip',
-            'invoice_number' => 'INV123',
-            'net' => 1000,
-            'tax' => 200,
-            'gross' => 1200,
-            'cost_type_id' => 1,
-        ]);
+        //create an expense for each cost type with random values and a unique invoice number
+        foreach (CostType::all() as $cost_type) {
+            $net = rand(10, 100);
+            $tax = $net * 0.19;
+            $gross = $net + $tax;
+            Expense::create([
+                'billing_date' => now(),
+                'payment_date' => now(),
+                'supplier_name' => 'Supplier '.$cost_type->short_name,
+                'product_name' => 'Product '.$cost_type->short_name,
+                'invoice_number' => 'INV'.now()->year.$cost_type->id,
+                'net' => $net,
+                'tax' => $tax,
+                'gross' => $gross,
+                'cost_type_id' => $cost_type->id,
+            ]);
+        }
 
-        Expense::create([
-            'billing_date' => now(),
-            'payment_date' => now(),
-            'supplier_name' => 'XYZ Ltd.',
-            'product_name' => 'Office Supplies Purchase',
-            'invoice_number' => 'INV456',
-            'net' => 500,
-            'tax' => 100,
-            'gross' => 600,
-            'cost_type_id' => 2,
-        ]);
+        foreach (CostType::all() as $cost_type) {
+            $net = rand(10, 100);
+            $tax = $net * 0.19;
+            $gross = $net + $tax;
+            Expense::create([
+                'billing_date' => now()->subYear(),
+                'payment_date' => now()->subYear(),
+                'supplier_name' => 'Supplier '.$cost_type->short_name,
+                'product_name' => 'Product '.$cost_type->short_name,
+                'invoice_number' => 'INV'.now()->subYear()->year.$cost_type->id,
+                'net' => $net,
+                'tax' => $tax,
+                'gross' => $gross,
+                'cost_type_id' => $cost_type->id,
+            ]);
+        }
     }
 }

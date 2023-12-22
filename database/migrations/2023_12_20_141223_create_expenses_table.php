@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CostType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,8 @@ return new class extends Migration
             $table->decimal('net', 10, 2);
             $table->decimal('tax', 10, 2);
             $table->decimal('gross', 11, 2);
-            $table->foreignId('cost_type_id')->constrained();
+            $table->foreignIdFor(CostType::class)->constrained();
+            $table->integer('depreciation_time')->nullable();
             $table->timestamps();
         });
     }

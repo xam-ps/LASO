@@ -27,6 +27,7 @@ class DashboardController extends Controller
             'expTaxSum' => $expenses->sum('tax'),
             'expGrossSum' => $expenses->sum('gross'),
             'years' => $this->getYearList(),
+            'year' => $year,
         ]);
     }
 

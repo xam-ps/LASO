@@ -4,8 +4,7 @@
             class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight print:hidden">
             <ul>
                 @foreach ($years as $year_n)
-                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}"
-                        :active="request()->routeIs('statement.year', ['year' => $year_n])">{{ $year_n }}</a></li>
+                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}">{{ $year_n }}</a></li>
                 @endforeach
             </ul>
         </div>
@@ -55,7 +54,7 @@
                                 <td>{{$cost->full_name}}</td>
                                 <td>
                                     @if ($cost->elster_id != 31)
-                                    {{Number::currency($cost->total_cost, in: 'EUR', locale: 'de')}}
+                                    {{Number::currency($cost->total_net, in: 'EUR', locale: 'de')}}
                                     @else
                                     {{Number::currency(0, in: 'EUR', locale: 'de')}}
                                     @endif
