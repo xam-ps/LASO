@@ -28,6 +28,7 @@ class TravelAllowanceController extends Controller
             'travel_allowances' => $travelAllowance,
             'total' => $travelAllowance->sum('refund'),
             'years' => $uniqueYears,
+            'year' => $year,
         ]);
     }
 

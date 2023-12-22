@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('elster_id');
             $table->string('color_code');
             $table->text('description');
+            $table->float('ratio');
             $table->timestamps();
         });
     }

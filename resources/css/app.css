@@ -133,3 +133,7 @@ table {
         }
     }
 }
+
+option:focus {
+    font-weight: bold;
+}

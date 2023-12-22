@@ -1,16 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <div id="dashboard_header" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <div id="dashboard_header"
+            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight print:hidden">
             <ul>
                 @foreach ($years as $year_n)
-                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}">{{ $year_n }}</a></li>
+                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}"
+                        :active="request()->routeIs('statement.year', ['year' => $year_n])">{{ $year_n }}</a></li>
                 @endforeach
             </ul>
         </div>
     </x-slot>
 
     <div id="statement_page" class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 print:max-w-fit">
             <div id="revenue" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <table>
@@ -39,7 +41,7 @@
                             <tr class="font-bold">
                                 <td></td>
                                 <td>Gesamt</td>
-                                <td>{{Number::currency($revNetSum+$revTaxSum, in: 'EUR', locale: 'de')}}</td>
+                                <td>{{Number::currency($revTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
 
                             <tr>
@@ -48,15 +50,6 @@
                                 </td>
                             </tr>
                             @foreach ($costs as $cost)
-                            @if ($cost->elster_id > 49)
-                            @once
-                            <tr>
-                                <td>49</td>
-                                <td>Internet</td>
-                                <td>0</td>
-                            </tr>
-                            @endonce
-                            @endif
                             <tr>
                                 <td>{{$cost->elster_id}}</td>
                                 <td>{{$cost->full_name}}</td>
@@ -84,10 +77,16 @@
                                 <td>Fahrtkosten</td>
                                 <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
+                            <tr>
+                                <td></td>
+                                <td>Gesamtausgaben</td>
+                                <td>{{Number::currency($expTotal, in: 'EUR', locale:
+                                    'de')}}</td>
+                            </tr>
                             <tr class="font-bold">
                                 <td></td>
                                 <td>Jahresergebnis</td>
-                                <td>{{Number::currency($revNetSum+$revTaxSum, in: 'EUR', locale: 'de')}}</td>
+                                <td>{{Number::currency($profit, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr></tr>
                             <tr>

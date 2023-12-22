@@ -18,6 +18,7 @@ class CostType extends Model
         elster_id,
         color_code,
         description,
+        ratio,
     '];
 
     public function expenses()

@@ -2,8 +2,12 @@
     <x-slot name="header">
         <div id="dashboard_header" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             <ul>
-                @foreach ($years as $year)
-                <li><a href="{{ route('travel-allowance.year', ['year' => $year]) }}">{{ $year }}</a></li>
+                @foreach ($years as $year_h)
+                <li>
+                    <a href="{{ route('travel-allowance.year', ['year' => $year_h]) }}">
+                        {{ $year_h }}
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>
@@ -20,7 +24,7 @@
                     </a>
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1>Fahrten</h1>
+                    <h1>Fahrten {{$year}}</h1>
                     <div class="total_amounts flex flex-row text-center">
                         <div>
                             <p>Gesamt</p>

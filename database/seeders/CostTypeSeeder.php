@@ -16,8 +16,9 @@ class CostTypeSeeder extends Seeder
             'short_name' => 'EDV',
             'full_name' => 'Laufende EDV-Kosten',
             'elster_id' => 56,
-            'color_code' => 'efffe8',
+            'color_code' => 'c6ffc2',
             'description' => 'Laufende EDV-Kosten (zum Beispiel Beratung, Wartung, Reparatur)',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
@@ -26,6 +27,7 @@ class CostTypeSeeder extends Seeder
             'elster_id' => 43,
             'color_code' => 'e4f0ff',
             'description' => 'Aufwendungen für geringwertige Wirtschaftsgüter nach § 6 Absatz 2 EStG',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
@@ -34,6 +36,7 @@ class CostTypeSeeder extends Seeder
             'elster_id' => 54,
             'color_code' => 'fffecc',
             'description' => 'Erhaltungsaufwendungen (zum Beispiel Kosten für Instandhaltung, Wartung oder Reparaturen; ohne solche für Gebäude und Kraftfahrzeuge)',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
@@ -42,6 +45,7 @@ class CostTypeSeeder extends Seeder
             'elster_id' => 27,
             'color_code' => 'efefef',
             'description' => 'Bezogene Leistungen (zum Beispiel Fremdleistungen)',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
@@ -50,6 +54,7 @@ class CostTypeSeeder extends Seeder
             'elster_id' => 57,
             'color_code' => 'fce4d6',
             'description' => 'Arbeitsmittel (zum Beispiel Bürobedarf, Porto, Fachliteratur)',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
@@ -58,14 +63,26 @@ class CostTypeSeeder extends Seeder
             'elster_id' => 31,
             'color_code' => 'd8e4f2',
             'description' => 'AfA auf bewegliche Wirtschaftsgüter (Übertrag aus Zeile 13 der Anlage AVEÜR)',
+            'ratio' => 1.0,
         ]);
 
         DB::table('cost_types')->insert([
             'short_name' => 'ÜnRk',
             'full_name' => 'Übernachtungs- und Reisekosten',
             'elster_id' => 50,
-            'color_code' => 'fd91ff',
+            'color_code' => 'ff978c',
             'description' => 'Übernachtungs- und Reisenebenkosten bei Geschäftsreisen des Steuerpflichtigen',
+            'ratio' => 1.0,
+        ]);
+
+        //a seeder for Aufwendungen für Telekommunikation (zum Beispiel Telefon, Internet)
+        DB::table('cost_types')->insert([
+            'short_name' => 'Tel.5',
+            'full_name' => 'Aufwendungen für Telekommunikation (50 %)',
+            'elster_id' => 49,
+            'color_code' => 'ff7dff',
+            'description' => 'Aufwendungen für Telekommunikation (zum Beispiel Telefon, Internet)',
+            'ratio' => 0.5,
         ]);
     }
 }
