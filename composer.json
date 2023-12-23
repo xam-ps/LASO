@@ -1,8 +1,12 @@
 {
-    "name": "laravel/laravel",
+    "name": "LASO",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Laravel annual statment online (a small online tool to do the annual statement in Germany for one person companies)",
+    "version": "0.1.0",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
