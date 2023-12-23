@@ -16,13 +16,14 @@ class ExpenseSeeder extends Seeder
         //create an expense for each cost type with random values and a unique invoice number
         foreach (CostType::all() as $cost_type) {
             $net = rand(10, 100);
-            $tax = $net * 0.19;
-            $gross = $net + $tax;
             if ($cost_type->id == 6) {
                 $depreciation = 5;
+                $net = rand(1000, 2000);
             } else {
                 $depreciation = null;
             }
+            $tax = $net * 0.19;
+            $gross = $net + $tax;
             Expense::create([
                 'billing_date' => now(),
                 'payment_date' => now(),
@@ -39,13 +40,14 @@ class ExpenseSeeder extends Seeder
 
         foreach (CostType::all() as $cost_type) {
             $net = rand(10, 100);
-            $tax = $net * 0.19;
-            $gross = $net + $tax;
             if ($cost_type->id == 6) {
                 $depreciation = 5;
+                $net = rand(1000, 2000);
             } else {
                 $depreciation = null;
             }
+            $tax = $net * 0.19;
+            $gross = $net + $tax;
             Expense::create([
                 'billing_date' => now()->subYear(),
                 'payment_date' => now()->subYear(),
