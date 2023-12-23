@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('payment_date')->nullable();
             $table->string('supplier_name');
             $table->string('product_name');
-            $table->string('invoice_number')->unique();
+            $table->string('invoice_number');
             $table->decimal('net', 10, 2);
             $table->decimal('tax', 10, 2);
             $table->decimal('gross', 11, 2);
