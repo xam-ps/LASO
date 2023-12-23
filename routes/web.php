@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
@@ -41,6 +42,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [TravelAllowanceController::class, 'edit'])->name('edit');
         Route::post('/update/{id}', [TravelAllowanceController::class, 'update'])->name('update');
         Route::post('/delete/{id}', [TravelAllowanceController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('asset')->name('asset.')->group(function () {
+        Route::get('/', [AssetController::class, 'index'])->name('index');
     });
 
     Route::prefix('profile')->group(function () {

@@ -35,6 +35,8 @@ class DashboardController extends Controller
     {
         $uniqueYears = Revenue::select(DB::raw('YEAR(billing_date) as year'))
             ->union(Revenue::select(DB::raw('YEAR(payment_date) as year')))
+            ->union(Expense::select(DB::raw('YEAR(billing_date) as year')))
+            ->union(Expense::select(DB::raw('YEAR(payment_date) as year')))
             ->distinct()
             ->orderBy('year')
             ->pluck('year')

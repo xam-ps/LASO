@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('tax', 10, 2);
             $table->decimal('gross', 11, 2);
             $table->foreignIdFor(CostType::class)->constrained();
-            $table->integer('depreciation_time')->nullable();
+            $table->integer('depreciation')->nullable();
             $table->timestamps();
         });
     }

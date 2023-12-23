@@ -9,7 +9,7 @@
                 </x-primary-button>
             </a>
         </div>
-        <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div class="px-6 py-4 text-gray-900 dark:text-gray-100">
             <h1>Einnahmen {{ $year }}</h1>
             <div class="total_amounts flex flex-row text-center">
                 <div>

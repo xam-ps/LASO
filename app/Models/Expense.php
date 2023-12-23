@@ -21,6 +21,7 @@ class Expense extends Model
         net,
         tax,
         gross,
+        depreciation,
     '];
 
     public function costType()

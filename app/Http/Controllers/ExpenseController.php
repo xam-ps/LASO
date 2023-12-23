@@ -27,28 +27,14 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'billing_date' => 'required|date',
-            'payment_date' => 'nullable|date',
-            'supplier_name' => 'required|string',
-            'product_name' => 'required|string',
-            'invoice_number' => 'required|string',
-            'net' => 'required|decimal:0,2',
-            'tax' => 'required|decimal:0,2',
-            'gross' => 'required|decimal:0,2',
-            'cost_type' => 'required|integer',
-        ]);
+        $validatedData = $this->validator($request);
+
+        if ($validatedData['cost_type'] == 6 && empty($validatedData['depreciation'])) {
+            return redirect()->back()->withInput()->withErrors(['depreciation' => 'The value for Abschreibungsdauer must be set for this cost type.']);
+        }
 
         $expense = new Expense();
-        $expense->billing_date = $validatedData['billing_date'];
-        $expense->payment_date = $validatedData['payment_date'];
-        $expense->supplier_name = $validatedData['supplier_name'];
-        $expense->product_name = $validatedData['product_name'];
-        $expense->invoice_number = $validatedData['invoice_number'];
-        $expense->net = $validatedData['net'];
-        $expense->tax = $validatedData['tax'];
-        $expense->gross = $validatedData['gross'];
-        $expense->cost_type_id = $validatedData['cost_type'];
+        $this->fillValues($validatedData, $expense);
 
         try {
             $expense->save();
@@ -56,13 +42,11 @@ class ExpenseController extends Controller
             if ($e->errorInfo[1] == 1062) { // 1062 is the MySQL error code for a duplicate entry
                 return redirect()->back()->withInput()->withErrors(['unique_column' => 'The value for Rechnungsnummer must be unique.']);
             }
-
             throw $e;
         }
 
         // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
-
     }
 
     /**
@@ -82,28 +66,14 @@ class ExpenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'billing_date' => 'required|date',
-            'payment_date' => 'nullable|date',
-            'supplier_name' => 'required|string',
-            'product_name' => 'required|string',
-            'invoice_number' => 'required|string',
-            'net' => 'required|decimal:0,2',
-            'tax' => 'required|decimal:0,2',
-            'gross' => 'required|decimal:0,2',
-            'cost_type' => 'required|integer',
-        ]);
+        $validatedData = $this->validator($request);
+
+        if ($validatedData['cost_type'] == 6 && empty($validatedData['depreciation'])) {
+            return redirect()->back()->withInput()->withErrors(['depreciation' => 'The value for Abschreibungsdauer must be set for this cost type.']);
+        }
 
         $expense = Expense::find($id);
-        $expense->billing_date = $validatedData['billing_date'];
-        $expense->payment_date = $validatedData['payment_date'];
-        $expense->supplier_name = $validatedData['supplier_name'];
-        $expense->product_name = $validatedData['product_name'];
-        $expense->invoice_number = $validatedData['invoice_number'];
-        $expense->net = $validatedData['net'];
-        $expense->tax = $validatedData['tax'];
-        $expense->gross = $validatedData['gross'];
-        $expense->cost_type_id = $validatedData['cost_type'];
+        $this->fillValues($validatedData, $expense);
 
         try {
             $expense->save();
@@ -111,13 +81,11 @@ class ExpenseController extends Controller
             if ($e->errorInfo[1] == 1062) { // 1062 is the MySQL error code for a duplicate entry
                 return redirect()->back()->withInput()->withErrors(['unique_column' => 'The value for Rechnungsnummer must be unique.']);
             }
-
             throw $e;
         }
 
         // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue updated successfully.');
-
     }
 
     /**
@@ -128,5 +96,37 @@ class ExpenseController extends Controller
         Expense::destroy($id);
 
         return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
+    }
+
+    private function validator(Request $request)
+    {
+        $validatedData = $request->validate([
+            'billing_date' => 'required|date',
+            'payment_date' => 'nullable|date',
+            'supplier_name' => 'required|string',
+            'product_name' => 'required|string',
+            'invoice_number' => 'required|string',
+            'net' => 'required|decimal:0,2',
+            'tax' => 'required|decimal:0,2',
+            'gross' => 'required|decimal:0,2',
+            'cost_type' => 'required|integer',
+            'depreciation' => 'nullable|integer',
+        ]);
+
+        return $validatedData;
+    }
+
+    private function fillValues($validatedData, $expense)
+    {
+        $expense->billing_date = $validatedData['billing_date'];
+        $expense->payment_date = $validatedData['payment_date'];
+        $expense->supplier_name = $validatedData['supplier_name'];
+        $expense->product_name = $validatedData['product_name'];
+        $expense->invoice_number = $validatedData['invoice_number'];
+        $expense->net = $validatedData['net'];
+        $expense->tax = $validatedData['tax'];
+        $expense->gross = $validatedData['gross'];
+        $expense->cost_type_id = $validatedData['cost_type'];
+        $expense->depreciation = $validatedData['depreciation'];
     }
 }

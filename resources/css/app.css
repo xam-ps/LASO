@@ -66,7 +66,7 @@ table {
 
     #revenues,
     #expenses {
-        max-height: 350px;
+        max-height: calc(50vh - 94px);
         overflow: scroll;
         table {
             width: 100%;

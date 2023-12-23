@@ -49,15 +49,23 @@
                                 </td>
                             </tr>
                             @foreach ($costs as $cost)
+                            @if ($cost->elster_id == 31)
+                            @continue
+                            @endif
+                            @if ($cost->elster_id > 31)
+                            @once
+                            <tr>
+                                <td>31</td>
+                                <td>Absetzung für Abnutzung</td>
+                                <td>{{Number::currency($afaSum, in: 'EUR', locale: 'de')}}</td>
+                            </tr>
+                            @endonce
+                            @endif
                             <tr>
                                 <td>{{$cost->elster_id}}</td>
                                 <td>{{$cost->full_name}}</td>
                                 <td>
-                                    @if ($cost->elster_id != 31)
                                     {{Number::currency($cost->total_net, in: 'EUR', locale: 'de')}}
-                                    @else
-                                    {{Number::currency(0, in: 'EUR', locale: 'de')}}
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach

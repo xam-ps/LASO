@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('statement.index')" :active="request()->routeIs('statement.index')">
                         {{ __('Jahresabschluss') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('asset.index')" :active="request()->routeIs('asset.index')">
+                        {{ __('Anlagenverzeichnis') }}
+                    </x-nav-link>
                 </div>
             </div>
 

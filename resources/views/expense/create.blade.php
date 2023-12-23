@@ -46,7 +46,13 @@
                             <option style="background: #{{$cost_type->color_code}}" value="{{$cost_type->id}}">
                                 {{$cost_type->short_name}}</option>
                             @endforeach
-                        </select>
+                        </select><br>
+
+                        <div class="hidden">
+                            <label for="depreciation">Abschreibedauer:</label><br>
+                            <input id="depreciation" name="depreciation" type="number" value="{{ old('depreciation') }}"
+                                min="0" max="30" step="1">
+                        </div>
 
                         @if ($errors->any())
                         <div class="text-red-600">
@@ -70,30 +76,8 @@
     </div>
 
     @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const net = document.querySelector("#net");
-            const tax = document.querySelector("#tax");
-            const tax_rate = document.querySelector("#tax_rate");
-            const gross = document.querySelector("#gross");
-            
-            net.addEventListener("keyup", calcValuesForNet);
-            net.addEventListener("change", calcValuesForNet);
-            tax_rate.addEventListener("keyup", calcValuesForNet);
-            tax_rate.addEventListener("change", calcValuesForNet);
-            gross.addEventListener("keyup", calcValuesForGross);
-            gross.addEventListener("change", calcValuesForGross);
-
-            function calcValuesForNet(){
-                tax.value = (parseFloat(net.value)*parseFloat(tax_rate.value)/100).toFixed(2);
-                gross.value = (parseFloat(net.value)+parseFloat(tax.value)).toFixed(2);
-            }
-            function calcValuesForGross(){
-                tax.value = (parseFloat(gross.value)*parseFloat(tax_rate.value)/(100+parseFloat(tax_rate.value))).toFixed(2);
-                net.value = (parseFloat(gross.value)-parseFloat(tax.value)).toFixed(2);
-            }
-        });
-    </script>
+    @vite(['resources/js/grossCalculator.js'])
+    @vite(['resources/js/toggleDepreciation.js'])
     @endsection
 
 </x-app-layout>
