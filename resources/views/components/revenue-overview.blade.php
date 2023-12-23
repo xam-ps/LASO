@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ $revenue->billing_date }}</td>
                             <td>{{ $revenue->payment_date }}</td>
-                            <td>{{ $revenue->company_name }}</td>
+                            <td class="truncate max-w-xs">{{ $revenue->company_name }}</td>
                             <td>{{ $revenue->invoice_number }}</td>
                             <td class="currency">{{Number::currency($revenue->net, in: 'EUR', locale: 'de')}}</td>
                             <td class="currency">{{Number::currency($revenue->tax, in: 'EUR', locale: 'de')}}</td>

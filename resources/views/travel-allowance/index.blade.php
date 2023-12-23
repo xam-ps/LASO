@@ -63,9 +63,9 @@
                                     <td>{{ $travel_allowance->travel_date }}</td>
                                     <td>{{ $travel_allowance->start }}</td>
                                     <td>{{ $travel_allowance->end }}</td>
-                                    <td>{{ $travel_allowance->reason }}</td>
+                                    <td class="truncate max-w-xs">{{ $travel_allowance->reason }}</td>
                                     <td>{{ $travel_allowance->destination }}</td>
-                                    <td>{{ $travel_allowance->company }}</td>
+                                    <td class="truncate max-w-xs">{{ $travel_allowance->company }}</td>
                                     <td>{{ $travel_allowance->notes }}</td>
                                 </tr>
                                 @endforeach

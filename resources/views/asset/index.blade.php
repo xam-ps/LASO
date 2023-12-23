@@ -20,7 +20,7 @@
                                 @foreach ($expensesWithTypeAfa as $expense)
                                 <tr>
                                     <td>{{ $expense->payment_date }}</td>
-                                    <td>{{ $expense->product_name }}</td>
+                                    <td class="truncate max-w-xs">{{ $expense->product_name }}</td>
                                     <td>{{ $expense->depreciation }}</td>
                                     <td class="currency">{{Number::currency($expense->net / $expense->depreciation *
                                         (12 - (\Carbon\Carbon::parse($expense->payment_date)->month - 1)) / 12, in:
