@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Route;
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::name('dashboard.')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('index');
-        Route::get('/{year}', [DashboardController::class, 'index'])->name('year');
-    });
-
     Route::prefix('statement')->name('statement.')->group(function () {
         Route::get('/', [StatementController::class, 'index'])->name('index');
         Route::get('/{year}', [StatementController::class, 'index'])->name('year');
@@ -56,5 +51,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
+
+    Route::name('dashboard.')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/{year}', [DashboardController::class, 'index'])->name('year');
     });
 });
