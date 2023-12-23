@@ -25,37 +25,39 @@
                     <span>{{Number::currency($revGrossSum, in: 'EUR', locale: 'de')}}</span>
                 </div>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rechnungsdatum:</th>
-                        <th>Zahlungsdatum:</th>
-                        <th>Firma:</th>
-                        <th>Rechnungsnummer:</th>
-                        <th>Netto:</th>
-                        <th>Steuer:</th>
-                        <th>Brutto:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($revenues as $revenue)
-                    <tr>
-                        <td>{{ $revenue->billing_date }}</td>
-                        <td>{{ $revenue->payment_date }}</td>
-                        <td>{{ $revenue->company_name }}</td>
-                        <td>{{ $revenue->invoice_number }}</td>
-                        <td class="currency">{{Number::currency($revenue->net, in: 'EUR', locale: 'de')}}</td>
-                        <td class="currency">{{Number::currency($revenue->tax, in: 'EUR', locale: 'de')}}</td>
-                        <td class="currency">{{Number::currency($revenue->gross, in: 'EUR', locale: 'de')}}</td>
-                        <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                            <a class="p-2 block" href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
-                                &#9998;
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rechnungsdatum:</th>
+                            <th>Zahlungsdatum:</th>
+                            <th>Firma:</th>
+                            <th>Rechnungsnummer:</th>
+                            <th>Netto:</th>
+                            <th>Steuer:</th>
+                            <th>Brutto:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($revenues as $revenue)
+                        <tr>
+                            <td>{{ $revenue->billing_date }}</td>
+                            <td>{{ $revenue->payment_date }}</td>
+                            <td>{{ $revenue->company_name }}</td>
+                            <td>{{ $revenue->invoice_number }}</td>
+                            <td class="currency">{{Number::currency($revenue->net, in: 'EUR', locale: 'de')}}</td>
+                            <td class="currency">{{Number::currency($revenue->tax, in: 'EUR', locale: 'de')}}</td>
+                            <td class="currency">{{Number::currency($revenue->gross, in: 'EUR', locale: 'de')}}</td>
+                            <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
+                                <a class="p-2 block" href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
+                                    &#9998;
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

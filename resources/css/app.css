@@ -67,21 +67,13 @@ table {
     #revenues,
     #expenses {
         max-height: calc(50vh - 94px);
-        overflow: scroll;
-        table {
-            width: 100%;
-            overflow: scroll;
-            max-height: 300px;
-        }
-    }
-}
-
-#create_expense_page {
-    #travel-allowences {
-        table {
-            display: block;
+        overflow-y: scroll;
+        .table-wrapper {
             overflow-x: auto;
-            white-space: nowrap;
+            table {
+                width: 100%;
+                white-space: nowrap;
+            }
         }
     }
 }
@@ -97,6 +89,28 @@ table {
             span {
                 @apply text-xl;
             }
+        }
+    }
+
+    #travel-allowences {
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            table {
+                width: 100%;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+#assets_page {
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        table {
+            width: 100%;
+            white-space: nowrap;
         }
     }
 }
