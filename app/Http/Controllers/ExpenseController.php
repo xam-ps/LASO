@@ -45,7 +45,6 @@ class ExpenseController extends Controller
             throw $e;
         }
 
-        // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
     }
 
@@ -84,7 +83,6 @@ class ExpenseController extends Controller
             throw $e;
         }
 
-        // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue updated successfully.');
     }
 

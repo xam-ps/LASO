@@ -35,13 +35,10 @@ class RevenueController extends Controller
             if ($e->errorInfo[1] == 1062) { // 1062 is the MySQL error code for a duplicate entry
                 return redirect()->back()->withInput()->withErrors(['unique_column' => 'The value for Rechnungsnummer must be unique.']);
             }
-
             throw $e;
         }
 
-        // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
-
     }
 
     /**
@@ -70,11 +67,9 @@ class RevenueController extends Controller
             if ($e->errorInfo[1] == 1062) { // 1062 is the MySQL error code for a duplicate entry
                 return redirect()->back()->withInput()->withErrors(['unique_column' => 'The value for Rechnungsnummer must be unique.']);
             }
-
             throw $e;
         }
 
-        // Redirect to a page or route after successful submission
         return redirect()->route('dashboard.index')->with('success', 'Revenue created successfully.');
     }
 

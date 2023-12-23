@@ -47,28 +47,10 @@ class TravelAllowanceController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'travel_date' => 'required|date',
-            'start' => 'required|date_format:H:i',
-            'end' => 'required|date_format:H:i',
-            'destination' => 'required|string',
-            'reason' => 'required|string',
-            'company_name' => 'nullable|string',
-            'distance' => 'required|integer',
-            'notes' => 'nullable|string',
-            'refund' => 'required|decimal:0,2',
-        ]);
+        $validatedData = $this->validator($request);
 
         $travelAllowance = new TravelAllowance();
-        $travelAllowance->travel_date = $validatedData['travel_date'];
-        $travelAllowance->start = $validatedData['start'];
-        $travelAllowance->end = $validatedData['end'];
-        $travelAllowance->destination = $validatedData['destination'];
-        $travelAllowance->reason = $validatedData['reason'];
-        $travelAllowance->company = $validatedData['company_name'];
-        $travelAllowance->distance = $validatedData['distance'];
-        $travelAllowance->notes = $validatedData['notes'];
-        $travelAllowance->refund = $validatedData['refund'];
+        $this->fillValues($validatedData, $travelAllowance);
 
         try {
             $travelAllowance->save();
@@ -95,28 +77,10 @@ class TravelAllowanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'travel_date' => 'required|date',
-            'start' => 'required|date_format:H:i',
-            'end' => 'required|date_format:H:i',
-            'destination' => 'required|string',
-            'reason' => 'required|string',
-            'company_name' => 'nullable|string',
-            'distance' => 'required|integer',
-            'notes' => 'nullable|string',
-            'refund' => 'required|decimal:0,2',
-        ]);
+        $validatedData = $this->validator($request);
 
         $travelAllowance = TravelAllowance::find($id);
-        $travelAllowance->travel_date = $validatedData['travel_date'];
-        $travelAllowance->start = $validatedData['start'];
-        $travelAllowance->end = $validatedData['end'];
-        $travelAllowance->destination = $validatedData['destination'];
-        $travelAllowance->reason = $validatedData['reason'];
-        $travelAllowance->company = $validatedData['company_name'];
-        $travelAllowance->distance = $validatedData['distance'];
-        $travelAllowance->notes = $validatedData['notes'];
-        $travelAllowance->refund = $validatedData['refund'];
+        $this->fillValues($validatedData, $travelAllowance);
 
         try {
             $travelAllowance->save();
@@ -135,5 +99,33 @@ class TravelAllowanceController extends Controller
         TravelAllowance::destroy($id);
 
         return redirect()->route('travel-allowance.index')->with('success', 'Revenue deleted successfully.');
+    }
+
+    private function validator(Request $request)
+    {
+        return $request->validate([
+            'travel_date' => 'required|date',
+            'start' => 'required|date_format:H:i',
+            'end' => 'required|date_format:H:i',
+            'destination' => 'required|string',
+            'reason' => 'required|string',
+            'company_name' => 'nullable|string',
+            'distance' => 'required|integer',
+            'notes' => 'nullable|string',
+            'refund' => 'required|decimal:0,2',
+        ]);
+    }
+
+    private function fillValues($validatedData, $travelAllowance)
+    {
+        $travelAllowance->travel_date = $validatedData['travel_date'];
+        $travelAllowance->start = $validatedData['start'];
+        $travelAllowance->end = $validatedData['end'];
+        $travelAllowance->destination = $validatedData['destination'];
+        $travelAllowance->reason = $validatedData['reason'];
+        $travelAllowance->company = $validatedData['company_name'];
+        $travelAllowance->distance = $validatedData['distance'];
+        $travelAllowance->notes = $validatedData['notes'];
+        $travelAllowance->refund = $validatedData['refund'];
     }
 }
