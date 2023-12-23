@@ -57,3 +57,7 @@ Here you can find an overview over all Expenses from cost type Afa (depreciation
 1. Run `npm run build`
 
 Login with user `user@gmail.com` and password `password`. **Change both after the first login to be secure!**
+
+### Acknowledgements
+
+Thanks to Wino S Kadir (funrecord@gmail.com) for providing the font `Henderson` which was used as the baseline for the logo.
