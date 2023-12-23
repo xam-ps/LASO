@@ -19,9 +19,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([UserSeeder::class]);
-        $this->call([RevenueSeeder::class]);
         $this->call([CostTypeSeeder::class]);
-        $this->call([ExpenseSeeder::class]);
-        $this->call([TravelAllowanceSeeder::class]);
+        if (! app()->environment('production')) {
+            $this->call([
+                RevenueSeeder::class,
+                ExpenseSeeder::class,
+                TravelAllowanceSeeder::class,
+            ]);
+        }
     }
 }
