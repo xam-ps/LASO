@@ -29,6 +29,8 @@
                 <table>
                     <thead>
                         <tr>
+                            <th></th>
+                            <th>Art:</th>
                             <th>Rechnungsdatum:</th>
                             <th>Zahlungsdatum:</th>
                             <th>Firma:</th>
@@ -37,12 +39,19 @@
                             <th>Netto:</th>
                             <th>Steuer:</th>
                             <th>Brutto:</th>
-                            <th>Art:</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($expenses as $expense)
                         <tr>
+                            <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
+                                <a class="p-2 block" href="{{ route('expense.edit', ['id' => $expense->id]) }}">
+                                    &#9998;
+                                </a>
+                            </td>
+                            <td style="background: #{{$expense->costType->color_code}}" class="text-gray-900">{{
+                                $expense->costType->short_name }}
+                            </td>
                             <td>{{ $expense->billing_date }}</td>
                             <td>{{ $expense->payment_date }}</td>
                             <td class="truncate max-w-xs">{{ $expense->supplier_name }}</td>
@@ -52,14 +61,6 @@
                             <td class="currency">{{Number::currency($expense->net, in: 'EUR', locale: 'de')}}</td>
                             <td class="currency">{{Number::currency($expense->tax, in: 'EUR', locale: 'de')}}</td>
                             <td class="currency">{{Number::currency($expense->gross, in: 'EUR', locale: 'de')}}</td>
-                            <td style="background: #{{$expense->costType->color_code}}" class="text-gray-900">{{
-                                $expense->costType->short_name }}
-                            </td>
-                            <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                                <a class="p-2 block" href="{{ route('expense.edit', ['id' => $expense->id]) }}">
-                                    &#9998;
-                                </a>
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
