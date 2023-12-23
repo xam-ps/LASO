@@ -24,24 +24,10 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'billing_date' => 'required|date',
-            'payment_date' => 'nullable|date',
-            'company_name' => 'required|string',
-            'invoice_number' => 'required|string',
-            'net' => 'required|decimal:0,2',
-            'tax' => 'required|decimal:0,2',
-            'gross' => 'required|decimal:0,2',
-        ]);
+        $validatedData = $this->validator($request);
 
         $revenue = new Revenue();
-        $revenue->billing_date = $validatedData['billing_date'];
-        $revenue->payment_date = $validatedData['payment_date'];
-        $revenue->company_name = $validatedData['company_name'];
-        $revenue->invoice_number = $validatedData['invoice_number'];
-        $revenue->net = $validatedData['net'];
-        $revenue->tax = $validatedData['tax'];
-        $revenue->gross = $validatedData['gross'];
+        $this->fillValues($validatedData, $revenue);
 
         try {
             $revenue->save();
@@ -73,24 +59,10 @@ class RevenueController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'billing_date' => 'required|date',
-            'payment_date' => 'nullable|date',
-            'company_name' => 'required|string',
-            'invoice_number' => 'required|string',
-            'net' => 'required|decimal:0,2',
-            'tax' => 'required|decimal:0,2',
-            'gross' => 'required|decimal:0,2',
-        ]);
+        $validatedData = $this->validator($request);
 
         $revenue = Revenue::find($id);
-        $revenue->billing_date = $validatedData['billing_date'];
-        $revenue->payment_date = $validatedData['payment_date'];
-        $revenue->company_name = $validatedData['company_name'];
-        $revenue->invoice_number = $validatedData['invoice_number'];
-        $revenue->net = $validatedData['net'];
-        $revenue->tax = $validatedData['tax'];
-        $revenue->gross = $validatedData['gross'];
+        $this->fillValues($validatedData, $revenue);
 
         try {
             $revenue->save();
@@ -114,5 +86,29 @@ class RevenueController extends Controller
         Revenue::destroy($id);
 
         return redirect()->route('dashboard.index')->with('success', 'Revenue deleted successfully.');
+    }
+
+    private function validator(Request $request)
+    {
+        return $request->validate([
+            'billing_date' => 'required|date',
+            'payment_date' => 'nullable|date',
+            'company_name' => 'required|string',
+            'invoice_number' => 'required|string',
+            'net' => 'required|decimal:0,2',
+            'tax' => 'required|decimal:0,2',
+            'gross' => 'required|decimal:0,2',
+        ]);
+    }
+
+    private function fillValues($validatedData, $revenue)
+    {
+        $revenue->billing_date = $validatedData['billing_date'];
+        $revenue->payment_date = $validatedData['payment_date'];
+        $revenue->company_name = $validatedData['company_name'];
+        $revenue->invoice_number = $validatedData['invoice_number'];
+        $revenue->net = $validatedData['net'];
+        $revenue->tax = $validatedData['tax'];
+        $revenue->gross = $validatedData['gross'];
     }
 }
