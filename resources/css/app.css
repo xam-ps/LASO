@@ -137,15 +137,3 @@ table {
 option:focus {
     font-weight: bold;
 }
-
-.lasso {
-    fill: none;
-    stroke: #98caff; /* Set your desired color using CSS */
-    stroke-width: 8;
-}
-.loop {
-    fill: #8e7fff; /* Set your desired color using CSS */
-}
-.handle {
-    fill: #5bd2cc; /* Set your desired color using CSS */
-}
