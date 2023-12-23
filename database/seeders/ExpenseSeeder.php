@@ -18,6 +18,11 @@ class ExpenseSeeder extends Seeder
             $net = rand(10, 100);
             $tax = $net * 0.19;
             $gross = $net + $tax;
+            if ($cost_type->id == 6) {
+                $depreciation = 5;
+            } else {
+                $depreciation = null;
+            }
             Expense::create([
                 'billing_date' => now(),
                 'payment_date' => now(),
@@ -28,6 +33,7 @@ class ExpenseSeeder extends Seeder
                 'tax' => $tax,
                 'gross' => $gross,
                 'cost_type_id' => $cost_type->id,
+                'depreciation' => $depreciation,
             ]);
         }
 
@@ -35,6 +41,11 @@ class ExpenseSeeder extends Seeder
             $net = rand(10, 100);
             $tax = $net * 0.19;
             $gross = $net + $tax;
+            if ($cost_type->id == 6) {
+                $depreciation = 5;
+            } else {
+                $depreciation = null;
+            }
             Expense::create([
                 'billing_date' => now()->subYear(),
                 'payment_date' => now()->subYear(),
@@ -45,6 +56,7 @@ class ExpenseSeeder extends Seeder
                 'tax' => $tax,
                 'gross' => $gross,
                 'cost_type_id' => $cost_type->id,
+                'depreciation' => $depreciation,
             ]);
         }
     }
