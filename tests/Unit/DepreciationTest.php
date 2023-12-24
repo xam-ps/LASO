@@ -8,9 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class DepreciationTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
     public function test_depreciation_values(): void
     {
         $expense = new Expense();
@@ -18,45 +15,41 @@ class DepreciationTest extends TestCase
         $expense->net = 600;
         $expense->depreciation = 10;
 
-        $firstYear = 40;
-        $middleYear = 60;
-        $lastYear = 20;
-        $yearsInUse = 3;
-        $percUsed = 30;
-
-        print_r($expense);
+        $expenseAssert = new Expense();
+        $expenseAssert->payment_date = '2020-05-01';
+        $expenseAssert->net = 600;
+        $expenseAssert->depreciation = 10;
+        $expenseAssert->firstYear = 40;
+        $expenseAssert->middleYear = 60;
+        $expenseAssert->lastYear = 20;
+        $expenseAssert->yearsInUse = 3;
+        $expenseAssert->percUsed = 30;
 
         AssetController::calcDepreciationValues($expense, 2023);
 
-        $this->assertEquals($firstYear, $expense->firstYear);
-        $this->assertEquals($middleYear, $expense->middleYear);
-        $this->assertEquals($lastYear, $expense->lastYear);
-        $this->assertEquals($yearsInUse, $expense->yearsInUse);
-        $this->assertEquals($percUsed, $expense->percUsed);
+        $this->assertEquals($expenseAssert, $expense);
     }
 
-    public function test_depreciation_values_first_year_full(): void
+    public function test_depreciation_values_first_year_full_last_year_none(): void
     {
         $expense = new Expense();
         $expense->payment_date = '2020-01-01';
         $expense->net = 600;
         $expense->depreciation = 10;
 
-        $firstYear = 60;
-        $middleYear = 60;
-        $lastYear = 0;
-        $yearsInUse = 4;
-        $percUsed = 40;
-
-        print_r($expense);
+        $expenseAssert = new Expense();
+        $expenseAssert->payment_date = '2020-01-01';
+        $expenseAssert->net = 600;
+        $expenseAssert->depreciation = 10;
+        $expenseAssert->firstYear = 60;
+        $expenseAssert->middleYear = 60;
+        $expenseAssert->lastYear = 0;
+        $expenseAssert->yearsInUse = 4;
+        $expenseAssert->percUsed = 40;
 
         AssetController::calcDepreciationValues($expense, 2024);
 
-        $this->assertEquals($firstYear, $expense->firstYear);
-        $this->assertEquals($middleYear, $expense->middleYear);
-        $this->assertEquals($lastYear, $expense->lastYear);
-        $this->assertEquals($yearsInUse, $expense->yearsInUse);
-        $this->assertEquals($percUsed, $expense->percUsed);
+        $this->assertEquals($expenseAssert, $expense);
     }
 
     //Create a test for AssetController::calcAfaForYear
@@ -76,9 +69,8 @@ class DepreciationTest extends TestCase
 
         $year = 2023;
 
-        [$afaSum, $afaThisYear] = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
+        $assert = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
 
-        $this->assertEquals(140, $afaSum);
-        $this->assertEquals(360, $afaThisYear);
+        $this->assertEquals([140, 360], $assert);
     }
 }
