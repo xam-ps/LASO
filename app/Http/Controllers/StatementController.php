@@ -51,6 +51,12 @@ class StatementController extends Controller
             }
         }
 
+        foreach ($costsByCostType as $cost) {
+            if ($cost->elster_id == 31) {
+                $cost->total_net = $afaSum;
+            }
+        }
+
         //substract afa expenses from net, as they need to be calculated extra
         $expNetSum = $costsByCostType->sum('total_net') - $afaThisYear;
         $expTaxSum = $costsByCostType->sum('total_tax');
@@ -64,7 +70,6 @@ class StatementController extends Controller
 
             'costs' => $costsByCostType,
             'travelAllowanceTotal' => $expTravel,
-            'afaSum' => $afaSum,
             'expTaxSum' => $expTaxSum,
             'expNetSum' => $expNetSum,
             'expTotal' => $expTotal,
