@@ -16,8 +16,10 @@ class AssetController extends Controller
         })->orderBy('payment_date', 'DESC')->get();
 
         foreach ($expensesWithTypeAfa as $expense) {
-            $expense->remainingYears = $year - Carbon::parse($expense->payment_date)->year;
+            $expense->yearsInUse = $year - Carbon::parse($expense->payment_date)->year;
         }
+
+        $expensesWithTypeAfa = $expensesWithTypeAfa->sortBy('yearsInUse');
 
         return view('asset.index', ['expensesWithTypeAfa' => $expensesWithTypeAfa, 'year' => $year]);
     }

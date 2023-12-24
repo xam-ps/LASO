@@ -18,6 +18,13 @@
                             </thead>
                             <tbody>
                                 @foreach ($expensesWithTypeAfa as $expense)
+                                @if ($expense->yearsInUse >= $expense->depreciation)
+                                @once
+                                <tr>
+                                    <td colspan="6" class="text-center">Abgeschriebene Anlagen</td>
+                                </tr>
+                                @endonce
+                                @endif
                                 <tr>
                                     <td>{{ $expense->payment_date }}</td>
                                     <td class="truncate max-w-xs">{{ $expense->product_name }}</td>
@@ -25,8 +32,8 @@
                                         <p class="m-2 absolute top-0 left-auto z-50">{{ $expense->depreciation }}</p>
                                         <div class="absolute top-0 left-0 h-full 
                                             bg-green-200 dark:bg-green-700 z-0 max-w-full" style="width: 
-                                            @if ($expense->remainingYears == 0) {{0}}
-                                            @else {{ $expense->remainingYears * 100 / $expense->depreciation}}@endif%">
+                                            @if ($expense->yearsInUse == 0) {{0}}
+                                            @else {{ $expense->yearsInUse * 100 / $expense->depreciation}}@endif%">
                                         </div>
                                     </td>
                                     <td class="currency">{{Number::currency($expense->net / $expense->depreciation *
