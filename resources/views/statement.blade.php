@@ -48,9 +48,6 @@
                                     <h2>Ausgaben</h2>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>{{ $costs->count() }}</td>
-                            </tr>
                             @if ($costs->count() == 0)
                             <tr>
                                 <td>31</td>
