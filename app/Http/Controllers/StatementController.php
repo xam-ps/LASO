@@ -36,20 +36,7 @@ class StatementController extends Controller
             $query->where('elster_id', 31);
         })->get();
 
-        $afaSum = 0;
-        $afaThisYear = 0;
-        foreach ($expensesWithTypeAfa as $expense) {
-            $paymentDate = Carbon::parse($expense->payment_date);
-            if ($paymentDate->year == $year) {
-                $afaThisYear += $expense->net;
-                $remainingMonth = 12 - ($paymentDate->month - 1);
-                $afaSum += ($expense->net / $expense->depreciation * $remainingMonth / 12);
-            } elseif ($year > $paymentDate->year && $year < $paymentDate->year + $expense->depreciation) {
-                $afaSum += $expense->net / $expense->depreciation;
-            } elseif ($year == ($paymentDate->year + $expense->depreciation)) {
-                $afaSum += $expense->net / $expense->depreciation * ($paymentDate->month - 1) / 12;
-            }
-        }
+        [$afaSum, $afaThisYear] = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
 
         //substract afa expenses from net, as they need to be calculated extra
         $expNetSum = $costsByCostType->sum('total_net') - $afaThisYear;

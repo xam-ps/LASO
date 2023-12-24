@@ -31,20 +31,17 @@
                                     <td class="relative">
                                         <p class="m-2 absolute top-0 left-auto z-50">{{ $expense->depreciation }}</p>
                                         <div class="absolute top-0 left-0 h-full 
-                                            bg-green-200 dark:bg-green-700 z-0 max-w-full" style="width: 
-                                            @if ($expense->yearsInUse == 0) {{0}}
-                                            @else {{ $expense->percUsed }}@endif%">
+                                            bg-green-200 dark:bg-green-700 z-0 max-w-full"
+                                            style="width: {{ $expense->percUsed }}%">
                                         </div>
                                     </td>
-                                    <td class="currency">{{Number::currency($expense->net / $expense->depreciation *
-                                        (12 - (\Carbon\Carbon::parse($expense->payment_date)->month - 1)) / 12, in:
+                                    <td class="currency">{{Number::currency($expense->firstYear, in:
                                         'EUR',
                                         locale: 'de')}}</td>
-                                    <td class="currency">{{Number::currency($expense->net/$expense->depreciation, in:
+                                    <td class="currency">{{Number::currency($expense->middleYear, in:
                                         'EUR',
                                         locale: 'de')}}</td>
-                                    <td class="currency">{{Number::currency($expense->net / $expense->depreciation *
-                                        ((\Carbon\Carbon::parse($expense->payment_date)->month-1) / 12), in: 'EUR',
+                                    <td class="currency">{{Number::currency($expense->lastYear, in: 'EUR',
                                         locale:
                                         'de')}}</td>
                                 </tr>

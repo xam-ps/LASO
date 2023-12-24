@@ -16,12 +16,41 @@ class AssetController extends Controller
         })->orderBy('payment_date', 'DESC')->get();
 
         foreach ($expensesWithTypeAfa as $expense) {
-            $expense->yearsInUse = $year - Carbon::parse($expense->payment_date)->year;
-            $expense->percUsed = $expense->yearsInUse * 100 / $expense->depreciation;
+            $this->calcDepreciationValues($expense, $year);
         }
 
         $expensesWithTypeAfa = $expensesWithTypeAfa->sortBy('percUsed');
 
         return view('asset.index', ['expensesWithTypeAfa' => $expensesWithTypeAfa, 'year' => $year]);
+    }
+
+    public static function calcDepreciationValues($expense, $year)
+    {
+        $expense->yearsInUse = $year - Carbon::parse($expense->payment_date)->year;
+        $expense->percUsed = $expense->yearsInUse * 100 / $expense->depreciation;
+        $costPerMonth = $expense->net / $expense->depreciation / 12;
+        $expense->firstYear = $costPerMonth * (12 - (Carbon::parse($expense->payment_date)->month - 1));
+        $expense->middleYear = $expense->net / $expense->depreciation;
+        $expense->lastYear = $costPerMonth * ((Carbon::parse($expense->payment_date)->month - 1));
+    }
+
+    public static function calcAfaForYear($expensesWithTypeAfa, $year)
+    {
+        $afaSum = 0;
+        $afaThisYear = 0;
+        foreach ($expensesWithTypeAfa as $expense) {
+            $paymentDate = Carbon::parse($expense->payment_date);
+            AssetController::calcDepreciationValues($expense, $year);
+            if ($paymentDate->year == $year) {
+                $afaThisYear += $expense->net;
+                $afaSum += $expense->firstYear;
+            } elseif ($year > $paymentDate->year && $year < $paymentDate->year + $expense->depreciation) {
+                $afaSum += $expense->middleYear;
+            } elseif ($year == ($paymentDate->year + $expense->depreciation)) {
+                $afaSum += $expense->lastYear;
+            }
+        }
+
+        return [$afaSum, $afaThisYear];
     }
 }
