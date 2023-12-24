@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Revenue;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,9 @@ class RevenueController extends Controller
     {
         $company_names = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
 
-        return view('revenue.create', ['customer_list' => $company_names]);
+        $now = Carbon::now()->toDateString();
+
+        return view('revenue.create', ['customer_list' => $company_names, 'now' => $now]);
     }
 
     /**

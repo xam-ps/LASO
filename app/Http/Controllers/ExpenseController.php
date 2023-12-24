@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CostType;
 use App\Models\Expense;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,9 @@ class ExpenseController extends Controller
 
         $cost_types = CostType::all();
 
-        return view('expense.create', ['supplier_list' => $company_names, 'cost_types' => $cost_types]);
+        $now = Carbon::now()->toDateString();
+
+        return view('expense.create', ['supplier_list' => $company_names, 'cost_types' => $cost_types, 'now' => $now]);
     }
 
     /**

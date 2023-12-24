@@ -7,10 +7,12 @@
                     <form method="post" action="{{ route('expense.store') }}" class="my-2">
                         @csrf
                         <label for="billing_date">Rechnungsdatum:</label><br>
-                        <input type="date" id="billing_date" name="billing_date" value="{{ old('billing_date') }}"><br>
+                        <input type="date" id="billing_date" name="billing_date"
+                            value="{{ old('billing_date', $now) }}"><br>
 
                         <label for="payment_date">Zahlungseingang:</label><br>
-                        <input type="date" id="payment_date" name="payment_date" value="{{ old('payment_date') }}"><br>
+                        <input type="date" id="payment_date" name="payment_date"
+                            value="{{ old('payment_date', $now) }}"><br>
 
                         <label for="supplier_name">Lieferant:</label><br>
                         <input id="supplier_name" name="supplier_name" list="suppliers"

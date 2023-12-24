@@ -39,7 +39,9 @@ class TravelAllowanceController extends Controller
     {
         $companyNames = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
 
-        return view('travel-allowance.create', ['companyNames' => $companyNames]);
+        $now = Carbon::now()->toDateString();
+
+        return view('travel-allowance.create', ['companyNames' => $companyNames, 'now' => $now]);
     }
 
     /**

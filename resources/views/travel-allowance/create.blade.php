@@ -7,13 +7,14 @@
                     <form method="post" action="{{ route('travel-allowance.store') }}" class="my-2">
                         @csrf
                         <label for="travel_date">Datum:</label><br>
-                        <input type="date" id="travel_date" name="travel_date" value="{{ old('travel_date') }}"><br>
+                        <input type="date" id="travel_date" name="travel_date"
+                            value="{{ old('travel_date', $now) }}"><br>
 
                         <label for="start">Start:</label><br>
-                        <input type="time" id="start" name="start" value="{{ old('start') }}"><br>
+                        <input type="time" id="start" name="start" value="{{ old('start', '14:00') }}"><br>
 
                         <label for="end">End:</label><br>
-                        <input type="time" id="end" name="end" value="{{ old('end') }}"><br>
+                        <input type="time" id="end" name="end" value="{{ old('end', '14:00') }}"><br>
 
                         <label for="destination">Zielort:</label><br>
                         <input id="destination" name="destination" value="{{ old('destination') }}"><br>
