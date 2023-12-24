@@ -24,7 +24,7 @@
                                     <td class="relative">
                                         <p class="m-2 absolute top-0 left-auto z-50">{{ $expense->depreciation }}</p>
                                         <div class="absolute top-0 left-0 h-full 
-                                            bg-green-200 dark:bg-green-700 z-0" style="width: 
+                                            bg-green-200 dark:bg-green-700 z-0 max-w-full" style="width: 
                                             @if ($expense->remainingYears == 0) {{0}}
                                             @else {{ $expense->remainingYears * 100 / $expense->depreciation}}@endif%">
                                         </div>
