@@ -33,7 +33,7 @@
                                         <div class="absolute top-0 left-0 h-full 
                                             bg-green-200 dark:bg-green-700 z-0 max-w-full" style="width: 
                                             @if ($expense->yearsInUse == 0) {{0}}
-                                            @else {{ $expense->yearsInUse * 100 / $expense->depreciation}}@endif%">
+                                            @else {{ $expense->percUsed }}@endif%">
                                         </div>
                                     </td>
                                     <td class="currency">{{Number::currency($expense->net / $expense->depreciation *
