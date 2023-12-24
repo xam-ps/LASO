@@ -9,6 +9,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/grossCalculator.js',
                 'resources/js/toggleDepreciation.js',
+                'resources/img/favicon.ico',
+                'resources/img/favicon.png',
             ],
             refresh: true,
         }),
