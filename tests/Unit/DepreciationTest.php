@@ -71,6 +71,6 @@ class DepreciationTest extends TestCase
 
         $assert = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
 
-        $this->assertEquals([140, 360], $assert);
+        $this->assertEquals(140, $assert);
     }
 }

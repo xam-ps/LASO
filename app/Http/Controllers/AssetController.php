@@ -37,12 +37,10 @@ class AssetController extends Controller
     public static function calcAfaForYear($expensesWithTypeAfa, $year)
     {
         $afaSum = 0;
-        $afaThisYear = 0;
         foreach ($expensesWithTypeAfa as $expense) {
             $paymentDate = Carbon::parse($expense->payment_date);
             AssetController::calcDepreciationValues($expense, $year);
             if ($paymentDate->year == $year) {
-                $afaThisYear += $expense->net;
                 $afaSum += $expense->firstYear;
             } elseif ($year > $paymentDate->year && $year < $paymentDate->year + $expense->depreciation) {
                 $afaSum += $expense->middleYear;
@@ -51,6 +49,6 @@ class AssetController extends Controller
             }
         }
 
-        return [$afaSum, $afaThisYear];
+        return $afaSum;
     }
 }

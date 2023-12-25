@@ -48,26 +48,7 @@
                                     <h2>Ausgaben</h2>
                                 </td>
                             </tr>
-                            @if ($costs->count() == 0)
-                            <tr>
-                                <td>31</td>
-                                <td>Absetzung für Abnutzung</td>
-                                <td>{{Number::currency($afaSum, in: 'EUR', locale: 'de')}}</td>
-                            </tr>
-                            @endif
                             @foreach ($costs as $cost)
-                            @if ($cost->elster_id == 31)
-                            @continue
-                            @endif
-                            @if ($cost->elster_id > 31)
-                            @once
-                            <tr>
-                                <td>31</td>
-                                <td>Absetzung für Abnutzung</td>
-                                <td>{{Number::currency($afaSum, in: 'EUR', locale: 'de')}}</td>
-                            </tr>
-                            @endonce
-                            @endif
                             <tr>
                                 <td>{{$cost->elster_id}}</td>
                                 <td>{{$cost->full_name}}</td>
@@ -76,21 +57,6 @@
                                 </td>
                             </tr>
                             @endforeach
-                            <tr>
-                                <td>63</td>
-                                <td>Gezahlte Vorsteuer</td>
-                                <td>{{Number::currency($expTaxSum, in: 'EUR', locale: 'de')}}</td>
-                            </tr>
-                            <tr>
-                                <td>64</td>
-                                <td>Abgeführte Ust</td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td>84</td>
-                                <td>Fahrtkosten</td>
-                                <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
-                            </tr>
                             <tr>
                                 <td></td>
                                 <td>Gesamtausgaben</td>
