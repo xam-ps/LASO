@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/grossCalculator.js',
                 'resources/js/toggleDepreciation.js',
+                'resources/js/costTypePopup.js',
             ],
             refresh: true,
         }),

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div id="create_expense_page" class="py-12">
+    <div id="create_expense_page" class="py-12 z-0">
         <div class="max-w-md mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -42,13 +42,17 @@
                         <input id="gross" name="gross" type="number" value="{{ old('gross') }}" min="0" step="0.01">
                         €<br>
 
-                        <label for="cost_type">Typ:</label><br>
+                        <label for="cost_type">Typ:</label>
+                        <span id="costTypeInfo"
+                            class="cursor-pointer mb-2 ml-1 border-black dark:border-gray-200 inline-block rounded-full leading-none"
+                            style="padding: 1px 8px; border-width: 1px" tabindex="0">i</span><br>
                         <select name="cost_type" id="cost_type">
                             @foreach ($cost_types as $cost_type)
                             <option style="background: #{{$cost_type->color_code}}" value="{{$cost_type->id}}">
                                 {{$cost_type->short_name}}</option>
                             @endforeach
-                        </select><br>
+                        </select>
+                        <br>
 
                         <div class="hidden">
                             <label for="depreciation">Abschreibedauer:</label><br>
@@ -76,10 +80,28 @@
             </div>
         </div>
     </div>
+    <div id="costTypeOverlay"
+        class="hidden fixed top-0 left-0 w-screen h-screen bg-white dark:bg-gray-900 bg-opacity-80 dark:bg-opacity-80 p-8 text-center flex items-center dark:text-white">
+        <div class="mx-auto w-full md:w-1/3 bg-white dark:bg-gray-800 border-gray-200 border p-8 relative">
+            <p class="cursor-pointer text-lg absolute top-2 right-5 trans">✕</p>
+            <h2>Kostentypen:</h2>
+            <table>
+                @foreach ($cost_types as $cost_type)
+                <tr>
+                    <td style="background: #{{$cost_type->color_code}}; width: 20px"></td>
+                    <td>{{$cost_type->short_name}}</td>
+                    <td>{{$cost_type->full_name}}</td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+
 
     @section('scripts')
     @vite(['resources/js/grossCalculator.js'])
     @vite(['resources/js/toggleDepreciation.js'])
+    @vite(['resources/js/costTypePopup.js'])
     @endsection
 
 </x-app-layout>
