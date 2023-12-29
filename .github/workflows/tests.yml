@@ -63,4 +63,4 @@ jobs:
         run: npm run build
 
       - name: Execute tests
-        run: vendor/bin/phpunit --configuration phpunit.ci.xml
+        run: php artisan test --configuration phpunit.ci.xml

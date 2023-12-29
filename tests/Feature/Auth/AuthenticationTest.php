@@ -20,7 +20,6 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $response = $this->post('/login', [
@@ -34,7 +33,6 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $this->post('/login', [
@@ -47,7 +45,6 @@ class AuthenticationTest extends TestCase
 
     public function test_users_can_logout(): void
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/logout');
