@@ -96,4 +96,11 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+    }
 }
