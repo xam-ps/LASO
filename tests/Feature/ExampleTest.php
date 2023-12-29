@@ -18,4 +18,15 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(302);
     }
+
+    public function test_an_action_that_requires_authentication(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->get('/');
+
+        $response->assertStatus(200);
+    }
 }
