@@ -23,21 +23,14 @@ jobs:
 
     name: PHP ${{ matrix.php }}
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: laso
-          MYSQL_USER: sail
-          MYSQL_PASSWORD: password
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up mySQL
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -e 'CREATE DATABASE laso;' -uroot -proot
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
