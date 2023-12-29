@@ -28,7 +28,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: testing
+          MYSQL_DATABASE: laso
           MYSQL_USER: sail
           MYSQL_PASSWORD: password
         ports:
