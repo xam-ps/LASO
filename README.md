@@ -6,6 +6,8 @@ This was coded part time in a week while working a full time job. There is still
 
 # LASO
 
+[![Tests](https://github.com/xam-ps/LASO/actions/workflows/tests.yml/badge.svg)](https://github.com/xam-ps/LASO/actions/workflows/tests.yml)
+
 Laravel annual statment online (a small online tool to do the annual statement in Germany for one person companies)
 
 LASO consists of multiple modules:
