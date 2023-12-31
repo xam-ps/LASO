@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\User;
+use Database\Seeders\CostTypeSeeder;
 use Illuminate\Support\Number;
 use Tests\TestCase;
 
@@ -33,7 +35,7 @@ class DashboardTest extends TestCase
         $dashboardPage->assertStatus(200);
     }
 
-    public function test_dashboard_revenue_sums_are_adding_up(): void
+    public function test_dashboard_revenues_sums_are_adding_up(): void
     {
         $user = User::factory()->create();
 
@@ -52,10 +54,30 @@ class DashboardTest extends TestCase
         $dashboardPage->assertStatus(200);
     }
 
+    public function test_dashboard_expenses_sums_are_adding_up(): void
+    {
+        $user = User::factory()->create();
+
+        $exp1 = Expense::factory()->create();
+        $exp2 = Expense::factory()->create();
+        $netSum = $exp1['net'] + $exp2['net'];
+        $taxSum = $exp1['tax'] + $exp2['tax'];
+        $grossSum = $exp1['gross'] + $exp2['gross'];
+
+        $dashboardPage = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->get('/');
+        $dashboardPage->assertSee('<span>'.Number::currency($netSum, in: 'EUR', locale: 'de').'</span>', false);
+        $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
+        $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
+        $dashboardPage->assertStatus(200);
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->seed(CostTypeSeeder::class);
     }
 }
