@@ -17,7 +17,7 @@ class ExpenseSeeder extends Seeder
         foreach (CostType::all() as $cost_type) {
             $net = rand(10, 100);
             if ($cost_type->id == 6) {
-                $depreciation = 5;
+                $depreciation = rand(3, 20);
                 $net = rand(1000, 2000);
             } else {
                 $depreciation = null;
@@ -41,7 +41,7 @@ class ExpenseSeeder extends Seeder
         foreach (CostType::all() as $cost_type) {
             $net = rand(10, 100);
             if ($cost_type->id == 6) {
-                $depreciation = 5;
+                $depreciation = rand(3, 7);
                 $net = rand(1000, 2000);
             } else {
                 $depreciation = null;
