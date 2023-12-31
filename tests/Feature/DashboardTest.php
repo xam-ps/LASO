@@ -19,15 +19,18 @@ class DashboardTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function test_an_action_that_requires_authentication(): void
+    public function test_dashboard_can_be_loaded_for_specific_year(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)
+        $dashboardPage = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/');
+            ->get('/2019');
+        $dashboardPage->assertSee('Einnahmen 2019');
+        $dashboardPage->assertSee('Ausgaben 2019');
+        $dashboardPage->assertStatus(200);
 
-        $response->assertStatus(200);
+        $user->delete();
     }
 
     protected function setUp(): void
