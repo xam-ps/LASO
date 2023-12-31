@@ -16,7 +16,7 @@ class ExpenseFactory extends Factory
      */
     public function definition(): array
     {
-        $net = $this->faker->randomFloat(2, 0, 3000);
+        $net = $this->faker->randomFloat(2, 0, 600);
         $tax = (int) $net * 0.19;
         $gross = $net + $tax;
 
