@@ -34,7 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('travel-allowance')->name('travel-allowance.')->group(function () {
-        Route::get('/all', [TravelAllowanceController::class, 'index'])->name('index');
+        Route::get('/', [TravelAllowanceController::class, 'index'])->name('index');
         Route::get('/all/{year}', [TravelAllowanceController::class, 'index'])->name('year');
         Route::get('/create', [TravelAllowanceController::class, 'create'])->name('create');
         Route::post('/', [TravelAllowanceController::class, 'store'])->name('store');

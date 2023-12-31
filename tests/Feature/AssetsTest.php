@@ -23,6 +23,8 @@ class AssetsTest extends TestCase
 
         $assetPage->assertSee($exp1->product_name);
         $assetPage->assertStatus(200);
+
+        $exp1->delete();
     }
 
     protected function setUp(): void

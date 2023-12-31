@@ -52,6 +52,9 @@ class DashboardTest extends TestCase
         $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertStatus(200);
+
+        $rev1->delete();
+        $rev2->delete();
     }
 
     public function test_dashboard_expenses_sums_are_adding_up(): void
@@ -71,6 +74,9 @@ class DashboardTest extends TestCase
         $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertStatus(200);
+
+        $exp1->delete();
+        $exp2->delete();
     }
 
     protected function setUp(): void
