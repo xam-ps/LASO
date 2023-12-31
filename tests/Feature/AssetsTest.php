@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Expense;
 use App\Models\User;
+use Database\Seeders\CostTypeSeeder;
 use Tests\TestCase;
 
 class AssetsTest extends TestCase
@@ -22,5 +23,13 @@ class AssetsTest extends TestCase
 
         $assetPage->assertSee($exp1->product_name);
         $assetPage->assertStatus(200);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->seed(CostTypeSeeder::class);
     }
 }
