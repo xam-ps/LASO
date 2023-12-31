@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Models\Revenue;
 use App\Models\User;
+use Illuminate\Support\Number;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -29,8 +31,25 @@ class DashboardTest extends TestCase
         $dashboardPage->assertSee('Einnahmen 2019');
         $dashboardPage->assertSee('Ausgaben 2019');
         $dashboardPage->assertStatus(200);
+    }
 
-        $user->delete();
+    public function test_dashboard_revenue_sums_are_adding_up(): void
+    {
+        $user = User::factory()->create();
+
+        $rev1 = Revenue::factory()->create();
+        $rev2 = Revenue::factory()->create();
+        $netSum = $rev1['net'] + $rev2['net'];
+        $taxSum = $rev1['tax'] + $rev2['tax'];
+        $grossSum = $rev1['gross'] + $rev2['gross'];
+
+        $dashboardPage = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->get('/');
+        $dashboardPage->assertSee(Number::currency($netSum, in: 'EUR', locale: 'de'));
+        $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
+        $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
+        $dashboardPage->assertStatus(200);
     }
 
     protected function setUp(): void
