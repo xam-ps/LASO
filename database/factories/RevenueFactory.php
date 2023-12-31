@@ -24,7 +24,7 @@ class RevenueFactory extends Factory
             'billing_date' => $this->faker->dateTimeThisYear(),
             'payment_date' => $this->faker->dateTimeThisYear(),
             'company_name' => $this->faker->company,
-            'invoice_number' => $this->faker->randomNumber(),
+            'invoice_number' => $this->faker->randomNumber(8),
             'net' => $net,
             'tax' => $tax,
             'gross' => $gross,
