@@ -13,6 +13,16 @@ h2 {
     @apply font-bold;
 }
 
+header {
+    ul {
+        li {
+            a.active {
+                text-decoration: underline overline;
+            }
+        }
+    }
+}
+
 table {
     @apply my-4;
     @apply mx-auto;
@@ -35,7 +45,7 @@ table {
     }
 }
 
-#dashboard_header {
+#year_nav {
     ul {
         @apply flex;
         @apply flex-row;

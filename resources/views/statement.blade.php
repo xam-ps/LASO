@@ -1,13 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div id="dashboard_header"
-            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight print:hidden">
-            <ul>
-                @foreach ($years as $year_n)
-                <li><a href="{{ route('statement.year', ['year' => $year_n]) }}">{{ $year_n }}</a></li>
-                @endforeach
-            </ul>
-        </div>
+        <x-year-nav :$year :$years location='statement' />
     </x-slot>
 
     <div id="statement_page" class="py-12">

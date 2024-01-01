@@ -1,16 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div id="dashboard_header" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <ul>
-                @foreach ($years as $year_h)
-                <li>
-                    <a href="{{ route('travel-allowance.year', ['year' => $year_h]) }}">
-                        {{ $year_h }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
-        </div>
+        <x-year-nav :$year :$years location='travel-allowance' />
     </x-slot>
     <div id="travel-allowance_page" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
