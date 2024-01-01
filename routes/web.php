@@ -21,16 +21,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', [RevenueController::class, 'create'])->name('create');
         Route::post('/', [RevenueController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [RevenueController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [RevenueController::class, 'update'])->name('update');
-        Route::post('/delete/{id}', [RevenueController::class, 'destroy'])->name('delete');
+        Route::put('/{id}', [RevenueController::class, 'update'])->name('update');
+        Route::delete('/{id}', [RevenueController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('expense')->name('expense.')->group(function () {
         Route::get('/create', [ExpenseController::class, 'create'])->name('create');
         Route::post('/', [ExpenseController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [ExpenseController::class, 'update'])->name('update');
-        Route::post('/delete/{id}', [ExpenseController::class, 'destroy'])->name('delete');
+        Route::put('/{id}', [ExpenseController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ExpenseController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('travel-allowance')->name('travel-allowance.')->group(function () {
@@ -39,8 +39,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', [TravelAllowanceController::class, 'create'])->name('create');
         Route::post('/', [TravelAllowanceController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [TravelAllowanceController::class, 'edit'])->name('edit');
-        Route::post('/update/{id}', [TravelAllowanceController::class, 'update'])->name('update');
-        Route::post('/delete/{id}', [TravelAllowanceController::class, 'destroy'])->name('delete');
+        Route::put('/{id}', [TravelAllowanceController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TravelAllowanceController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('asset')->name('asset.')->group(function () {

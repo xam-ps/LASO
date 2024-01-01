@@ -4,8 +4,9 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Fahrt bearbeiten</h1>
-                    <form method="post" action="{{ route('travel-allowance.update', ['id'=>$travelAllowance->id]) }}"
+                    <form method="POST" action="{{ route('travel-allowance.update', ['id'=>$travelAllowance->id]) }}"
                         class="my-2">
+                        @method('PUT')
                         @csrf
                         <label for="travel_date">Datum:</label><br>
                         <input type="date" id="travel_date" name="travel_date"
@@ -63,8 +64,9 @@
                         </div>
                     </form>
 
-                    <form method="post" action="{{ route('travel-allowance.delete', ['id'=>$travelAllowance->id]) }}"
+                    <form method="POST" action="{{ route('travel-allowance.delete', ['id'=>$travelAllowance->id]) }}"
                         onsubmit="return confirmSubmit()">
+                        @method('DELETE')
                         @csrf
                         <x-delete-button class="mt-4 absolute right-10 bottom-8" />
                     </form>

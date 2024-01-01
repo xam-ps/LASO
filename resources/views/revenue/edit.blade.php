@@ -4,7 +4,8 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Einnahme bearbeiten</h1>
-                    <form method="post" action="{{ route('revenue.update', ['id'=>$revenue->id]) }}" class="my-2">
+                    <form method="POST" action="{{ route('revenue.update', ['id'=>$revenue->id]) }}" class="my-2">
+                        @method('PUT')
                         @csrf
                         <label for="billing_date">Rechnungsdatum:</label><br>
                         <input type="date" id="billing_date" name="billing_date"
@@ -57,8 +58,9 @@
 
                     </form>
 
-                    <form method="post" action="{{ route('revenue.delete', ['id'=>$revenue->id]) }}"
+                    <form method="POST" action="{{ route('revenue.delete', ['id'=>$revenue->id]) }}"
                         onsubmit="return confirmSubmit()">
+                        @method('DELETE')
                         @csrf
                         <x-delete-button class="mt-4 absolute right-10 bottom-8" />
                     </form>
