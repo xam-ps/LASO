@@ -38,6 +38,9 @@ class ExpenseController extends Controller
 
         $expense = new Expense();
         $this->fillValues($validatedData, $expense);
+        if ($expense->cost_type_id != 6) {
+            $expense->depreciation = null;
+        }
 
         try {
             $expense->save();
@@ -76,6 +79,9 @@ class ExpenseController extends Controller
 
         $expense = Expense::find($id);
         $this->fillValues($validatedData, $expense);
+        if ($expense->cost_type_id != 6) {
+            $expense->depreciation = null;
+        }
 
         try {
             $expense->save();
