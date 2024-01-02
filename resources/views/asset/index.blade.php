@@ -11,6 +11,7 @@
                                     <th>Zahlungsdatum:</th>
                                     <th>Produkt:</th>
                                     <th>Nutzungsdauer:</th>
+                                    <th>Einlagewert:</th>
                                     <th>1. Jahr:</th>
                                     <th>Regulär:</th>
                                     <th>Letztes Jahr:</th>
@@ -35,6 +36,9 @@
                                             style="width: {{ $expense->percUsed }}%">
                                         </div>
                                     </td>
+                                    <td class="currency">{{Number::currency($expense->net, in:
+                                        'EUR',
+                                        locale: 'de')}}</td>
                                     <td class="currency">{{Number::currency($expense->firstYear, in:
                                         'EUR',
                                         locale: 'de')}}</td>
