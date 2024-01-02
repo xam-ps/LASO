@@ -20,6 +20,10 @@
                             <p>Gesamt</p>
                             <span>{{Number::currency($total, in: 'EUR', locale: 'de')}}</span>
                         </div>
+                        <div>
+                            <p>KM</p>
+                            <span>{{$totalDistance}} km</span>
+                        </div>
                     </div>
                     <div class="table-wrapper">
                         <table>

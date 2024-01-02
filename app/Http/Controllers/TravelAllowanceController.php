@@ -27,6 +27,7 @@ class TravelAllowanceController extends Controller
         return view('travel-allowance.index', [
             'travel_allowances' => $travelAllowance,
             'total' => $travelAllowance->sum('refund'),
+            'totalDistance' => $travelAllowance->sum('distance'),
             'years' => $uniqueYears,
             'year' => $year,
         ]);

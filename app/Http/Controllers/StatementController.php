@@ -64,13 +64,14 @@ class StatementController extends Controller
         $expTaxObject = new Expense();
         $expTaxObject->total_net = $expTaxSum;
         $expTaxObject->full_name = 'Gezahlte Vorsteuer';
-        $expTaxObject->elster_id = 63;
+        $expTaxObject->elster_id = 55;
         $costsByCostType->push($expTaxObject);
 
         $expTravelObject = new Expense();
         $expTravelObject->total_net = $expTravel;
         $expTravelObject->full_name = 'Fahrtkosten';
-        $expTravelObject->elster_id = 84;
+        $expTravelObject->discription = 'Fahrtkosten für nicht zum Betriebsvermögen gehörende Fahrzeuge (Nutzungseinlage)';
+        $expTravelObject->elster_id = 68;
         $costsByCostType->push($expTravelObject);
 
         //sort costs by elster_id to use them in the statement view in the correct order
