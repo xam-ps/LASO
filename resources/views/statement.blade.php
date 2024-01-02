@@ -68,12 +68,12 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>125</td>
+                                <td>106</td>
                                 <td>Entnahmen</td>
                                 <td>- €</td>
                             </tr>
                             <tr>
-                                <td>126</td>
+                                <td>107</td>
                                 <td>Nutzung privat PKW</td>
                                 <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>

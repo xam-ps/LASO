@@ -12,7 +12,7 @@ class AssetController extends Controller
         $year = Carbon::now()->year;
 
         $expensesWithTypeAfa = Expense::whereHas('costType', function ($query) {
-            $query->where('elster_id', 31);
+            $query->where('id', 6);
         })->orderBy('payment_date', 'DESC')->get();
 
         foreach ($expensesWithTypeAfa as $expense) {
