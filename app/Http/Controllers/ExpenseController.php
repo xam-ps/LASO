@@ -107,6 +107,19 @@ class ExpenseController extends Controller
 
     private function validator(Request $request)
     {
+        $messages = [
+            'billing_date' => 'Bitte geben Sie ein gültiges Rechnungsdatum ein.',
+            'payment_date' => 'Bitte geben Sie ein gültiges Zahlungsdatum ein.',
+            'supplier_name' => 'Bitte geben Sie einen Lieferanten an.',
+            'product_name' => 'Bitte geben Sie einen Produktnamen an.',
+            'invoice_number' => 'Bitte geben Sie eine Rechnungsnummer an.',
+            'net' => 'Bitte geben Sie einen gültigen Netto-Betrag ein.',
+            'tax' => 'Bitte geben Sie einen gültigen Steuer-Betrag ein.',
+            'gross' => 'Bitte geben Sie einen gültigen Brutto-Betrag ein.',
+            'cost_type' => 'Bitte wählen Sie einen gültigen Kosten-Typ aus.',
+            'depreciation' => 'Bitte geben Sie eine gültige Abschreibungsdauer ein.',
+        ];
+
         $validatedData = $request->validate([
             'billing_date' => 'required|date',
             'payment_date' => 'nullable|date',
@@ -118,7 +131,7 @@ class ExpenseController extends Controller
             'gross' => 'required|decimal:0,2',
             'cost_type' => 'required|integer',
             'depreciation' => 'nullable|integer',
-        ]);
+        ], $messages);
 
         return $validatedData;
     }

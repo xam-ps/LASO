@@ -106,6 +106,18 @@ class TravelAllowanceController extends Controller
 
     private function validator(Request $request)
     {
+        $messages = [
+            //please use all fields from the validator to create custom messages in German
+            'travel_date' => 'Bitte geben Sie ein gültiges Reisedatum ein.',
+            'start' => 'Bitte geben Sie eine gültige Startzeit ein.',
+            'end' => 'Bitte geben Sie eine gültige Endzeit ein.',
+            'destination' => 'Bitte geben Sie ein Reiseziel an.',
+            'reason' => 'Bitte geben Sie einen Grund für die Reise an.',
+            'company_name' => 'Bitte geben Sie einen Kunden an.',
+            'distance' => 'Bitte geben Sie eine gültige Entfernung in km an.',
+            'refund' => 'Bitte geben Sie einen Erstattungsbetrag an.',
+        ];
+
         return $request->validate([
             'travel_date' => 'required|date',
             'start' => 'required|date_format:H:i',
@@ -116,7 +128,7 @@ class TravelAllowanceController extends Controller
             'distance' => 'required|integer',
             'notes' => 'nullable|string',
             'refund' => 'required|decimal:0,2',
-        ]);
+        ], $messages);
     }
 
     private function fillValues($validatedData, $travelAllowance)

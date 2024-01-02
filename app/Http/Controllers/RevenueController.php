@@ -88,6 +88,16 @@ class RevenueController extends Controller
 
     private function validator(Request $request)
     {
+        $messages = [
+            'billing_date' => 'Bitte geben Sie ein gültiges Rechnungsdatum ein.',
+            'payment_date' => 'Bitte geben Sie ein gültiges Zahlungsdatum ein.',
+            'company_name' => 'Bitte geben Sie einen Firmennamen an.',
+            'invoice_number' => 'Bitte geben Sie eine Rechnungsnummer an.',
+            'net' => 'Bitte geben Sie einen gültigen Netto-Betrag ein.',
+            'tax' => 'Bitte geben Sie einen gültigen Steuer-Betrag ein.',
+            'gross' => 'Bitte geben Sie einen gültigen Brutto-Betrag ein.',
+        ];
+
         return $request->validate([
             'billing_date' => 'required|date',
             'payment_date' => 'nullable|date',
@@ -96,7 +106,7 @@ class RevenueController extends Controller
             'net' => 'required|decimal:0,2',
             'tax' => 'required|decimal:0,2',
             'gross' => 'required|decimal:0,2',
-        ]);
+        ], $messages);
     }
 
     private function fillValues($validatedData, $revenue)
