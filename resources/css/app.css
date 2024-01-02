@@ -60,6 +60,10 @@ table {
     }
 }
 
+.alert {
+    @apply text-red-600;
+}
+
 #dashboard_page {
     .total_amounts {
         div {
