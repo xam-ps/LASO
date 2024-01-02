@@ -46,10 +46,15 @@ table {
 }
 
 #year_nav {
+    overflow: hidden;
+    overflow-x: scroll;
+    direction: rtl;
     ul {
         @apply flex;
         @apply flex-row;
-        @apply justify-center;
+        @apply justify-end;
+        @apply sm:justify-center;
+        direction: ltr;
         li {
             @apply mr-6;
 
