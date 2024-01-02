@@ -77,7 +77,7 @@ class CostTypeSeeder extends Seeder
                 'id' => 6,
                 'short_name' => 'AfA',
                 'full_name' => 'Absetzung für Abnutzung',
-                'elster_id' => 31,
+                'elster_id' => 32,
                 'color_code' => 'd8e4f2',
                 'description' => 'AfA auf bewegliche Wirtschaftsgüter (Übertrag aus Zeile 13 der Anlage AVEÜR)',
                 'ratio' => 1.0,
