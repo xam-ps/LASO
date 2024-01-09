@@ -19,7 +19,7 @@
         <div class="alert">{{ $message }}</div>
         @enderror
         <input type="date" id="payment_date" name="payment_date"
-            value="{{ old('payment_date', $revenue->billing_date ?? $now) }}"><br>
+            value="{{ old('payment_date', $revenue->payment_date ?? '') }}"><br>
 
         <label for="customers_name">Kunde:</label><br>
         @error('company_name')
