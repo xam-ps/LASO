@@ -30,7 +30,7 @@ class StatementController extends Controller
         //get all expenses for the year
         $costsByCostType = Expense::join('cost_types', 'expenses.cost_type_id', '=', 'cost_types.id')
             ->groupBy('cost_types.id')
-            ->select('cost_types.id', 'cost_types.elster_id', 'cost_types.full_name', DB::raw('SUM(expenses.net) * cost_types.ratio as total_net'), DB::raw('SUM(expenses.tax) * cost_types.ratio as total_tax'))
+            ->select('cost_types.id', 'cost_types.elster_id', 'cost_types.full_name', 'cost_types.description', DB::raw('SUM(expenses.net) * cost_types.ratio as total_net'), DB::raw('SUM(expenses.tax) * cost_types.ratio as total_tax'))
             ->whereYear('payment_date', $year)
             ->groupBy('cost_type_id')
             ->get();

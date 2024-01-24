@@ -45,7 +45,7 @@
                                 </td>
                             </tr>
                             @foreach ($costs as $cost)
-                            <tr>
+                            <tr title="{{$cost->description}}">
                                 <td>{{$cost->elster_id}}</td>
                                 <td>{{$cost->full_name}}</td>
                                 <td>

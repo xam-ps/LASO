@@ -115,7 +115,7 @@
             <h2>Kostentypen:</h2>
             <table>
                 @foreach ($cost_types as $cost_type)
-                <tr>
+                <tr title="{{$cost_type->description}}">
                     <td style="background: #{{$cost_type->color_code}}; width: 20px"></td>
                     <td>{{$cost_type->short_name}}</td>
                     <td>{{$cost_type->full_name}}</td>
