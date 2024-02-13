@@ -9,7 +9,7 @@ This was coded part time in a week while working a full time job. There is still
 [![Tests](https://github.com/xam-ps/LASO/actions/workflows/tests.yml/badge.svg)](https://github.com/xam-ps/LASO/actions/workflows/tests.yml)
 [![Xampit](https://img.shields.io/badge/powered_by-Xampit-2487b8.svg)](https://xampit.de/)
 
-Laravel annual statment online (a small online tool to do the annual statement in Germany for one person companies)
+Laravel annual statement online (a small online tool to do the annual statement in Germany for one person companies)
 
 LASO consists of multiple modules:
 
