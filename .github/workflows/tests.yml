@@ -4,10 +4,8 @@ on:
   push:
     branches:
       - main
-      - '*.x'
+      - "*.x"
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -38,11 +36,11 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, pdo_mysql
           coverage: none
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
