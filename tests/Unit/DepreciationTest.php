@@ -10,12 +10,12 @@ class DepreciationTest extends TestCase
 {
     public function test_depreciation_values(): void
     {
-        $expense = new Expense();
+        $expense = new Expense;
         $expense->payment_date = '2020-05-01';
         $expense->net = 600;
         $expense->depreciation = 10;
 
-        $expenseAssert = new Expense();
+        $expenseAssert = new Expense;
         $expenseAssert->payment_date = '2020-05-01';
         $expenseAssert->net = 600;
         $expenseAssert->depreciation = 10;
@@ -32,12 +32,12 @@ class DepreciationTest extends TestCase
 
     public function test_depreciation_values_first_year_full_last_year_none(): void
     {
-        $expense = new Expense();
+        $expense = new Expense;
         $expense->payment_date = '2020-01-01';
         $expense->net = 600;
         $expense->depreciation = 10;
 
-        $expenseAssert = new Expense();
+        $expenseAssert = new Expense;
         $expenseAssert->payment_date = '2020-01-01';
         $expenseAssert->net = 600;
         $expenseAssert->depreciation = 10;
@@ -55,12 +55,12 @@ class DepreciationTest extends TestCase
     //Create a test for AssetController::calcAfaForYear
     public function test_calc_afa_for_year(): void
     {
-        $expense = new Expense();
+        $expense = new Expense;
         $expense->payment_date = '2020-07-01';
         $expense->net = 600;
         $expense->depreciation = 10;
 
-        $expense2 = new Expense();
+        $expense2 = new Expense;
         $expense2->payment_date = '2023-05-01';
         $expense2->net = 360;
         $expense2->depreciation = 3;

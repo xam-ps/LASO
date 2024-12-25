@@ -52,7 +52,7 @@ class TravelAllowanceController extends Controller
     {
         $validatedData = $this->validator($request);
 
-        $travelAllowance = new TravelAllowance();
+        $travelAllowance = new TravelAllowance;
         $this->fillValues($validatedData, $travelAllowance);
 
         try {

@@ -17,7 +17,7 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         $net = $this->faker->randomFloat(2, 0, 600);
-        $tax = (int) $net * 0.19;
+        $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
         $gross = $net + $tax;
 
         return [
@@ -45,7 +45,7 @@ class ExpenseFactory extends Factory
             } else {
                 $depreciation = null;
             }
-            $tax = (int) $net * 0.19;
+            $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
             $gross = $net + $tax;
 
             $expense['cost_type_id'] = $TypeId;

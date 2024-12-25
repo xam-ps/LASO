@@ -29,7 +29,7 @@ class RevenueController extends Controller
     {
         $validatedData = $this->validator($request);
 
-        $revenue = new Revenue();
+        $revenue = new Revenue;
         $this->fillValues($validatedData, $revenue);
 
         try {

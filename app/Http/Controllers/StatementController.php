@@ -55,19 +55,19 @@ class StatementController extends Controller
         $expTravel = $travelAllowance->sum('refund');
 
         //add afa, tax and travel allowance to costs
-        $expAfaObject = new Expense();
+        $expAfaObject = new Expense;
         $expAfaObject->total_net = $afaSum;
         $expAfaObject->full_name = $costTypes->where('id', 6)->first()->full_name;
         $expAfaObject->elster_id = $costTypes->where('id', 6)->first()->elster_id;
         $costsByCostType->push($expAfaObject);
 
-        $expTaxObject = new Expense();
+        $expTaxObject = new Expense;
         $expTaxObject->total_net = $expTaxSum;
         $expTaxObject->full_name = 'Gezahlte Vorsteuer';
         $expTaxObject->elster_id = 55;
         $costsByCostType->push($expTaxObject);
 
-        $expTravelObject = new Expense();
+        $expTravelObject = new Expense;
         $expTravelObject->total_net = $expTravel;
         $expTravelObject->full_name = 'Fahrtkosten';
         $expTravelObject->discription = 'Fahrtkosten für nicht zum Betriebsvermögen gehörende Fahrzeuge (Nutzungseinlage)';

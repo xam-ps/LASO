@@ -17,7 +17,7 @@ class RevenueFactory extends Factory
     public function definition(): array
     {
         $net = $this->faker->randomFloat(2, 0, 3000);
-        $tax = (int) $net * 0.19;
+        $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
         $gross = $net + $tax;
 
         return [

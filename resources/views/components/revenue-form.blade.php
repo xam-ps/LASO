@@ -54,7 +54,7 @@
         <input id="tax" name="tax" type="number" value="{{ old('tax', $revenue->tax ?? '') }}" min="0" step="0.01"
             style="width: 148px">
         €
-        <input id="tax_rate" type="number" min="0" max="30" value="19" style="width: 78px"> %
+        <input id="tax_rate" type="number" min="0" max="30" value="{{ env('DEFAULT_TAX_RATE') }}" style="width: 78px"> %
         <br>
 
         <label for="gross">Brutto:</label><br>

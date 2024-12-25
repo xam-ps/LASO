@@ -36,7 +36,7 @@ class ExpenseController extends Controller
             return redirect()->back()->withInput()->withErrors(['depreciation' => 'The value for Abschreibungsdauer must be set for this cost type.']);
         }
 
-        $expense = new Expense();
+        $expense = new Expense;
         $this->fillValues($validatedData, $expense);
         if ($expense->cost_type_id != 6) {
             $expense->depreciation = null;
