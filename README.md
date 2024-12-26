@@ -29,21 +29,27 @@ For all Expenses, you can select an expense type, which will then be taken into 
 
 ### Travel allowance (Kilometergeld)
 
-Here you can add all journeys. Right now, for the first 20km 0.30€ are caluclated and 0.36€ from km 21.
+Here you can add all journeys. Right now, for the first 20km 0.30€ are calculated and 0.36€ from km 21.
 
-![laso-dashboard](assets/travel.png)
+![travel allowance](assets/travel.png)
 
 ### Annual statement (most important)
 
 This shows the annual statement, that is needed in Germany for the tax report. It's created automatically based on all the data in LASO. For retention, the statement has a nice print view, which allows to create a immutable pdf.
 
-![laso-dashboard](assets/statement.png)
+<p align="center">
+<img src="assets/statement_full.png" width="65%">
+</p>
 
 ### Inventory
 
 Here you can find an overview over all Expenses from cost type Afa (depreciations). The table shows the date of purchase, the depreciation time and the amount in the first and last year and in between.
 
-![laso-dashboard](assets/inventory.png)
+![inventory](assets/inventory.png)
+
+### Yep, there is a dark-mode as well
+
+![dark-mode](assets/dark-mode.png)
 
 ### Deployment (manually)
 
