@@ -14,7 +14,7 @@
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Umsatzsteuer {{$year}}</h1>
-                    <div class="total_amounts flex flex-row text-center">
+                    <div class="total_amounts flex flex-row text-center my-4">
                         <div>
                             <p>Steuereinnahmen Gesamt</p>
                             <span>{{Number::currency($totalRevenueTax, in: 'EUR', locale: 'de')}}</span>
