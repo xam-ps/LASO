@@ -27,6 +27,12 @@ This allows you to input all Revenues you had.
 
 For all Expenses, you can select an expense type, which will then be taken into account for the annual statement. Each expense has an cost type. Some cost types have a ratio, e. g. Internet can only be added 50 %, as it is also used personally. There is one special cost type (Afa), that is used for the depreciations. If this one is selected, you have to define the depreciation time in years. Those Expenses will then automatically be added to the Inventory and taken into account for the annual statement, until the Expenses are completely written off.
 
+### VAT Notice
+
+You can use LASO to track your VAT notices (Umsatzsteuervoranmeldung). As you can define the date yourself, you can either add one notice per month or per quarter.
+
+![vat-notice](assets/vat-notice.png)
+
 ### Travel allowance (Kilometergeld)
 
 Here you can add all journeys. Right now, for the first 20km 0.30€ are calculated and 0.36€ from km 21.
