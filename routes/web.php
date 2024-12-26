@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\StatementController;
 use App\Http\Controllers\TravelAllowanceController;
+use App\Http\Controllers\VatNoticeController;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -31,6 +32,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{id}', [ExpenseController::class, 'edit'])->name('edit');
         Route::put('/{id}', [ExpenseController::class, 'update'])->name('update');
         Route::delete('/{id}', [ExpenseController::class, 'destroy'])->name('delete');
+    });
+
+    Route::prefix('vat-notice')->name('vat-notice.')->group(function () {
+        Route::get('/', [VatNoticeController::class, 'index'])->name('index');
+        Route::get('/create', [VatNoticeController::class, 'create'])->name('create');
+        Route::get('/create/{year}', [VatNoticeController::class, 'create'])->name('createYear');
+        Route::get('/{year}', [VatNoticeController::class, 'index'])->name('year');
+        Route::post('/', [VatNoticeController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [VatNoticeController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [VatNoticeController::class, 'update'])->name('update');
+        Route::delete('/{id}', [VatNoticeController::class, 'destroy'])->name('delete');
     });
 
     Route::prefix('travel-allowance')->name('travel-allowance.')->group(function () {

@@ -16,13 +16,15 @@ class ExpenseFactory extends Factory
      */
     public function definition(): array
     {
-        $net = $this->faker->randomFloat(2, 0, 600);
+        $net = $this->faker->randomFloat(2, 50, 600);
         $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
         $gross = $net + $tax;
 
+        $billingDate = $this->faker->dateTimeThisYear();
+
         return [
-            'billing_date' => $this->faker->dateTimeThisYear(),
-            'payment_date' => $this->faker->dateTimeThisYear(),
+            'billing_date' => $billingDate,
+            'payment_date' => $this->getPaymentDateFromBillingDate($billingDate),
             'supplier_name' => $this->faker->company,
             'product_name' => $this->faker->sentence($nbWords = 3, $variableNbWords = true),
             'invoice_number' => $this->faker->randomNumber(),
@@ -51,7 +53,7 @@ class ExpenseFactory extends Factory
             $expense['cost_type_id'] = $TypeId;
             if ($yearsBack > 0) {
                 $expense['billing_date'] = $this->faker->dateTimeBetween('-'.$yearsBack.' years', '-'.$yearsBack.' years');
-                $expense['payment_date'] = $this->faker->dateTimeBetween('-'.$yearsBack.' years', '-'.$yearsBack.' years');
+                $expense['payment_date'] = $this->getPaymentDateFromBillingDate($expense['billing_date']);
             }
             $expense['net'] = $net;
             $expense['tax'] = $tax;
@@ -60,5 +62,13 @@ class ExpenseFactory extends Factory
 
             return $expense;
         });
+    }
+
+    private function getPaymentDateFromBillingDate($billingDate)
+    {
+        $maxPaymentDate = (clone $billingDate)->modify('+14 days');
+        $endOfYear = (clone $billingDate)->setDate($billingDate->format('Y'), 12, 31);
+
+        return $this->faker->dateTimeBetween($billingDate, min($maxPaymentDate, $endOfYear));
     }
 }

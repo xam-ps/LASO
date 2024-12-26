@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vatNotice', function (Blueprint $table) {
+        Schema::create('vat_notices', function (Blueprint $table) {
             $table->id();
             $table->date('notice_date');
-            $table->decimal('vat_collected', 10, 2);
-            $table->decimal('vat_payed', 10, 2);
+            $table->decimal('vat_received', 10, 2);
+            $table->decimal('vat_paid', 10, 2);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vatNotice');
+        Schema::dropIfExists('vat_notices');
     }
 };

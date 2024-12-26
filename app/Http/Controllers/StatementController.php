@@ -6,6 +6,7 @@ use App\Models\CostType;
 use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\TravelAllowance;
+use App\Models\VatNotice;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,27 @@ class StatementController extends Controller
         $revenues = Revenue::whereYear('payment_date', $year)->get();
         $revTaxSum = $revenues->sum('tax');
         $revNetSum = $revenues->sum('net');
-        $revTotal = $revNetSum + $revTaxSum;
+
+        //calculate vat payments
+        $vatNotices = VatNotice::whereYear('notice_date', $year)->get();
+        //This is the sum of all received payments from the financial office during the year (months where expenses are higher than revenues)
+        $receivedVatPayments = 0;
+        //This is the sum of all payments to the financial office during the year (months where revenues are higher than expenses)
+        $alreadyPaidVat = 0;
+        foreach ($vatNotices as $notice) {
+            //for each vat notice, we calculate the difference between received vat (from revenues) and paid vat (from expenses)
+            $noticeBalance = $notice->vat_received - $notice->vat_paid;
+            //if the difference is positive, it means we already had to pay the vat to the financial office, so we add it to the alreadyPaidVat
+            if ($noticeBalance > 0) {
+                $alreadyPaidVat += $noticeBalance;
+                //if the difference is negative, it means we received money from the financial office, so we add it to the receivedVatPayments
+            } else {
+                $receivedVatPayments += -1 * $noticeBalance;
+            }
+        }
+        $revTotal = $revNetSum + $revTaxSum + $receivedVatPayments;
+
+        //--------------------------------------------------------------------------------------------------------------
 
         //get all travel allowances for the year
         $travelAllowance = TravelAllowance::whereYear('travel_date', $year)->get();
@@ -74,6 +95,21 @@ class StatementController extends Controller
         $expTravelObject->elster_id = 68;
         $costsByCostType->push($expTravelObject);
 
+        $payedVat = $costsByCostType->first(function ($item) {
+            return $item->elster_id == 64;
+        });
+        if ($payedVat == null) {
+            $vatCostType = CostType::where('elster_id', 64)->first();
+            $payedVat = new Expense;
+            $payedVat->total_net = $alreadyPaidVat;
+            $payedVat->full_name = $vatCostType->full_name;
+            $payedVat->description = $vatCostType->description;
+            $payedVat->elster_id = $vatCostType->elster_id;
+            $costsByCostType->push($payedVat);
+        } else {
+            $payedVat['total_net'] += $alreadyPaidVat;
+        }
+
         //sort costs by elster_id to use them in the statement view in the correct order
         $costsByCostType = $costsByCostType->sortBy('elster_id');
 
@@ -83,9 +119,11 @@ class StatementController extends Controller
         return view('statement', [
             'revNetSum' => $revNetSum,
             'revTaxSum' => $revTaxSum,
+            'receivedVatPayments' => $receivedVatPayments,
             'revTotal' => $revTotal,
 
             'costs' => $costsByCostType,
+            'alreadyPaidVat' => $alreadyPaidVat,
             'travelAllowanceTotal' => $expTravel,
             'expTotal' => $expTotal,
 

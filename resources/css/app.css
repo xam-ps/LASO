@@ -96,6 +96,21 @@ table {
     }
 }
 
+#vat-notice_page {
+    .total_amounts {
+        div {
+            @apply mx-auto;
+
+            p {
+                @apply text-2xl;
+            }
+            span {
+                @apply text-xl;
+            }
+        }
+    }
+}
+
 #travel-allowance_page {
     .total_amounts {
         div {
@@ -137,6 +152,8 @@ table {
 #edit_revenue_page,
 #create_expense_page,
 #edit_expense_page,
+#create_vat-notice_page,
+#edit_vat-notice_page,
 #create_travel-allowance_page,
 #edit_travel-allowance_page {
     form {

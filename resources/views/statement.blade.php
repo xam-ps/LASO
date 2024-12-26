@@ -37,7 +37,7 @@
                             <tr>
                                 <td>17</td>
                                 <td>Rückerstattung Ust</td>
-                                <td> - </td>
+                                <td>{{Number::currency($receivedVatPayments, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr class="font-bold">
                                 <td></td>
