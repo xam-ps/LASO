@@ -15,6 +15,9 @@
                     <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('vat-notice.index')" :active="request()->routeIs('vat-notice.index')">
+                        {{ __('Umsatzsteuervoranmeldung') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('travel-allowance.index')"
                         :active="request()->routeIs('travel-allowance.index')">
                         {{ __('Fahrtkosten') }}
