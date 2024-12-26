@@ -95,14 +95,23 @@ class StatementController extends Controller
         $expTravelObject->elster_id = 68;
         $costsByCostType->push($expTravelObject);
 
-        //sort costs by elster_id to use them in the statement view in the correct order
-        $costsByCostType = $costsByCostType->sortBy('elster_id');
-
         $payedVat = $costsByCostType->first(function ($item) {
             return $item->elster_id == 64;
         });
+        if ($payedVat == null) {
+            $vatCostType = CostType::where('elster_id', 64)->first();
+            $payedVat = new Expense;
+            $payedVat->total_net = $alreadyPaidVat;
+            $payedVat->full_name = $vatCostType->full_name;
+            $payedVat->description = $vatCostType->description;
+            $payedVat->elster_id = $vatCostType->elster_id;
+            $costsByCostType->push($payedVat);
+        } else {
+            $payedVat['total_net'] += $alreadyPaidVat;
+        }
 
-        $payedVat['total_net'] += $alreadyPaidVat;
+        //sort costs by elster_id to use them in the statement view in the correct order
+        $costsByCostType = $costsByCostType->sortBy('elster_id');
 
         //sum of all expenses, including afa of current year
         $expTotal = $costsByCostType->sum('total_net');

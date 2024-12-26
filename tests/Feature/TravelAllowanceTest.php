@@ -14,7 +14,7 @@ class TravelAllowanceTest extends TestCase
      */
     public function test_travel_allowance_page(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
         $travel = TravelAllowance::factory()->create();
 
         $assetPage = $this->actingAs($user)
@@ -28,7 +28,7 @@ class TravelAllowanceTest extends TestCase
 
     public function test_travel_allowance_sum_is_correct(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->createOne();
         $travel1 = TravelAllowance::factory()->create();
         $travel2 = TravelAllowance::factory()->create();
         $travelSum = $travel1->refund + $travel2->refund;
