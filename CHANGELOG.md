@@ -1,6 +1,31 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v10.2.9...10.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v0.6.0...main)
+
+## [v0.6.0](https://github.com/laravel/laravel/compare/v10.2.9...v0.6.0) - 2024-12-28
+
+### Full list of changes
+
+- Add [module ](https://github.com/xam-ps/LASO?tab=readme-ov-file#vat-notice) to track vat payments to/from the financial office during the year
+- Extract tax rate to .env file to make LASO more flexible also for other countries
+- Update Readme
+
+### Upgrade instruction
+
+⚠️You need to add a `DEFAULT_TAX_RATE` property to the `.env` file, e.g. `DEFAULT_TAX_RATE=19` for 19%. Have a look at the `.env.example` file and place the property at the same location if possible.
+
+After pulling the latest codebase please run
+`composer install --no-dev`
+`php artisan migrate` (for the vat notice a new table is necessary)
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm install`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
 
 ## [v10.2.9](https://github.com/laravel/laravel/compare/v10.2.8...v10.2.9) - 2023-11-13
 
