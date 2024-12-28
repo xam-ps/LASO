@@ -62,6 +62,7 @@ Here you can find an overview over all Expenses from cost type Afa (depreciation
 1. Move relevant files to prod environment (or use git clone)
     - app, bootstrap, config, database, lang, public, resources, routes, storage
     - .env.example, artisan, composer.json, composer.lock
+1. Copy `.env.example` to `.env` and fill in application configuration
 1. Run `composer install --optimize-autoloader --no-dev`
 1. Run `php artisan migrate --seed` <- seeder is needed to fill cost types table and create the initial user
 1. Run `php artisan key:generate`
