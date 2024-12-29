@@ -21,11 +21,11 @@
         <input type="date" id="payment_date" name="payment_date"
             value="{{ old('payment_date', $revenue->payment_date ?? '') }}"><br>
 
-        <label for="customers_name">Kunde:</label><br>
+        <label for="company_name">Kunde:</label><br>
         @error('company_name')
         <div class="alert">{{ $message }}</div>
         @enderror
-        <input id="customers_name" name="company_name" list="customers"
+        <input id="company_name" name="company_name" list="customers"
             value="{{ old('company_name', $revenue->company_name ?? '') }}"><br>
         <datalist id="customers">
             @foreach ($customer_list as $customer)

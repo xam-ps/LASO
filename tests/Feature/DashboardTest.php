@@ -75,6 +75,34 @@ class DashboardTest extends TestCase
         $exp2->delete();
     }
 
+    public function test_revenue_is_shown_on_dashboard(): void
+    {
+        $user = User::factory()->createOne();
+        $rev = Revenue::factory()->createOne();
+
+        $dashboardPage = $this->actingAs($user)
+            ->get('/');
+
+        $dashboardPage->assertSee($rev->company_name);
+        $dashboardPage->assertStatus(200);
+
+        $rev->delete();
+    }
+
+    public function test_expense_is_shown_on_dashboard(): void
+    {
+        $user = User::factory()->createOne();
+        $exp = Expense::factory()->createOne();
+
+        $dashboardPage = $this->actingAs($user)
+            ->get('/');
+
+        $dashboardPage->assertSee($exp->product_name);
+        $dashboardPage->assertStatus(200);
+
+        $exp->delete();
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -27,7 +27,7 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertStatus(200);
     }
 
-    public function test_vat_notice_page_calc_total_tax(): void
+    public function test_vat_notice_page_calcs_total_tax(): void
     {
         $user = User::factory()->createOne();
         $rev1 = Revenue::factory()->create();
@@ -50,7 +50,7 @@ class VatNoticeTest extends TestCase
         $exp2->delete();
     }
 
-    public function test_vat_notice_page_calc_remaining_tax(): void
+    public function test_vat_notice_page_calcs_remaining_tax(): void
     {
         $user = User::factory()->createOne();
         $rev1 = Revenue::factory()->create();
@@ -105,5 +105,22 @@ class VatNoticeTest extends TestCase
             'Meldedatum',
         ]);
         $vatNoticePage->assertStatus(200);
+    }
+
+    public function test_deleting_vat_notice_is_working(): void
+    {
+        $user = User::factory()->createOne();
+        $vatNotice = VatNotice::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->delete('/vat-notice/'.$vatNotice->id);
+
+        $this->assertDatabaseMissing('vat_notices', [
+            'id' => $vatNotice->id,
+        ]);
+        $response->assertRedirect('/vat-notice');
+
+        $user->delete();
+        $vatNotice->delete();
     }
 }

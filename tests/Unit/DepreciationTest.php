@@ -52,7 +52,6 @@ class DepreciationTest extends TestCase
         $this->assertEquals($expenseAssert, $expense);
     }
 
-    //Create a test for AssetController::calcAfaForYear
     public function test_calc_afa_for_year(): void
     {
         $expense = new Expense;

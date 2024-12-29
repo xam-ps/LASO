@@ -12,7 +12,6 @@ class AssetsTest extends TestCase
     public function test_asset_page_shows_assets(): void
     {
         $user = User::factory()->create();
-
         $exp1 = Expense::factory()->specificTypeYearsBack(6, 0)->create();
 
         $assetPage = $this->actingAs($user)
@@ -22,6 +21,7 @@ class AssetsTest extends TestCase
         $assetPage->assertStatus(200);
 
         $exp1->delete();
+        $user->delete();
     }
 
     protected function setUp(): void
