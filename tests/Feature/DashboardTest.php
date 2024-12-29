@@ -25,7 +25,6 @@ class DashboardTest extends TestCase
         $user = User::factory()->create();
 
         $dashboardPage = $this->actingAs($user)
-            ->withSession(['banned' => false])
             ->get('/2019');
         $dashboardPage->assertSee('Einnahmen 2019');
         $dashboardPage->assertSee('Ausgaben 2019');
