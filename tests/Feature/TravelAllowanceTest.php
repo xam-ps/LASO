@@ -9,9 +9,6 @@ use Tests\TestCase;
 
 class TravelAllowanceTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_travel_allowance_page(): void
     {
         $user = User::factory()->createOne();
@@ -41,5 +38,16 @@ class TravelAllowanceTest extends TestCase
 
         $travel1->delete();
         $travel2->delete();
+    }
+
+    public function test_create_travel_allowance_page(): void
+    {
+        $user = User::factory()->createOne();
+
+        $createTravelAllowancePage = $this->actingAs($user)
+            ->get('/travel-allowance/create');
+
+        $createTravelAllowancePage->assertSee('Neue Fahrt anlegen');
+        $createTravelAllowancePage->assertStatus(200);
     }
 }

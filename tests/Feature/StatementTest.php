@@ -8,9 +8,6 @@ use Tests\TestCase;
 
 class StatementTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_statement_page_is_loaded(): void
     {
         $user = User::factory()->create();

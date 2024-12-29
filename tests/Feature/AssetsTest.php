@@ -9,9 +9,6 @@ use Tests\TestCase;
 
 class AssetsTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_asset_page_shows_assets(): void
     {
         $user = User::factory()->create();

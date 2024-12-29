@@ -7,6 +7,7 @@ This was coded part time in a week while working a full time job. There is still
 # LASO
 
 [![Tests](https://github.com/xam-ps/LASO/actions/workflows/tests.yml/badge.svg)](https://github.com/xam-ps/LASO/actions/workflows/tests.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/xam-ps/LASO)](https://github.com/xam-ps/LASO/releases/latest)
 [![Xampit](https://img.shields.io/badge/powered_by-Xampit-2487b8.svg)](https://xampit.de/)
 
 Laravel annual statement online (a small online tool to do the annual statement in Germany for one person companies)

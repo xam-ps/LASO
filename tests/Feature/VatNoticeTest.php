@@ -93,4 +93,17 @@ class VatNoticeTest extends TestCase
 
         $vatNotice->delete();
     }
+
+    public function test_create_vat_notice_page_is_loaded(): void
+    {
+        $user = User::factory()->create();
+
+        $vatNoticePage = $this->actingAs($user)
+            ->get('/vat-notice/create');
+
+        $vatNoticePage->assertSeeInOrder([
+            'Meldedatum',
+        ]);
+        $vatNoticePage->assertStatus(200);
+    }
 }

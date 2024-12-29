@@ -13,9 +13,6 @@ use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
     public function test_a_guest_user_should_get_redirected_to_login(): void
     {
         $response = $this->get('/');
