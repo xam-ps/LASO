@@ -34,9 +34,10 @@ class RevenueTest extends TestCase
         $revenue->billing_date = '2021-01-01';
         $revenue->payment_date = '2021-01-01';
         $revenue->invoice_number = '12345678';
+        $formData = $revenue->toArray();
 
         $response = $this->actingAs($user)
-            ->post('/revenue', $revenue->toArray());
+            ->post('/revenue', $formData);
 
         $this->assertDatabaseHas('revenues', [
             'company_name' => $revenue->company_name,
