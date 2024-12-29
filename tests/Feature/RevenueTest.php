@@ -64,20 +64,20 @@ class RevenueTest extends TestCase
         $user->delete();
     }
 
-    // public function test_deleting_revenue_is_working(): void
-    // {
-    //     $user = User::factory()->createOne();
-    //     $revenue = Revenue::factory()->create();
+    public function test_deleting_revenue_is_working(): void
+    {
+        $user = User::factory()->createOne();
+        $revenue = Revenue::factory()->create();
 
-    //     $response = $this->actingAs($user)
-    //         ->delete('/revenue/'.$revenue->id);
+        $response = $this->actingAs($user)
+            ->delete('/revenue/'.$revenue->id);
 
-    //     $this->assertDatabaseMissing('revenues', [
-    //         'id' => $revenue->id,
-    //     ]);
-    //     $response->assertRedirect('/');
+        $this->assertDatabaseMissing('revenues', [
+            'id' => $revenue->id,
+        ]);
+        $response->assertRedirect('/');
 
-    //     $user->delete();
-    //     $revenue->delete();
-    // }
+        $user->delete();
+        $revenue->delete();
+    }
 }

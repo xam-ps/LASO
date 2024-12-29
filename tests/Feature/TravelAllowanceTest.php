@@ -70,20 +70,20 @@ class TravelAllowanceTest extends TestCase
         $user->delete();
     }
 
-    // public function test_deleting_travel_allowance_is_working(): void
-    // {
-    //     $user = User::factory()->createOne();
-    //     $travel = TravelAllowance::factory()->create();
+    public function test_deleting_travel_allowance_is_working(): void
+    {
+        $user = User::factory()->createOne();
+        $travel = TravelAllowance::factory()->create();
 
-    //     $response = $this->actingAs($user)
-    //         ->delete('/travel-allowance/'.$travel->id);
+        $response = $this->actingAs($user)
+            ->delete('/travel-allowance/'.$travel->id);
 
-    //     $this->assertDatabaseMissing('travel_allowances', [
-    //         'id' => $travel->id,
-    //     ]);
-    //     $response->assertRedirect('/travel-allowance');
+        $this->assertDatabaseMissing('travel_allowances', [
+            'id' => $travel->id,
+        ]);
+        $response->assertRedirect('/travel-allowance');
 
-    //     $user->delete();
-    //     $travel->delete();
-    // }
+        $user->delete();
+        $travel->delete();
+    }
 }
