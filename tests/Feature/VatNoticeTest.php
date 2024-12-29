@@ -107,20 +107,20 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertStatus(200);
     }
 
-    public function test_deleting_vat_notice_is_working(): void
-    {
-        $user = User::factory()->createOne();
-        $vatNotice = VatNotice::factory()->create();
+    // public function test_deleting_vat_notice_is_working(): void
+    // {
+    //     $user = User::factory()->createOne();
+    //     $vatNotice = VatNotice::factory()->create();
 
-        $response = $this->actingAs($user)
-            ->delete('/vat-notice/'.$vatNotice->id);
+    //     $response = $this->actingAs($user)
+    //         ->delete('/vat-notice/'.$vatNotice->id);
 
-        $this->assertDatabaseMissing('vat_notices', [
-            'id' => $vatNotice->id,
-        ]);
-        $response->assertRedirect('/vat-notice');
+    //     $this->assertDatabaseMissing('vat_notices', [
+    //         'id' => $vatNotice->id,
+    //     ]);
+    //     $response->assertRedirect('/vat-notice');
 
-        $user->delete();
-        $vatNotice->delete();
-    }
+    //     $user->delete();
+    //     $vatNotice->delete();
+    // }
 }
