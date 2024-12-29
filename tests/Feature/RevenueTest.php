@@ -27,25 +27,25 @@ class RevenueTest extends TestCase
         $revenuePage->assertStatus(200);
     }
 
-    // public function test_store_revenue_is_working(): void
-    // {
-    //     $user = User::factory()->create();
-    //     $revenue = Revenue::factory()->makeOne();
-    //     $revenue->billing_date = '2021-01-01';
-    //     $revenue->payment_date = '2021-01-01';
-    //     $revenue->invoice_number = '12345678';
+    public function test_store_revenue_is_working(): void
+    {
+        $user = User::factory()->create();
+        $revenue = Revenue::factory()->makeOne();
+        $revenue->billing_date = '2021-01-01';
+        $revenue->payment_date = '2021-01-01';
+        $revenue->invoice_number = '12345678';
 
-    //     $response = $this->actingAs($user)
-    //         ->post('/revenue', $revenue->toArray());
+        $response = $this->actingAs($user)
+            ->post('/revenue', $revenue->toArray());
 
-    //     $this->assertDatabaseHas('revenues', [
-    //         'company_name' => $revenue->company_name,
-    //     ]);
-    //     $response->assertRedirect('/');
+        $this->assertDatabaseHas('revenues', [
+            'company_name' => $revenue->company_name,
+        ]);
+        $response->assertRedirect('/');
 
-    //     $user->delete();
-    //     $revenue->delete();
-    // }
+        $user->delete();
+        $revenue->delete();
+    }
 
     public function test_edit_revenue_page_is_loaded(): void
     {
