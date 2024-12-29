@@ -38,10 +38,10 @@ class RevenueTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/revenue', $revenue->toArray());
 
-        $response->assertRedirect('/');
         $this->assertDatabaseHas('revenues', [
             'company_name' => $revenue->company_name,
         ]);
+        $response->assertRedirect('/');
 
         $user->delete();
         $revenue->delete();

@@ -43,10 +43,10 @@ class ExpenseTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/expense', $formData);
 
-        $response->assertRedirect('/');
         $this->assertDatabaseHas('expenses', [
             'supplier_name' => $expense->supplier_name,
         ]);
+        $response->assertRedirect('/');
 
         $user->delete();
         $expense->delete();
