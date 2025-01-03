@@ -1,6 +1,30 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v0.6.0...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v0.6.1...main)
+
+## [v0.6.1](https://github.com/laravel/laravel/compare/v0.6.0...v0.6.1) - 2025-01-03
+
+### Full list of changes
+
+- Smaller UI fixes
+- Update version number in composer.json
+
+### Upgrade instruction (only when you are upgrading from v0.5.x or older)
+
+⚠️You need to add a `DEFAULT_TAX_RATE` property to the `.env` file, e.g. `DEFAULT_TAX_RATE=19` for 19%. Have a look at the `.env.example` file and place the property at the same location if possible.
+
+After pulling the latest codebase please run
+`composer install --no-dev`
+`php artisan migrate` (for the vat notice a new table is necessary)
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm install`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
 
 ## [v0.6.0](https://github.com/laravel/laravel/compare/v10.2.9...v0.6.0) - 2024-12-28
 
