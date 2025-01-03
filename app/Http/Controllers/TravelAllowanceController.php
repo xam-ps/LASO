@@ -24,6 +24,10 @@ class TravelAllowanceController extends Controller
             ->pluck('year')
             ->filter();
 
+        if (! $uniqueYears->contains($year)) {
+            $uniqueYears->push($year);
+        }
+
         return view('travel-allowance.index', [
             'travel_allowances' => $travelAllowance,
             'total' => $travelAllowance->sum('refund'),

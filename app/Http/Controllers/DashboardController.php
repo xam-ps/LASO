@@ -26,12 +26,12 @@ class DashboardController extends Controller
             'expNetSum' => $expenses->sum('net'),
             'expTaxSum' => $expenses->sum('tax'),
             'expGrossSum' => $expenses->sum('gross'),
-            'years' => $this->getYearList(),
+            'years' => $this->getYearList($year),
             'year' => $year,
         ]);
     }
 
-    private function getYearList()
+    private function getYearList($currentYear)
     {
         $uniqueYears = Revenue::select(DB::raw('YEAR(billing_date) as year'))
             ->union(Revenue::select(DB::raw('YEAR(payment_date) as year')))
@@ -41,6 +41,10 @@ class DashboardController extends Controller
             ->orderBy('year')
             ->pluck('year')
             ->filter();
+
+        if (! $uniqueYears->contains($currentYear)) {
+            $uniqueYears->push($currentYear);
+        }
 
         return $uniqueYears;
     }

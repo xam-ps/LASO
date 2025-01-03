@@ -23,6 +23,9 @@ class VatNoticeController extends Controller
             ->orderBy('year')
             ->pluck('year')
             ->filter();
+        if (! $uniqueYears->contains($year)) {
+            $uniqueYears->push($year);
+        }
 
         $totalRevenueTax = Revenue::whereYear('payment_date', $year)->sum('tax');
         $totalExpenseTax = round(Expense::join('cost_types', 'expenses.cost_type_id', '=', 'cost_types.id')

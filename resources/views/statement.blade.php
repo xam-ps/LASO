@@ -25,12 +25,12 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>14</td>
+                                <td>15</td>
                                 <td>Einnahmen Netto</td>
                                 <td>{{Number::currency($revNetSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr>
-                                <td>16</td>
+                                <td>17</td>
                                 <td>Einnahmen Ust</td>
                                 <td>{{Number::currency($revTaxSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>

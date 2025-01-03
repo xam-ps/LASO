@@ -130,11 +130,11 @@ class StatementController extends Controller
             'profit' => $revTotal - $expTotal,
 
             'year' => $year,
-            'years' => $this->getYearList(),
+            'years' => $this->getYearList($year),
         ]);
     }
 
-    private function getYearList()
+    private function getYearList($currentYear)
     {
         $uniqueYears = Revenue::select(DB::raw('YEAR(billing_date) as year'))
             ->union(Revenue::select(DB::raw('YEAR(payment_date) as year')))
@@ -142,6 +142,10 @@ class StatementController extends Controller
             ->orderBy('year')
             ->pluck('year')
             ->filter();
+
+        if (! $uniqueYears->contains($currentYear)) {
+            $uniqueYears->push($currentYear);
+        }
 
         return $uniqueYears;
     }
