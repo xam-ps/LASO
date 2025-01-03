@@ -1,6 +1,6 @@
 @props(['year', 'years', 'location'])
 
-<div id="year_nav" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+<div id="year_nav" class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight py-3 md:py-4">
     <ul>
         @foreach ($years as $yearN)
         <li><a @class(['active'=> $year == $yearN]) href="{{ route($location.'.year', ['year' => $yearN])
