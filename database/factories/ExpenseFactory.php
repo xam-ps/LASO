@@ -20,7 +20,7 @@ class ExpenseFactory extends Factory
         $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
         $gross = $net + $tax;
 
-        $billingDate = $this->faker->dateTimeThisYear();
+        $billingDate = $this->faker->dateTimeBetween('first day of January this year', 'last day of December this year');
 
         return [
             'billing_date' => $billingDate,

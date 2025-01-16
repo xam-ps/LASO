@@ -15,6 +15,7 @@
                                     <th>1. Jahr:</th>
                                     <th>Regulär:</th>
                                     <th>Letztes Jahr:</th>
+                                    <th>Restwert:</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +47,9 @@
                                         'EUR',
                                         locale: 'de')}}</td>
                                     <td class="currency">{{Number::currency($expense->lastYear, in: 'EUR',
+                                        locale:
+                                        'de')}}</td>
+                                    <td class="currency">{{Number::currency($expense->residualValue, in: 'EUR',
                                         locale:
                                         'de')}}</td>
                                 </tr>
