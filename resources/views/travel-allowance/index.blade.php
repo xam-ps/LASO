@@ -5,7 +5,7 @@
     <div id="travel-allowance_page" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div id="travel-allowences"
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+                class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="flex justify-end mt-4 absolute right-4">
                     <a href="{{ route('travel-allowance.create') }}">
                         <x-primary-button>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="table-wrapper">
-                        <table>
+                        <table class="editable">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -44,8 +44,8 @@
                             <tbody>
                                 @foreach ($travel_allowances as $travel_allowance)
                                 <tr>
-                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                                        <a class="p-2 block h-auto"
+                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-xs hover:text-slate-100">
+                                        <a class="block h-auto"
                                             href="{{ route('travel-allowance.edit', ['id' => $travel_allowance->id]) }}">
                                             &#9998;
                                         </a>

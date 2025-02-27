@@ -1,7 +1,7 @@
 @props(['revenues', 'revNetSum', 'revTaxSum', 'revGrossSum', 'year'])
 
 <div class="max-w-max mx-auto sm:px-6 lg:px-8">
-    <div id="revenues" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+    <div id="revenues" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
         <div class="flex justify-end mt-4 absolute right-4">
             <a href="{{ route('revenue.create') }}">
                 <x-primary-button>
@@ -25,8 +25,8 @@
                     <span>{{Number::currency($revGrossSum, in: 'EUR', locale: 'de')}}</span>
                 </div>
             </div>
-            <div class="table-wrapper">
-                <table>
+            <div class="table-wrapper line-">
+                <table class="editable">
                     <thead>
                         <tr>
                             <th></th>
@@ -42,8 +42,8 @@
                     <tbody>
                         @foreach ($revenues as $revenue)
                         <tr>
-                            <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                                <a class="p-2 block" href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
+                            <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-xs hover:text-slate-100">
+                                <a class="block" href="{{ route('revenue.edit', ['id' => $revenue->id]) }}">
                                     &#9998;
                                 </a>
                             </td>

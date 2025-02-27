@@ -4,7 +4,7 @@
     </x-slot>
     <div id="vat-notice_page" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div id="vat-notices" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+            <div id="vat-notices" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="flex justify-end mt-4 absolute right-4">
                     <a href="{{ route('vat-notice.createYear', ['year' => $year]) }}">
                         <x-primary-button>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="table-wrapper">
-                        <table>
+                        <table class="editable">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -47,8 +47,8 @@
                             <tbody>
                                 @foreach ($vat_notices as $vat_notice)
                                 <tr>
-                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-sm hover:text-slate-100">
-                                        <a class="p-2 block h-auto"
+                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-xs hover:text-slate-100">
+                                        <a class="block h-auto"
                                             href="{{ route('vat-notice.edit', ['id' => $vat_notice->id]) }}">
                                             &#9998;
                                         </a>

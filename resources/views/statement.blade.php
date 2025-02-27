@@ -5,7 +5,7 @@
 
     <div id="statement_page" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 print:max-w-fit">
-            <div id="revenue" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+            <div id="revenue" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="flex justify-end mt-4 absolute right-6 text-4xl print:hidden" onclick="window.print()">
                     <button class="text-gray-700 dark:text-gray-300 fill-current stroke-current w-8 h-8">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

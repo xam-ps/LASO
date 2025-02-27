@@ -1,7 +1,7 @@
 <x-app-layout>
     <div id="assets_page" class="py-12">
         <div class="max-w-max mx-auto sm:px-6 lg:px-8 mt-4">
-            <div id="assets" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+            <div id="assets" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Anlagenverzeichnis</h1>
                     <div class="table-wrapper">

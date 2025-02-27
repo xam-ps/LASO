@@ -109,7 +109,7 @@
     </form>
 
     <div id="costTypeOverlay"
-        class="hidden fixed top-0 left-0 w-screen h-screen bg-white dark:bg-gray-900 bg-opacity-80 dark:bg-opacity-80 p-8 text-center flex items-center dark:text-white">
+        class="hidden fixed top-0 left-0 w-screen h-screen bg-white/80 dark:bg-gray-900/80 p-8 text-center flex items-center dark:text-white">
         <div class="mx-auto w-full md:w-1/3 bg-white dark:bg-gray-800 border-gray-200 border p-8 relative">
             <p class="cursor-pointer text-lg absolute top-2 right-5 trans">✕</p>
             <h2>Kostentypen:</h2>
