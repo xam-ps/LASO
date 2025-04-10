@@ -4,7 +4,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Ausgabe bearbeiten</h1>
-                    <x-expense-form :$cost_types :$supplier_list :$expense />
+                    <x-expense-form :$cost_types :$supplier_list :$expense :$now />
                     <form method="POST" action="{{ route('expense.delete', ['id'=>$expense->id]) }}"
                         onsubmit="return confirmSubmit()">
                         @method('DELETE')
