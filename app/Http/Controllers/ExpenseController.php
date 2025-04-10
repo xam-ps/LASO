@@ -60,10 +60,10 @@ class ExpenseController extends Controller
     public function edit($id)
     {
         $company_names = DB::table('expenses')->select('supplier_name')->distinct()->pluck('supplier_name');
-
         $cost_types = CostType::all();
+        $now = Carbon::now()->toDateString();
 
-        return view('expense.edit', ['expense' => Expense::find($id), 'supplier_list' => $company_names, 'cost_types' => $cost_types]);
+        return view('expense.edit', ['expense' => Expense::find($id), 'supplier_list' => $company_names, 'cost_types' => $cost_types, 'now' => $now]);
     }
 
     /**
