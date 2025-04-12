@@ -41,9 +41,13 @@ class VatNoticeController extends Controller
         $remainingRevenueTax = $totalRevenueTax - $totalReportedRevenueTax;
         $remainingExpenseTax = $totalExpenseTax - $totalReportedExpenseTax;
 
+        $remainingNetRevenue = round($remainingRevenueTax * 100 / 19, 0);
+        $remainingRevenueTax = $remainingNetRevenue * 19 / 100;
+
         return view('vat-notice.index', [
             'totalRevenueTax' => $totalRevenueTax,
             'totalExpenseTax' => $totalExpenseTax,
+            'remainingNetRevenue' => $remainingNetRevenue,
             'remainingRevenueTax' => $remainingRevenueTax,
             'remainingExpenseTax' => $remainingExpenseTax,
             'vat_notices' => $vatNotices,
@@ -73,6 +77,8 @@ class VatNoticeController extends Controller
 
         $remainingRevenueTax = $totalRevenueTax - $totalReportedRevenueTax;
         $remainingExpenseTax = $totalExpenseTax - $totalReportedExpenseTax;
+
+        $remainingRevenueTax = round($remainingRevenueTax * 100 / 19, 0) * 19 / 100;
 
         return view('vat-notice.create', ['now' => $now, 'remainingRevenueTax' => $remainingRevenueTax, 'remainingExpenseTax' => $remainingExpenseTax, 'year' => $year]);
     }

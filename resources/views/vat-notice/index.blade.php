@@ -16,8 +16,8 @@
                     <h1>Umsatzsteuer {{$year}}</h1>
                     <div class="total_amounts flex flex-row text-center my-4">
                         <div>
-                            <p>Steuereinnahmen Gesamt</p>
-                            <span>{{Number::currency($totalRevenueTax, in: 'EUR', locale: 'de')}}</span>
+                            <p>Zu meldende steuerpflichtige Umsätze</p>
+                            <span>{{Number::currency($remainingNetRevenue, in: 'EUR', locale: 'de')}}</span>
                         </div>
                         <div>
                             <p>Gezahlte Steuern Gesamt</p>
