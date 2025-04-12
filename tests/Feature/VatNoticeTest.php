@@ -19,7 +19,7 @@ class VatNoticeTest extends TestCase
             ->get('/vat-notice');
 
         $vatNoticePage->assertSeeInOrder([
-            'Steuereinnahmen Gesamt',
+            'Zu meldende steuerpflichtige Umsätze',
             'Gezahlte Steuern Gesamt',
             'Zu meldende Steuereinnahmen',
             'Zu meldende Steuerzahlungen',
@@ -65,6 +65,7 @@ class VatNoticeTest extends TestCase
         $vatNotice2 = VatNotice::factory()->create();
 
         $remainingReceivedVat = $totalReceivedTax - ($vatNotice1->vat_received + $vatNotice2->vat_received);
+        $remainingReceivedVat = round($remainingReceivedVat * 100 / 19, 0) * 19 / 100; // Elster only let you use non decimal numbers for the net revenue
         $remainingPaidVat = $totalPaidTax - ($vatNotice1->vat_paid + $vatNotice2->vat_paid);
 
         $vatNoticePage = $this->actingAs($user)

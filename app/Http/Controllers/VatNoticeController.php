@@ -78,7 +78,7 @@ class VatNoticeController extends Controller
         $remainingRevenueTax = $totalRevenueTax - $totalReportedRevenueTax;
         $remainingExpenseTax = $totalExpenseTax - $totalReportedExpenseTax;
 
-        $remainingRevenueTax = round($remainingRevenueTax * 100 / 19, 0) * 19 / 100;
+        $remainingRevenueTax = round($remainingRevenueTax * 100 / 19, 0) * 19 / 100; // Elster only let you use non decimal numbers for the net revenue
 
         return view('vat-notice.create', ['now' => $now, 'remainingRevenueTax' => $remainingRevenueTax, 'remainingExpenseTax' => $remainingExpenseTax, 'year' => $year]);
     }
