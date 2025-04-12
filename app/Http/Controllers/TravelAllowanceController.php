@@ -111,7 +111,7 @@ class TravelAllowanceController extends Controller
     private function validator(Request $request)
     {
         $messages = [
-            //please use all fields from the validator to create custom messages in German
+            // please use all fields from the validator to create custom messages in German
             'travel_date' => 'Bitte geben Sie ein gültiges Reisedatum ein.',
             'start' => 'Bitte geben Sie eine gültige Startzeit ein.',
             'end' => 'Bitte geben Sie eine gültige Endzeit ein.',

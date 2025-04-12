@@ -32,7 +32,7 @@ class AssetController extends Controller
         $expense->firstYear = $costPerMonth * (12 - (Carbon::parse($expense->payment_date)->month - 1));
         $expense->middleYear = $expense->net / $expense->depreciation;
         $expense->lastYear = $costPerMonth * ((Carbon::parse($expense->payment_date)->month - 1));
-        if($expense->yearsInUse == 0) {
+        if ($expense->yearsInUse == 0) {
             $expense->residualValue = $expense->net;
         } elseif ($expense->yearsInUse > $expense->depreciation) {
             $expense->residualValue = 0;

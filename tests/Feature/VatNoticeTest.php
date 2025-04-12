@@ -58,8 +58,8 @@ class VatNoticeTest extends TestCase
         $exp1 = Expense::factory()->create();
         $exp2 = Expense::factory()->create();
 
-        $totalReceivedTax = $rev1->tax + $rev2->tax; //Steuereinnahmen Gesamt
-        $totalPaidTax = $exp1->tax + $exp2->tax; //Gezahlte Steuern Gesamt
+        $totalReceivedTax = $rev1->tax + $rev2->tax; // Steuereinnahmen Gesamt
+        $totalPaidTax = $exp1->tax + $exp2->tax; // Gezahlte Steuern Gesamt
 
         $vatNotice1 = VatNotice::factory()->create();
         $vatNotice2 = VatNotice::factory()->create();
