@@ -14,22 +14,20 @@
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Umsatzsteuer {{$year}}</h1>
-                    <div class="total_amounts flex flex-row text-center my-4">
-                        <div>
+                    <div class="total_amounts flex flex-row flex-wrap text-center my-4">
+                        <div class="font-semibold w-1/2">
                             <p>Zu meldende steuerpflichtige Umsätze</p>
                             <span>{{Number::currency($remainingNetRevenue, in: 'EUR', locale: 'de')}}</span>
                         </div>
-                        <div>
+                        <div class="opacity-30 w-1/2 mb-4">
                             <p>Gezahlte Steuern Gesamt</p>
                             <span>{{Number::currency($totalExpenseTax, in: 'EUR', locale: 'de')}}</span>
                         </div>
-                    </div>
-                    <div class="total_amounts flex flex-row text-center">
-                        <div>
+                        <div class="font-semibold w-1/2">
                             <p>Zu meldende Steuereinnahmen</p>
                             <span>{{Number::currency($remainingRevenueTax, in: 'EUR', locale: 'de')}}</span>
                         </div>
-                        <div>
+                        <div class="font-semibold w-1/2">
                             <p>Zu meldende Steuerzahlungen</p>
                             <span>{{Number::currency($remainingExpenseTax, in: 'EUR', locale: 'de')}}</span>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Revenue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class RevenueFactory extends Factory
 {
+    protected $model = Revenue::class;
+
     /**
      * Define the model's default state.
      *
@@ -16,39 +19,36 @@ class RevenueFactory extends Factory
      */
     public function definition(): array
     {
-        $net = $this->faker->randomFloat(2, 120, 3000);
-        $tax = (int) $net * env('DEFAULT_TAX_RATE') / 100;
-        $gross = $net + $tax;
-
-        $billigDate = $this->faker->dateTimeThisYear();
-
         return [
-            'billing_date' => $billigDate,
-            'payment_date' => $this->getPaymentDateFromBillingDate($billigDate),
+            'billing_date' => $this->faker->dateTimeThisYear(),
             'company_name' => $this->faker->company,
             'invoice_number' => $this->faker->randomNumber(8),
-            'net' => $net,
-            'tax' => $tax,
-            'gross' => $gross,
+            'net' => $this->faker->randomFloat(2, 120, 3000),
         ];
     }
 
-    public function yearsBack($yearsBack)
+    public function configure()
     {
-        return $this->state(function (array $attributes) use ($yearsBack) {
-            $revenue = $this->definition();
-            $revenue['billing_date'] = $this->faker->dateTimeBetween('-'.$yearsBack.' years', '-'.$yearsBack.' years');
-            $revenue['payment_date'] = $this->getPaymentDateFromBillingDate($revenue['billing_date']);
+        return $this->afterMaking(function (Revenue $revenue) {
+            $rate = config('app.default_tax_rate', env('DEFAULT_TAX_RATE', 19));
 
-            return $revenue;
+            $revenue->tax = (int) $revenue->net * $rate / 100;
+            $revenue->gross = $revenue->net + $revenue->tax;
+
+            $revenue->payment_date ??= $this->faker->dateTimeBetween(
+                $revenue->billing_date,
+                min(
+                    (clone $revenue->billing_date)->modify('+14 days'),
+                    (clone $revenue->billing_date)->setDate((int) $revenue->billing_date->format('Y'), 12, 31)
+                )
+            );
         });
     }
 
-    private function getPaymentDateFromBillingDate($billingDate)
+    public function yearsBack(int $years): static
     {
-        $maxPaymentDate = (clone $billingDate)->modify('+14 days');
-        $endOfYear = (clone $billingDate)->setDate($billingDate->format('Y'), 12, 31);
-
-        return $this->faker->dateTimeBetween($billingDate, min($maxPaymentDate, $endOfYear));
+        return $this->state(fn () => [
+            'billing_date' => $this->faker->dateTimeBetween("-{$years} years", "-{$years} years"),
+        ]);
     }
 }

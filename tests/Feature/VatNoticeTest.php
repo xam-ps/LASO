@@ -6,17 +6,27 @@ use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\User;
 use App\Models\VatNotice;
+use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Number;
 use Tests\TestCase;
 
 class VatNoticeTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(CostTypeSeeder::class);
+    }
+
     public function test_vat_notice_page_is_loaded(): void
     {
         $user = User::factory()->create();
 
         $vatNoticePage = $this->actingAs($user)
-            ->get('/vat-notice');
+            ->get('/vat-notice/');
 
         $vatNoticePage->assertSeeInOrder([
             'Zu meldende steuerpflichtige Umsätze',
@@ -30,18 +40,29 @@ class VatNoticeTest extends TestCase
     public function test_vat_notice_page_calcs_total_tax(): void
     {
         $user = User::factory()->createOne();
-        $rev1 = Revenue::factory()->create();
-        $rev2 = Revenue::factory()->create();
+        $rev1 = Revenue::factory()->create(['net' => 5200]);
+        $rev2 = Revenue::factory()->create(['net' => 3200]);
         $exp1 = Expense::factory()->create();
         $exp2 = Expense::factory()->create();
+        $vatNotice1 = VatNotice::factory()->create();
+        $vatNotice2 = VatNotice::factory()->create();
+
         $totalReceivedTax = $rev1->tax + $rev2->tax;
+        $remainingRevenueTax = $totalReceivedTax - $vatNotice1->vat_received - $vatNotice2->vat_received;
+
+        $remainingNetRevenueRounded = round($remainingRevenueTax * 100 / 19, 0); // Elster only let you use non decimal numbers for the net revenue
+        $remainingRevenueTaxRounded = $remainingNetRevenueRounded * 19 / 100;
+
         $totalPaidTax = $exp1->tax + $exp2->tax;
+        $paidTaxToReport = $totalPaidTax - $vatNotice1->vat_paid - $vatNotice2->vat_paid;
 
         $vatNoticePage = $this->actingAs($user)
-            ->get('/vat-notice');
+            ->get('/vat-notice/');
 
-        $vatNoticePage->assertSee(Number::currency($totalReceivedTax, in: 'EUR', locale: 'de'));
+        $vatNoticePage->assertSee(Number::currency($remainingNetRevenueRounded, in: 'EUR', locale: 'de'));
+        $vatNoticePage->assertSee(Number::currency($remainingRevenueTaxRounded, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertSee(Number::currency($totalPaidTax, in: 'EUR', locale: 'de'));
+        $vatNoticePage->assertSee(Number::currency($paidTaxToReport, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertStatus(200);
 
         $rev1->delete();
@@ -92,6 +113,7 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertSee(Number::currency($vatNotice->vat_paid, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertStatus(200);
 
+        $user->delete();
         $vatNotice->delete();
     }
 
@@ -105,6 +127,7 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertSeeInOrder([
             'Meldedatum',
         ]);
+        $user->delete();
         $vatNoticePage->assertStatus(200);
     }
 

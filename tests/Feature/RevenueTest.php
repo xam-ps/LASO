@@ -4,10 +4,21 @@ namespace Tests\Feature;
 
 use App\Models\Revenue;
 use App\Models\User;
+use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Number;
 use Tests\TestCase;
 
 class RevenueTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(CostTypeSeeder::class);
+    }
+
     public function test_create_revenue_page_is_loaded(): void
     {
         $user = User::factory()->create();
@@ -79,5 +90,29 @@ class RevenueTest extends TestCase
 
         $user->delete();
         $revenue->delete();
+    }
+
+    public function test_overview_page_shows_correct_total_for_multiple_revenues(): void
+    {
+        $user = User::factory()->createOne();
+
+        $revenues = collect([
+            Revenue::factory()->create(['net' => 112.38]),
+            Revenue::factory()->create(['net' => 238.47]),
+            Revenue::factory()->create(['net' => 323.99]),
+        ]);
+
+        $response = $this->actingAs($user)
+            ->get('');
+
+        $totalNet = $revenues->sum('net');
+        $totalTax = $revenues->sum('tax');
+        $totalGross = $revenues->sum('gross');
+
+        $formatEuro = fn ($value) => Number::currency($value, in: 'EUR', locale: 'de');
+
+        $response->assertSee($formatEuro($totalNet));
+        $response->assertSee($formatEuro($totalTax));
+        $response->assertSee($formatEuro($totalGross));
     }
 }
