@@ -36,7 +36,7 @@ class RevenueController extends Controller
             $revenue->save();
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) { // 1062 is the MySQL error code for a duplicate entry
-                return redirect()->back()->withInput()->withErrors(['unique_column' => 'The value for Rechnungsnummer must be unique.']);
+                return redirect()->back()->withInput()->withErrors(['unique_column' => 'Die Rechnungsnummer existiert bereits.']);
             }
             throw $e;
         }

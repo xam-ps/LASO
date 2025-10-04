@@ -115,4 +115,22 @@ class RevenueTest extends TestCase
         $response->assertSee($formatEuro($totalTax));
         $response->assertSee($formatEuro($totalGross));
     }
+
+    // A test, that checks if an error message is shown, when trying to create a revenue with a duplicate invoice number
+    public function test_store_revenue_with_duplicate_invoice_number_shows_error_message(): void
+    {
+        $user = User::factory()->create();
+        $revenue = Revenue::factory()->createOne(['invoice_number' => '12345678']);
+        $formData = Revenue::factory()->makeOne(['invoice_number' => '123456789'])->toArray();
+        $formData['billing_date'] = '2021-01-01';
+        $formData['payment_date'] = '2021-01-01';
+
+        $response = $this->actingAs($user)
+            ->post('/revenue', $formData);
+
+        $response->assertSessionHasErrors(['unique_column' => 'Die Rechnungsnummer existiert bereits.']);
+
+        $revenue->delete();
+        $user->delete();
+    }
 }

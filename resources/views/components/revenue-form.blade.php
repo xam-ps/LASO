@@ -34,7 +34,7 @@
         </datalist>
 
         <label for="invoice_number">Rechnungsnummer:</label><br>
-        @error('invoice_number')
+        @error('unique_column')
         <div class="alert">{{ $message }}</div>
         @enderror
         <input id="invoice_number" name="invoice_number"
