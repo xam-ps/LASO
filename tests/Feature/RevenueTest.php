@@ -65,7 +65,7 @@ class RevenueTest extends TestCase
         $revenue = Revenue::factory()->create();
 
         $editRevenuePage = $this->actingAs($user)
-            ->get('/revenue/edit/'.$revenue->id);
+            ->get('/revenue/edit/' . $revenue->id);
 
         $editRevenuePage->assertSee('Einnahme bearbeiten');
         $editRevenuePage->assertSee($revenue->company_name);
@@ -81,7 +81,7 @@ class RevenueTest extends TestCase
         $revenue = Revenue::factory()->create();
 
         $response = $this->actingAs($user)
-            ->delete('/revenue/'.$revenue->id);
+            ->delete('/revenue/' . $revenue->id);
 
         $this->assertDatabaseMissing('revenues', [
             'id' => $revenue->id,
@@ -109,7 +109,7 @@ class RevenueTest extends TestCase
         $totalTax = $revenues->sum('tax');
         $totalGross = $revenues->sum('gross');
 
-        $formatEuro = fn ($value) => Number::currency($value, in: 'EUR', locale: 'de');
+        $formatEuro = fn($value) => Number::currency($value, in: 'EUR', locale: 'de');
 
         $response->assertSee($formatEuro($totalNet));
         $response->assertSee($formatEuro($totalTax));
@@ -121,7 +121,7 @@ class RevenueTest extends TestCase
     {
         $user = User::factory()->create();
         $revenue = Revenue::factory()->createOne(['invoice_number' => '12345678']);
-        $formData = Revenue::factory()->makeOne(['invoice_number' => '123456789'])->toArray();
+        $formData = Revenue::factory()->makeOne(['invoice_number' => '12345678'])->toArray();
         $formData['billing_date'] = '2021-01-01';
         $formData['payment_date'] = '2021-01-01';
 
