@@ -1,6 +1,33 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v0.6.4...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.0...main)
+
+## [v1.0.0](https://github.com/laravel/laravel/compare/v0.6.4...v1.0.0) - 2025-10-04
+
+### Finally decided to release version 1.0.0
+
+I'm using LASO now for more than two years - so far without any problems. Also the VAT-Notice module worked without problems so far (at the moment only with hard coded 19% VAT tough).
+
+#### Full list of changes
+
+- Update php + js dependencies
+- Add tests (testcoverage is now at 76.2%)
+- Fix a smaller UI bug (not showing an error message when same invoice number is being used)
+- Adjust UI for VAT-Notice to make it more obvious, which values are needed for ELSTER
+
+After pulling the latest codebase please run
+`composer install --no-dev`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm install`
+`npm run build`
+to build the frontend
+
+#### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v0.6.4...v1.0.0
 
 ## [v0.6.4](https://github.com/laravel/laravel/compare/v0.6.3...v0.6.4) - 2025-07-31
 
