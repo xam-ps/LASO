@@ -1,6 +1,22 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.0...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.1...main)
+
+## [v1.0.1](https://github.com/laravel/laravel/compare/v1.0.0...v1.0.1) - 2025-10-27
+
+### Full list of changes
+
+- Upgrade to Laravel 12
+
+After pulling the latest codebase please run
+`composer install --no-dev`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.0.0...v1.0.1
 
 ## [v1.0.0](https://github.com/laravel/laravel/compare/v0.6.4...v1.0.0) - 2025-10-04
 
