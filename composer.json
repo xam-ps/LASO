@@ -2,7 +2,7 @@
     "name": "laso/project",
     "type": "project",
     "description": "Laravel annual statment online (a small online tool to do the annual statement in Germany for one person companies)",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": [
         "laravel",
         "framework"
