@@ -2,6 +2,8 @@
 
 set -e
 
+echo "Using Node version: $(node -v)"
+
 echo "Step 1: Updating npm dependencies..."
 npm update
 
@@ -45,7 +47,16 @@ echo "Step 8: Creating commit..."
 git commit -m "update dependencies"
 
 echo "Step 9: Creating tag..."
-git tag -a "v$NEW_VERSION" -m "Release version $NEW_VERSION"
+TAG="v$NEW_VERSION"
+
+if git rev-parse "$TAG" >/dev/null 2>&1; then
+    echo "❌ Tag $TAG already exists. Aborting."
+    exit 1
+fi
+
+git tag -a "$TAG" -m "Release version $NEW_VERSION"
+
+echo "✅ Tag $TAG created."
 
 echo ""
 echo "✅ Release complete: v$NEW_VERSION"
