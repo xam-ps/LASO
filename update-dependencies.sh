@@ -1,8 +1,138 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
+
+abort() {
+    echo "ERROR: $1" >&2
+    exit 1
+}
+
+require_clean_worktree() {
+    if ! git diff --quiet || ! git diff --cached --quiet; then
+        abort "Working tree is not clean. Commit or stash your changes before running the release script."
+    fi
+
+    if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        abort "Untracked files detected. Clean up the working tree before running the release script."
+    fi
+}
+
+require_main_branch() {
+    local branch
+    branch=$(git branch --show-current)
+
+    if [ "$branch" != "main" ]; then
+        abort "Release script must be run on main. Current branch: $branch"
+    fi
+}
+
+require_up_to_date_main() {
+    echo "Checking remote main branch..."
+    git fetch origin main
+
+    local local_head remote_head merge_base
+    local_head=$(git rev-parse HEAD)
+    remote_head=$(git rev-parse origin/main)
+    merge_base=$(git merge-base HEAD origin/main)
+
+    if [ "$local_head" != "$remote_head" ]; then
+        if [ "$local_head" = "$merge_base" ]; then
+            abort "Local main is behind origin/main. Pull the latest changes before releasing."
+        fi
+
+        if [ "$remote_head" = "$merge_base" ]; then
+            abort "Local main is ahead of origin/main. Push or reconcile main before releasing."
+        fi
+
+        abort "Local main and origin/main have diverged. Reconcile the branch before releasing."
+    fi
+}
+
+read_current_version() {
+    local version
+    version=$(sed -nE 's/.*"version": *"([^"]+)".*/\1/p' composer.json | head -1)
+
+    if [ -z "$version" ]; then
+        abort "No version field found in composer.json"
+    fi
+
+    echo "$version"
+}
+
+compute_next_version() {
+    local current_version=$1
+    local major minor patch
+
+    IFS='.' read -r major minor patch <<< "$current_version"
+
+    if [ -z "${major:-}" ] || [ -z "${minor:-}" ] || [ -z "${patch:-}" ]; then
+        abort "Version '$current_version' is not in MAJOR.MINOR.PATCH format."
+    fi
+
+    echo "$major.$minor.$((patch + 1))"
+}
+
+ensure_tag_available() {
+    local tag=$1
+
+    if git rev-parse "$tag" >/dev/null 2>&1; then
+        abort "Tag $tag already exists locally."
+    fi
+
+    if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+        abort "Tag $tag already exists on origin."
+    fi
+}
+
+ensure_only_expected_files_changed() {
+    local changed_file
+    local allowed=(
+        "composer.json"
+        "composer.lock"
+        "package.json"
+        "package-lock.json"
+    )
+
+    while IFS= read -r changed_file; do
+        [ -z "$changed_file" ] && continue
+
+        case " ${allowed[*]} " in
+            *" $changed_file "*) ;;
+            *)
+                abort "Unexpected tracked file changed during release: $changed_file"
+                ;;
+        esac
+    done < <(git diff --name-only)
+}
+
+stage_release_files() {
+    local files_to_stage=()
+    local candidate
+
+    for candidate in composer.json composer.lock package.json package-lock.json; do
+        if [ -f "$candidate" ]; then
+            files_to_stage+=("$candidate")
+        fi
+    done
+
+    git add -- "${files_to_stage[@]}"
+}
 
 echo "Using Node version: $(node -v)"
+
+require_clean_worktree
+require_main_branch
+require_up_to_date_main
+
+echo "Reading current version from composer.json..."
+CURRENT_VERSION=$(read_current_version)
+NEW_VERSION=$(compute_next_version "$CURRENT_VERSION")
+TAG="v$NEW_VERSION"
+
+echo "Current version: $CURRENT_VERSION"
+echo "Next version: $NEW_VERSION"
+
+ensure_tag_available "$TAG"
 
 echo "Step 1: Updating npm dependencies..."
 npm update
@@ -14,52 +144,27 @@ echo "Step 3: Building frontend..."
 npm run build
 
 echo "Step 4: Running Laravel tests..."
-if ! php artisan test; then
-    echo "❌ Tests failed. Aborting release."
-    exit 1
-fi
+php artisan test
 
-echo "✅ Tests passed."
-
-echo "Step 5: Reading current version from composer.json..."
-CURRENT_VERSION=$(grep '"version"' composer.json | head -1 | sed -E 's/.*"version": *"([^"]+)".*/\1/')
-
-if [ -z "$CURRENT_VERSION" ]; then
-    echo "❌ No version field found in composer.json"
-    exit 1
-fi
-
-echo "Current version: $CURRENT_VERSION"
-
-IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
-
-NEW_PATCH=$((PATCH + 1))
-NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
-
-echo "Step 6: Bumping version to $NEW_VERSION..."
-
+echo "Tests passed."
+echo "Step 5: Bumping version to $NEW_VERSION..."
 sed -i -E "s/\"version\": *\"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" composer.json
 
-echo "Step 7: Adding files to git..."
-git add .
+ensure_only_expected_files_changed
 
-echo "Step 8: Creating commit..."
-git commit -m "update dependencies"
+echo "Step 6: Staging release files..."
+stage_release_files
 
-echo "Step 9: Creating tag..."
-TAG="v$NEW_VERSION"
-
-if git rev-parse "$TAG" >/dev/null 2>&1; then
-    echo "❌ Tag $TAG already exists. Aborting."
-    exit 1
+if git diff --cached --quiet; then
+    abort "No release changes were staged."
 fi
 
+echo "Step 7: Creating commit..."
+git commit -m "update dependencies"
+
+echo "Step 8: Creating tag..."
 git tag -a "$TAG" -m "Release version $NEW_VERSION"
 
-echo "✅ Tag $TAG created."
-
-echo ""
-echo "✅ Release complete: v$NEW_VERSION"
-echo ""
-echo "If you want to push the latest tag, execute:"
-echo "git push origin main --tags"
+echo "Release complete: $TAG"
+echo "Push the release with:"
+echo "git push origin main --follow-tags"
