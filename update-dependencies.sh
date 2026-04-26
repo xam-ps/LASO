@@ -7,6 +7,10 @@ abort() {
     exit 1
 }
 
+remote_checks_enabled() {
+    [ "${LASO_SKIP_REMOTE_CHECKS:-0}" != "1" ]
+}
+
 require_clean_worktree() {
     if ! git diff --quiet || ! git diff --cached --quiet; then
         abort "Working tree is not clean. Commit or stash your changes before running the release script."
@@ -27,8 +31,15 @@ require_main_branch() {
 }
 
 require_up_to_date_main() {
+    if ! remote_checks_enabled; then
+        echo "Skipping remote main check because LASO_SKIP_REMOTE_CHECKS=1"
+        return
+    fi
+
     echo "Checking remote main branch..."
-    git fetch origin main
+    if ! git fetch origin main; then
+        abort "Unable to fetch origin/main from $(git remote get-url origin). Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
+    fi
 
     local local_head remote_head merge_base
     local_head=$(git rev-parse HEAD)
@@ -74,13 +85,24 @@ compute_next_version() {
 
 ensure_tag_available() {
     local tag=$1
+    local remote_tag_status=0
 
     if git rev-parse "$tag" >/dev/null 2>&1; then
         abort "Tag $tag already exists locally."
     fi
 
-    if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
-        abort "Tag $tag already exists on origin."
+    if remote_checks_enabled; then
+        git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1 || remote_tag_status=$?
+
+        if [ "$remote_tag_status" -eq 0 ]; then
+            abort "Tag $tag already exists on origin."
+        fi
+
+        if [ "$remote_tag_status" -gt 1 ]; then
+            abort "Unable to verify remote tags on origin. Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
+        fi
+    else
+        echo "Skipping remote tag check because LASO_SKIP_REMOTE_CHECKS=1"
     fi
 }
 
@@ -166,5 +188,5 @@ echo "Step 8: Creating tag..."
 git tag -a "$TAG" -m "Release version $NEW_VERSION"
 
 echo "Release complete: $TAG"
-echo "Push the release with:"
+echo "Push the release from your local machine with:"
 echo "git push origin main --follow-tags"
