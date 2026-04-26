@@ -98,7 +98,7 @@ ensure_tag_available() {
             abort "Tag $tag already exists on origin."
         fi
 
-        if [ "$remote_tag_status" -gt 1 ]; then
+        if [ "$remote_tag_status" -ne 2 ] && [ "$remote_tag_status" -ne 0 ]; then
             abort "Unable to verify remote tags on origin. Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
         fi
     else
