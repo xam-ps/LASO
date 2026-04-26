@@ -11,6 +11,20 @@ remote_checks_enabled() {
     [ "${LASO_SKIP_REMOTE_CHECKS:-0}" != "1" ]
 }
 
+verification_remote() {
+    if [ -n "${LASO_READONLY_REMOTE:-}" ]; then
+        echo "$LASO_READONLY_REMOTE"
+        return
+    fi
+
+    if git remote get-url public-origin >/dev/null 2>&1; then
+        echo "public-origin"
+        return
+    fi
+
+    echo "origin"
+}
+
 require_clean_worktree() {
     if ! git diff --quiet || ! git diff --cached --quiet; then
         abort "Working tree is not clean. Commit or stash your changes before running the release script."
@@ -31,31 +45,35 @@ require_main_branch() {
 }
 
 require_up_to_date_main() {
+    local remote
+
     if ! remote_checks_enabled; then
         echo "Skipping remote main check because LASO_SKIP_REMOTE_CHECKS=1"
         return
     fi
 
-    echo "Checking remote main branch..."
-    if ! git fetch origin main; then
-        abort "Unable to fetch origin/main from $(git remote get-url origin). Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
+    remote=$(verification_remote)
+
+    echo "Checking remote main branch via $remote..."
+    if ! git fetch "$remote" main; then
+        abort "Unable to fetch $remote/main from $(git remote get-url "$remote"). Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
     fi
 
     local local_head remote_head merge_base
     local_head=$(git rev-parse HEAD)
-    remote_head=$(git rev-parse origin/main)
-    merge_base=$(git merge-base HEAD origin/main)
+    remote_head=$(git rev-parse "$remote/main")
+    merge_base=$(git merge-base HEAD "$remote/main")
 
     if [ "$local_head" != "$remote_head" ]; then
         if [ "$local_head" = "$merge_base" ]; then
-            abort "Local main is behind origin/main. Pull the latest changes before releasing."
+            abort "Local main is behind $remote/main. Pull the latest changes before releasing."
         fi
 
         if [ "$remote_head" = "$merge_base" ]; then
-            abort "Local main is ahead of origin/main. Push or reconcile main before releasing."
+            abort "Local main is ahead of $remote/main. Push or reconcile main before releasing."
         fi
 
-        abort "Local main and origin/main have diverged. Reconcile the branch before releasing."
+        abort "Local main and $remote/main have diverged. Reconcile the branch before releasing."
     fi
 }
 
@@ -86,20 +104,22 @@ compute_next_version() {
 ensure_tag_available() {
     local tag=$1
     local remote_tag_status=0
+    local remote
 
     if git rev-parse "$tag" >/dev/null 2>&1; then
         abort "Tag $tag already exists locally."
     fi
 
     if remote_checks_enabled; then
-        git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1 || remote_tag_status=$?
+        remote=$(verification_remote)
+        git ls-remote --exit-code --tags "$remote" "refs/tags/$tag" >/dev/null 2>&1 || remote_tag_status=$?
 
         if [ "$remote_tag_status" -eq 0 ]; then
-            abort "Tag $tag already exists on origin."
+            abort "Tag $tag already exists on $remote."
         fi
 
         if [ "$remote_tag_status" -ne 2 ] && [ "$remote_tag_status" -ne 0 ]; then
-            abort "Unable to verify remote tags on origin. Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
+            abort "Unable to verify remote tags on $remote. Verify network access, or rerun with LASO_SKIP_REMOTE_CHECKS=1 for a local-only release."
         fi
     else
         echo "Skipping remote tag check because LASO_SKIP_REMOTE_CHECKS=1"
