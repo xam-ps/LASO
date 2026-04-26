@@ -1,6 +1,28 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.5...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.7...main)
+
+## [v1.0.7](https://github.com/laravel/laravel/compare/v1.0.5...v1.0.7) - 2026-04-26
+
+#### v1.0.6 was not published but only created locally
+
+### Full list of changes
+
+- Update php + js dependencies
+
+After pulling the latest codebase please run
+`composer install --no-dev`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm install`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.0.5...v1.0.7
 
 ## [v1.0.5](https://github.com/laravel/laravel/compare/v1.0.4...v1.0.5) - 2026-03-31
 
