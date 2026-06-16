@@ -1,6 +1,27 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.0.8...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.1.0...main)
+
+## [v1.1.0](https://github.com/laravel/laravel/compare/v1.0.8...v1.1.0) - 2026-06-16
+
+### Full list of changes
+
+- Upgrade vite to version 8
+
+To update please run:
+`git pull --ff-only`
+`composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm ci`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.0.8...v1.1.0
 
 ## [v1.0.8](https://github.com/laravel/laravel/compare/v1.0.7...v1.0.8) - 2026-06-16
 
