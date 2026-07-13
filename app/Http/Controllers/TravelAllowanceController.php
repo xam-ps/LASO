@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 
 class TravelAllowanceController extends Controller
 {
+    private const REFUND_PER_KILOMETER = 0.30;
+
     /**
      * Display a listing of the resource.
      */
@@ -119,7 +121,6 @@ class TravelAllowanceController extends Controller
             'reason' => 'Bitte geben Sie einen Grund für die Reise an.',
             'company_name' => 'Bitte geben Sie einen Kunden an.',
             'distance' => 'Bitte geben Sie eine gültige Entfernung in km an.',
-            'refund' => 'Bitte geben Sie einen Erstattungsbetrag an.',
         ];
 
         return $request->validate([
@@ -129,9 +130,8 @@ class TravelAllowanceController extends Controller
             'destination' => 'required|string',
             'reason' => 'required|string',
             'company_name' => 'nullable|string',
-            'distance' => 'required|integer',
+            'distance' => 'required|integer|min:1',
             'notes' => 'nullable|string',
-            'refund' => 'required|decimal:0,2',
         ], $messages);
     }
 
@@ -145,6 +145,6 @@ class TravelAllowanceController extends Controller
         $travelAllowance->company = $validatedData['company_name'];
         $travelAllowance->distance = $validatedData['distance'];
         $travelAllowance->notes = $validatedData['notes'];
-        $travelAllowance->refund = $validatedData['refund'];
+        $travelAllowance->refund = round($validatedData['distance'] * self::REFUND_PER_KILOMETER, 2);
     }
 }

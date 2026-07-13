@@ -36,7 +36,7 @@ You can use LASO to track your VAT notices (Umsatzsteuervoranmeldung). As you ca
 
 ### Travel allowance (Kilometergeld)
 
-Here you can add all journeys. Right now, for the first 20km 0.30€ are calculated and 0.36€ from km 21.
+Here you can add business journeys with a privately owned vehicle. LASO calculates 0.30 EUR for each driven kilometre.
 
 ![travel allowance](assets/travel.png)
 

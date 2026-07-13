@@ -54,6 +54,32 @@ class TravelAllowanceTest extends TestCase
         $user->delete();
     }
 
+    public function test_refund_is_calculated_from_distance_on_the_server(): void
+    {
+        $user = User::factory()->createOne();
+
+        $response = $this->actingAs($user)->post('/travel-allowance', [
+            'travel_date' => '2026-07-01',
+            'start' => '09:00',
+            'end' => '10:00',
+            'destination' => 'Server calculation test',
+            'reason' => 'Kundentermin',
+            'company_name' => 'Example GmbH',
+            'distance' => 42,
+            'notes' => 'Hin- und Rueckfahrt',
+            'refund' => '999.99',
+        ]);
+
+        $this->assertDatabaseHas('travel_allowances', [
+            'distance' => 42,
+            'refund' => '12.60',
+        ]);
+        $response->assertRedirect('/travel-allowance');
+
+        TravelAllowance::where('destination', 'Server calculation test')->delete();
+        $user->delete();
+    }
+
     public function test_edit_travel_allowance_page_is_loaded(): void
     {
         $user = User::factory()->createOne();

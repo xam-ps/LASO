@@ -67,11 +67,8 @@
         <input id="notes" name="notes" value="{{ old('notes', $travelAllowance->notes ?? '') }}"><br>
 
         <label for="refund">Erstattung:</label><br>
-        @error('refund')
-        <div class="alert">{{ $message }}</div>
-        @enderror
-        <input id="refund" name="refund" type="number" value="{{ old('refund', $travelAllowance->refund ?? '') }}"
-            min="0" step="0.01">
+        <input id="refund" type="number" value="{{ old('refund', $travelAllowance->refund ?? '') }}"
+            min="0" step="0.01" readonly>
         €<br>
 
         <div class="text-center">
@@ -84,19 +81,15 @@
     @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const distance = document.querySelector("#distance");
-            
-            distance.addEventListener("keyup", calcRefund);
-            distance.addEventListener("change", calcRefund);
+            const distance = document.querySelector('#distance');
+            const refund = document.querySelector('#refund');
 
-            function calcRefund(){
-                $oneWay = distance.value/2;
-                if ($oneWay <= 20){
-                    refund.value = (parseFloat(distance.value)*0.30).toFixed(2);
-                } else {
-                    refund.value = ((parseFloat(20)*0.30 + (parseFloat(distance.value/2)-20)*0.38)*2).toFixed(2);
-                }
+            function calcRefund() {
+                refund.value = distance.value === '' ? '' : (Number(distance.value) * 0.30).toFixed(2);
             }
+
+            distance.addEventListener('input', calcRefund);
+            calcRefund();
         });
     </script>
     @endsection
