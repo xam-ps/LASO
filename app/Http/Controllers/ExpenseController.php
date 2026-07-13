@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
+    private const AFA_COST_TYPE_ID = 6;
+
     /**
      * Show the form for creating a new resource.
      */
@@ -32,15 +34,8 @@ class ExpenseController extends Controller
     {
         $validatedData = $this->validator($request);
 
-        if ($validatedData['cost_type'] == 6 && empty($validatedData['depreciation'])) {
-            return redirect()->back()->withInput()->withErrors(['depreciation' => 'The value for Abschreibungsdauer must be set for this cost type.']);
-        }
-
         $expense = new Expense;
         $this->fillValues($validatedData, $expense);
-        if ($expense->cost_type_id != 6) {
-            $expense->depreciation = null;
-        }
 
         try {
             $expense->save();
@@ -73,15 +68,8 @@ class ExpenseController extends Controller
     {
         $validatedData = $this->validator($request);
 
-        if ($validatedData['cost_type'] == 6 && empty($validatedData['depreciation'])) {
-            return redirect()->back()->withInput()->withErrors(['depreciation' => 'The value for Abschreibungsdauer must be set for this cost type.']);
-        }
-
         $expense = Expense::find($id);
         $this->fillValues($validatedData, $expense);
-        if ($expense->cost_type_id != 6) {
-            $expense->depreciation = null;
-        }
 
         try {
             $expense->save();
@@ -129,8 +117,8 @@ class ExpenseController extends Controller
             'net' => 'required|decimal:0,2',
             'tax' => 'required|decimal:0,2',
             'gross' => 'required|decimal:0,2',
-            'cost_type' => 'required|integer',
-            'depreciation' => 'nullable|integer',
+            'cost_type' => 'required|integer|exists:cost_types,id',
+            'depreciation' => 'exclude_unless:cost_type,'.self::AFA_COST_TYPE_ID.'|required|integer|between:1,30',
         ], $messages);
 
         return $validatedData;
@@ -147,6 +135,6 @@ class ExpenseController extends Controller
         $expense->tax = $validatedData['tax'];
         $expense->gross = $validatedData['gross'];
         $expense->cost_type_id = $validatedData['cost_type'];
-        $expense->depreciation = $validatedData['depreciation'];
+        $expense->depreciation = $validatedData['depreciation'] ?? null;
     }
 }

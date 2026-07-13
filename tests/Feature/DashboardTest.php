@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\User;
@@ -107,7 +108,7 @@ class DashboardTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->seed(CostTypeSeeder::class);
     }
 }

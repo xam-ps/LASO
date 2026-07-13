@@ -26,6 +26,10 @@ class AssetController extends Controller
 
     public static function calcDepreciationValues($expense, $year)
     {
+        if (! is_numeric($expense->depreciation) || $expense->depreciation < 1 || $expense->depreciation > 30) {
+            throw new \InvalidArgumentException('Depreciation must be between one and 30 years.');
+        }
+
         $expense->yearsInUse = $year - Carbon::parse($expense->payment_date)->year;
         $expense->percUsed = $expense->yearsInUse * 100 / $expense->depreciation;
         $costPerMonth = $expense->net / $expense->depreciation / 12;

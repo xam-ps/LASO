@@ -8,6 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 class DepreciationTest extends TestCase
 {
+    public function test_invalid_depreciation_period_throws_an_exception(): void
+    {
+        $expense = new Expense;
+        $expense->payment_date = '2020-05-01';
+        $expense->net = 600;
+        $expense->depreciation = 0;
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        AssetController::calcDepreciationValues($expense, 2023);
+    }
+
     public function test_depreciation_values(): void
     {
         $expense = new Expense;

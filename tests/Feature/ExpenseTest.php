@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
+use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Expense;
 use App\Models\User;
 use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExpenseTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_create_expense_page_is_loaded(): void
     {
         $user = User::factory()->createOne();
@@ -52,6 +58,26 @@ class ExpenseTest extends TestCase
         $expense->delete();
     }
 
+    public function test_afa_expenses_require_a_depreciation_period_between_one_and_thirty_years(): void
+    {
+        $user = User::factory()->create();
+
+        foreach ([null, 0, 31] as $depreciation) {
+            $expense = Expense::factory()->makeOne();
+            $formData = $expense->toArray();
+            $formData['billing_date'] = '2026-07-01';
+            $formData['payment_date'] = '2026-07-01';
+            $formData['cost_type'] = 6;
+            $formData['depreciation'] = $depreciation;
+
+            $this->actingAs($user)
+                ->post('/expense', $formData)
+                ->assertSessionHasErrors('depreciation');
+        }
+
+        $user->delete();
+    }
+
     public function test_edit_expense_page_is_loaded(): void
     {
         $user = User::factory()->createOne();
@@ -89,7 +115,7 @@ class ExpenseTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->withoutMiddleware(VerifyCsrfToken::class);
         $this->seed(CostTypeSeeder::class);
     }
 }

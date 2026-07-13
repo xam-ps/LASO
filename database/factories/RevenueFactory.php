@@ -6,7 +6,7 @@ use App\Models\Revenue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Revenue>
+ * @extends Factory<Revenue>
  */
 class RevenueFactory extends Factory
 {

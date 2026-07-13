@@ -98,7 +98,7 @@
             <div class="alert">{{ $message }}</div>
             @enderror
             <input id="depreciation" name="depreciation" type="number"
-                value="{{ old('depreciation', $expense->depreciation ?? '') }}" min="0" max="30" step="1">
+                value="{{ old('depreciation', $expense->depreciation ?? '') }}" min="1" max="30" step="1">
         </div>
 
         <div class="text-center">
