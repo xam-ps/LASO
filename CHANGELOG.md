@@ -1,6 +1,29 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.1.1...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.2.2...main)
+
+## [v1.2.2](https://github.com/laravel/laravel/compare/v1.1.1...v1.2.2) - 2026-08-02
+
+### Full list of changes
+
+- Update php + js dependencies
+- Fix wrong travel allowance calculations
+- Added expense cost-type and depreciation-period validation, database safeguards, automated tests
+
+To update please run:
+`git pull --ff-only`
+`composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm ci`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.1.1...v1.2.2
 
 ## [v1.1.1](https://github.com/laravel/laravel/compare/v1.1.0...v1.1.1) - 2026-07-02
 
