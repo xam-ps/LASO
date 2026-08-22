@@ -44,6 +44,8 @@ Here you can add business journeys with a privately owned vehicle. LASO calculat
 
 This shows the annual statement, that is needed in Germany for the tax report. It's created automatically based on all the data in LASO. For retention, the statement has a nice print view, which allows to create a immutable pdf.
 
+Next to every amount LASO prints the line ("Zeile") of the official *Anlage EÜR* you have to type it into, so you can work through the ELSTER form from top to bottom. Those line numbers change between form editions, so LASO keeps one verified mapping per tax year. If you open a year LASO has no mapping for, it shows the amounts without line numbers together with an info.
+
 <p align="center">
 <img src="assets/statement_full.png" width="65%">
 </p>
