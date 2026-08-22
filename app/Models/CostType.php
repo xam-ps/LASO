@@ -12,14 +12,14 @@ class CostType extends Model
      *
      * @var array
      */
-    protected $fillable = ['
-        short_name,
-        full_name,
-        elster_id,
-        color_code,
-        description,
-        ratio,
-    '];
+    protected $fillable = [
+        'short_name',
+        'full_name',
+        'sort_order',
+        'color_code',
+        'description',
+        'ratio',
+    ];
 
     public function expenses()
     {

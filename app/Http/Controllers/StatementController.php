@@ -7,17 +7,35 @@ use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\TravelAllowance;
 use App\Models\VatNotice;
+use App\Support\ElsterLines;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class StatementController extends Controller
 {
+    /**
+     * Sort order of the statement rows that are not backed by a cost type.
+     * The values slot them into the sequence the Anlage EÜR uses.
+     */
+    private const VORSTEUER_SORT_ORDER = 85;
+
+    private const TRAVEL_SORT_ORDER = 95;
+
+    /**
+     * Cost types are identified by their short_name - the same key the ELSTER
+     * line mapping in config/elster/{year}.php uses.
+     */
+    private const AFA_SHORT_NAME = 'AfA';
+
+    private const VAT_PAID_SHORT_NAME = 'F-Ust';
+
     public function index(Request $request)
     {
         $year = $request->route('year', Carbon::now()->year);
 
         $costTypes = CostType::all();
+        $afaCostType = $costTypes->firstWhere('short_name', self::AFA_SHORT_NAME);
 
         // calculate all needed number for revenues
         $revenues = Revenue::whereYear('payment_date', $year)->get();
@@ -51,67 +69,73 @@ class StatementController extends Controller
         // get all expenses for the year
         $costsByCostType = Expense::join('cost_types', 'expenses.cost_type_id', '=', 'cost_types.id')
             ->groupBy('cost_types.id')
-            ->select('cost_types.id', 'cost_types.elster_id', 'cost_types.full_name', 'cost_types.description', DB::raw('SUM(expenses.net) * cost_types.ratio as total_net'), DB::raw('SUM(expenses.tax) * cost_types.ratio as total_tax'))
+            ->select('cost_types.id', 'cost_types.short_name as elster_key', 'cost_types.sort_order', 'cost_types.full_name', 'cost_types.description', DB::raw('SUM(expenses.net) * cost_types.ratio as total_net'), DB::raw('SUM(expenses.tax) * cost_types.ratio as total_tax'))
             ->whereYear('payment_date', $year)
-            ->groupBy('cost_type_id')
             ->get();
 
         // tax is calculated from ALL expenses of the year including afa
         $expTaxSum = $costsByCostType->sum('total_tax');
 
-        // remove afa from costs
+        // remove afa from costs - only the depreciation instalment is deductible,
+        // not the purchase price paid this year
         $costsByCostType = $costsByCostType->reject(function ($value) {
-            return $value->id == 6;
+            return $value->elster_key === self::AFA_SHORT_NAME;
         });
 
-        // get all depreciations for the year
-        $expensesWithTypeAfa = Expense::whereHas('costType', function ($query) {
-            $query->where('id', 6);
-        })->get();
-
         // calculate afa for the year
-        $afaSum = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
+        $afaSum = 0;
+        if ($afaCostType !== null) {
+            $expensesWithTypeAfa = Expense::where('cost_type_id', $afaCostType->id)->get();
+            $afaSum = AssetController::calcAfaForYear($expensesWithTypeAfa, $year);
+
+            $expAfaObject = new Expense;
+            $expAfaObject->total_net = $afaSum;
+            $expAfaObject->full_name = $afaCostType->full_name;
+            $expAfaObject->description = $afaCostType->description;
+            $expAfaObject->elster_key = $afaCostType->short_name;
+            $expAfaObject->sort_order = $afaCostType->sort_order;
+            $costsByCostType->push($expAfaObject);
+        }
 
         // calculate travel allowance for the year
         $expTravel = $travelAllowance->sum('refund');
 
-        // add afa, tax and travel allowance to costs
-        $expAfaObject = new Expense;
-        $expAfaObject->total_net = $afaSum;
-        $expAfaObject->full_name = $costTypes->where('id', 6)->first()->full_name;
-        $expAfaObject->elster_id = $costTypes->where('id', 6)->first()->elster_id;
-        $costsByCostType->push($expAfaObject);
-
         $expTaxObject = new Expense;
         $expTaxObject->total_net = $expTaxSum;
         $expTaxObject->full_name = 'Gezahlte Vorsteuer';
-        $expTaxObject->elster_id = 55;
+        $expTaxObject->description = 'Gezahlte Vorsteuerbeträge';
+        $expTaxObject->elster_key = 'vorsteuer';
+        $expTaxObject->sort_order = self::VORSTEUER_SORT_ORDER;
         $costsByCostType->push($expTaxObject);
 
         $expTravelObject = new Expense;
         $expTravelObject->total_net = $expTravel;
         $expTravelObject->full_name = 'Fahrtkosten';
-        $expTravelObject->discription = 'Fahrtkosten für nicht zum Betriebsvermögen gehörende Fahrzeuge (Nutzungseinlage)';
-        $expTravelObject->elster_id = 68;
+        $expTravelObject->description = 'Fahrtkosten für nicht zum Betriebsvermögen gehörende Fahrzeuge (Nutzungseinlage)';
+        $expTravelObject->elster_key = 'travel';
+        $expTravelObject->sort_order = self::TRAVEL_SORT_ORDER;
         $costsByCostType->push($expTravelObject);
 
+        // the vat paid to the financial office is added to the matching cost type
+        // if the user booked expenses on it, otherwise it becomes its own row
         $payedVat = $costsByCostType->first(function ($item) {
-            return $item->elster_id == 64;
+            return $item->elster_key === self::VAT_PAID_SHORT_NAME;
         });
-        if ($payedVat == null) {
-            $vatCostType = CostType::where('elster_id', 64)->first();
+        if ($payedVat === null) {
+            $vatCostType = $costTypes->firstWhere('short_name', self::VAT_PAID_SHORT_NAME);
             $payedVat = new Expense;
             $payedVat->total_net = $alreadyPaidVat;
-            $payedVat->full_name = $vatCostType->full_name;
-            $payedVat->description = $vatCostType->description;
-            $payedVat->elster_id = $vatCostType->elster_id;
+            $payedVat->full_name = $vatCostType->full_name ?? 'An Finanzamt gezahlte Umsatzsteuer';
+            $payedVat->description = $vatCostType->description ?? null;
+            $payedVat->elster_key = self::VAT_PAID_SHORT_NAME;
+            $payedVat->sort_order = $vatCostType->sort_order ?? 90;
             $costsByCostType->push($payedVat);
         } else {
             $payedVat['total_net'] += $alreadyPaidVat;
         }
 
-        // sort costs by elster_id to use them in the statement view in the correct order
-        $costsByCostType = $costsByCostType->sortBy('elster_id');
+        // sort costs to use them in the statement view in the order of the form
+        $costsByCostType = $costsByCostType->sortBy('sort_order');
 
         // sum of all expenses, including afa of current year
         $expTotal = $costsByCostType->sum('total_net');
@@ -131,7 +155,22 @@ class StatementController extends Controller
 
             'year' => $year,
             'years' => $this->getYearList($year),
+            'elster' => ElsterLines::for($year),
+            'elsterFormPending' => $this->elsterFormIsPending($year),
         ]);
+    }
+
+    /**
+     * ELSTER publishes the form for a tax year at the start of the following
+     * year, and the EÜR for the running year is not filed before it ends. A
+     * missing mapping is therefore expected for the current and future years -
+     * the statement says so plainly instead of raising a warning. For a past
+     * year the form does exist, so a missing mapping means LASO is behind and
+     * the user has to look up the lines themselves.
+     */
+    private function elsterFormIsPending($year): bool
+    {
+        return is_numeric($year) && (int) $year >= Carbon::now()->year;
     }
 
     private function getYearList($currentYear)
