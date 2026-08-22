@@ -2,18 +2,19 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\User;
 use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Number;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_a_guest_user_should_get_redirected_to_login(): void
     {
         $response = $this->get('/');
@@ -49,9 +50,6 @@ class DashboardTest extends TestCase
         $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertStatus(200);
-
-        $rev1->delete();
-        $rev2->delete();
     }
 
     public function test_dashboard_expenses_sums_are_adding_up(): void
@@ -71,9 +69,6 @@ class DashboardTest extends TestCase
         $dashboardPage->assertSee(Number::currency($taxSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertSee(Number::currency($grossSum, in: 'EUR', locale: 'de'));
         $dashboardPage->assertStatus(200);
-
-        $exp1->delete();
-        $exp2->delete();
     }
 
     public function test_revenue_is_shown_on_dashboard(): void
@@ -86,8 +81,6 @@ class DashboardTest extends TestCase
 
         $dashboardPage->assertSee($rev->company_name);
         $dashboardPage->assertStatus(200);
-
-        $rev->delete();
     }
 
     public function test_expense_is_shown_on_dashboard(): void
@@ -100,8 +93,6 @@ class DashboardTest extends TestCase
 
         $dashboardPage->assertSee($exp->product_name);
         $dashboardPage->assertStatus(200);
-
-        $exp->delete();
     }
 
     protected function setUp(): void

@@ -53,9 +53,6 @@ class ExpenseTest extends TestCase
             'supplier_name' => $expense->supplier_name,
         ]);
         $response->assertRedirect('/');
-
-        $user->delete();
-        $expense->delete();
     }
 
     public function test_afa_expenses_require_a_depreciation_period_between_one_and_thirty_years(): void
@@ -74,8 +71,6 @@ class ExpenseTest extends TestCase
                 ->post('/expense', $formData)
                 ->assertSessionHasErrors('depreciation');
         }
-
-        $user->delete();
     }
 
     public function test_edit_expense_page_is_loaded(): void
@@ -89,9 +84,6 @@ class ExpenseTest extends TestCase
         $editExpensePage->assertSee('Ausgabe bearbeiten');
         $editExpensePage->assertSee($expense->supplier_name);
         $editExpensePage->assertStatus(200);
-
-        $expense->delete();
-        $user->delete();
     }
 
     public function test_deleting_expense_is_working(): void
@@ -106,9 +98,6 @@ class ExpenseTest extends TestCase
             'id' => $expense->id,
         ]);
         $response->assertRedirect('/');
-
-        $expense->delete();
-        $user->delete();
     }
 
     protected function setUp(): void

@@ -4,11 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\TravelAllowance;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Number;
 use Tests\TestCase;
 
 class TravelAllowanceTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_travel_allowance_page_is_loaded(): void
     {
         $user = User::factory()->createOne();
@@ -19,9 +22,6 @@ class TravelAllowanceTest extends TestCase
 
         $assetPage->assertSee($travel->destination);
         $assetPage->assertStatus(200);
-
-        $travel->delete();
-        $user->delete();
     }
 
     public function test_travel_allowance_sum_is_correct(): void
@@ -36,10 +36,6 @@ class TravelAllowanceTest extends TestCase
 
         $assetPage->assertSee(Number::currency($travelSum, in: 'EUR', locale: 'de'));
         $assetPage->assertStatus(200);
-
-        $travel1->delete();
-        $travel2->delete();
-        $user->delete();
     }
 
     public function test_create_travel_allowance_page_is_loaded(): void
@@ -51,7 +47,6 @@ class TravelAllowanceTest extends TestCase
 
         $createTravelAllowancePage->assertSee('Neue Fahrt anlegen');
         $createTravelAllowancePage->assertStatus(200);
-        $user->delete();
     }
 
     public function test_refund_is_calculated_from_distance_on_the_server(): void
@@ -75,9 +70,6 @@ class TravelAllowanceTest extends TestCase
             'refund' => '12.60',
         ]);
         $response->assertRedirect('/travel-allowance');
-
-        TravelAllowance::where('destination', 'Server calculation test')->delete();
-        $user->delete();
     }
 
     public function test_edit_travel_allowance_page_is_loaded(): void
@@ -91,9 +83,6 @@ class TravelAllowanceTest extends TestCase
         $editTravelAllowancePage->assertSee('Fahrt bearbeiten');
         $editTravelAllowancePage->assertSee($travel->destination);
         $editTravelAllowancePage->assertStatus(200);
-
-        $travel->delete();
-        $user->delete();
     }
 
     public function test_deleting_travel_allowance_is_working(): void
@@ -108,8 +97,5 @@ class TravelAllowanceTest extends TestCase
             'id' => $travel->id,
         ]);
         $response->assertRedirect('/travel-allowance');
-
-        $user->delete();
-        $travel->delete();
     }
 }

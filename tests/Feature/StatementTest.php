@@ -4,10 +4,20 @@ namespace Tests\Feature;
 
 use App\Models\Expense;
 use App\Models\User;
+use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class StatementTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(CostTypeSeeder::class);
+    }
+
     public function test_statement_page_is_loaded(): void
     {
         $user = User::factory()->create();
@@ -35,7 +45,5 @@ class StatementTest extends TestCase
 
         $assetPage->assertSee('Geringwertige Wirtschaftsgüter');
         $assetPage->assertStatus(200);
-
-        $exp->delete();
     }
 }

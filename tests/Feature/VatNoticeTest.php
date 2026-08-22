@@ -64,11 +64,6 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertSee(Number::currency($totalPaidTax, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertSee(Number::currency($paidTaxToReport, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertStatus(200);
-
-        $rev1->delete();
-        $rev2->delete();
-        $exp1->delete();
-        $exp2->delete();
     }
 
     public function test_vat_notice_page_calcs_remaining_tax(): void
@@ -95,11 +90,6 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertSee(Number::currency($remainingReceivedVat, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertSee(Number::currency($remainingPaidVat, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertStatus(200);
-
-        $exp1->delete();
-        $exp2->delete();
-        $vatNotice1->delete();
-        $vatNotice2->delete();
     }
 
     public function test_vat_notice_page_shows_notices(): void
@@ -112,9 +102,6 @@ class VatNoticeTest extends TestCase
 
         $vatNoticePage->assertSee(Number::currency($vatNotice->vat_paid, in: 'EUR', locale: 'de'));
         $vatNoticePage->assertStatus(200);
-
-        $user->delete();
-        $vatNotice->delete();
     }
 
     public function test_create_vat_notice_page_is_loaded(): void
@@ -127,7 +114,6 @@ class VatNoticeTest extends TestCase
         $vatNoticePage->assertSeeInOrder([
             'Meldedatum',
         ]);
-        $user->delete();
         $vatNoticePage->assertStatus(200);
     }
 
@@ -143,8 +129,5 @@ class VatNoticeTest extends TestCase
             'id' => $vatNotice->id,
         ]);
         $response->assertRedirect('/vat-notice');
-
-        $user->delete();
-        $vatNotice->delete();
     }
 }

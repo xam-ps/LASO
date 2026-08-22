@@ -6,10 +6,13 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Expense;
 use App\Models\User;
 use Database\Seeders\CostTypeSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AssetsTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_asset_page_shows_assets(): void
     {
         $user = User::factory()->create();
@@ -20,9 +23,6 @@ class AssetsTest extends TestCase
 
         $assetPage->assertSee($exp1->product_name);
         $assetPage->assertStatus(200);
-
-        $exp1->delete();
-        $user->delete();
     }
 
     protected function setUp(): void

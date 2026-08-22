@@ -54,9 +54,6 @@ class RevenueTest extends TestCase
             'company_name' => $revenue->company_name,
         ]);
         $response->assertRedirect('/');
-
-        $user->delete();
-        $revenue->delete();
     }
 
     public function test_edit_revenue_page_is_loaded(): void
@@ -70,9 +67,6 @@ class RevenueTest extends TestCase
         $editRevenuePage->assertSee('Einnahme bearbeiten');
         $editRevenuePage->assertSee($revenue->company_name);
         $editRevenuePage->assertStatus(200);
-
-        $revenue->delete();
-        $user->delete();
     }
 
     public function test_deleting_revenue_is_working(): void
@@ -87,9 +81,6 @@ class RevenueTest extends TestCase
             'id' => $revenue->id,
         ]);
         $response->assertRedirect('/');
-
-        $user->delete();
-        $revenue->delete();
     }
 
     public function test_overview_page_shows_correct_total_for_multiple_revenues(): void
@@ -129,8 +120,5 @@ class RevenueTest extends TestCase
             ->post('/revenue', $formData);
 
         $response->assertSessionHasErrors(['unique_column' => 'Die Rechnungsnummer existiert bereits.']);
-
-        $revenue->delete();
-        $user->delete();
     }
 }
