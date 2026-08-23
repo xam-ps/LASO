@@ -12,17 +12,18 @@ class Expense extends Model
      *
      * @var array
      */
-    protected $fillable = ['
-        billing_date,
-        payment_date,
-        supplier_name,
-        product_name,
-        invoice_number,
-        net,
-        tax,
-        gross,
-        depreciation,
-    '];
+    protected $fillable = [
+        'billing_date',
+        'payment_date',
+        'supplier_name',
+        'product_name',
+        'invoice_number',
+        'net',
+        'tax',
+        'gross',
+        'cost_type_id',
+        'depreciation',
+    ];
 
     public function costType()
     {
