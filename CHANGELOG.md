@@ -1,6 +1,40 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.2.2...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.3.1...main)
+
+## [v1.3.1](https://github.com/laravel/laravel/compare/v1.2.2...v1.3.1) - 2026-08-23
+
+### [v1.3.1](https://github.com/xam-ps/LASO/compare/v1.2.2...v1.3.1) - 2026-08-23
+
+Note: Feature release v1.3.0 was skipped, as I updated dependencies with v1.3.1
+
+#### Full list of changes
+
+- Update PHP and JavaScript dependencies
+- Add year-specific ELSTER line mappings for the Anlage EÜR
+- Add a maintainer command for drafting future ELSTER mappings
+- Add warnings for missing or unconfirmed ELSTER mappings
+- Improve statement cost-type ordering and display
+- Centralize year navigation across the dashboard, statement, VAT notices, and travel allowances
+- Correct year handling for unpaid revenues and expenses
+- Prevent invalid depreciation years from expanding navigation into the future
+- Restrict year routes to numeric values
+- Expand automated test coverage for ELSTER mappings, year navigation, depreciation, and bookkeeping workflows
+
+To update please run:
+`git pull --ff-only`
+`composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader`
+`php artisan cache:clear`
+`php artisan config:clear`
+`php artisan view:clear`
+and
+`npm ci`
+`npm run build`
+to build the frontend
+
+#### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.2.2...v1.3.1
 
 ## [v1.2.2](https://github.com/laravel/laravel/compare/v1.1.1...v1.2.2) - 2026-08-02
 
