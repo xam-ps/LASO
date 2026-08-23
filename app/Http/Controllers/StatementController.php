@@ -7,6 +7,7 @@ use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\TravelAllowance;
 use App\Models\VatNotice;
+use App\Services\AvailableYears;
 use App\Support\ElsterLines;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,9 +31,9 @@ class StatementController extends Controller
 
     private const VAT_PAID_SHORT_NAME = 'F-Ust';
 
-    public function index(Request $request)
+    public function index(Request $request, AvailableYears $availableYears)
     {
-        $year = $request->route('year', Carbon::now()->year);
+        $year = (int) $request->route('year', Carbon::now()->year);
 
         $costTypes = CostType::all();
         $afaCostType = $costTypes->firstWhere('short_name', self::AFA_SHORT_NAME);
@@ -154,7 +155,7 @@ class StatementController extends Controller
             'profit' => $revTotal - $expTotal,
 
             'year' => $year,
-            'years' => $this->getYearList($year),
+            'years' => $availableYears->get($year),
             'elster' => ElsterLines::for($year),
             'elsterFormPending' => $this->elsterFormIsPending($year),
         ]);
@@ -171,21 +172,5 @@ class StatementController extends Controller
     private function elsterFormIsPending($year): bool
     {
         return is_numeric($year) && (int) $year >= Carbon::now()->year;
-    }
-
-    private function getYearList($currentYear)
-    {
-        $uniqueYears = Revenue::select(DB::raw('YEAR(billing_date) as year'))
-            ->union(Revenue::select(DB::raw('YEAR(payment_date) as year')))
-            ->distinct()
-            ->orderBy('year')
-            ->pluck('year')
-            ->filter();
-
-        if (! $uniqueYears->contains($currentYear)) {
-            $uniqueYears->push($currentYear);
-        }
-
-        return $uniqueYears;
     }
 }

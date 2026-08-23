@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\VatNotice;
+use App\Services\AvailableYears;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -12,20 +13,9 @@ use Illuminate\Support\Facades\DB;
 
 class VatNoticeController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, AvailableYears $availableYears)
     {
-        $year = $request->route('year', Carbon::now()->year);
-
-        $uniqueYears = Revenue::select(DB::raw('YEAR(billing_date) as year'))
-            ->union(Revenue::select(DB::raw('YEAR(payment_date) as year')))
-            ->union(Expense::select(DB::raw('YEAR(payment_date) as year')))
-            ->distinct()
-            ->orderBy('year')
-            ->pluck('year')
-            ->filter();
-        if (! $uniqueYears->contains($year)) {
-            $uniqueYears->push($year);
-        }
+        $year = (int) $request->route('year', Carbon::now()->year);
 
         $totalRevenueTax = Revenue::whereYear('payment_date', $year)->sum('tax');
         $totalExpenseTax = round(Expense::join('cost_types', 'expenses.cost_type_id', '=', 'cost_types.id')
@@ -51,7 +41,7 @@ class VatNoticeController extends Controller
             'remainingRevenueTax' => $remainingRevenueTax,
             'remainingExpenseTax' => $remainingExpenseTax,
             'vat_notices' => $vatNotices,
-            'years' => $uniqueYears,
+            'years' => $availableYears->get($year),
             'year' => $year,
         ]);
     }
