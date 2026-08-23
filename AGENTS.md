@@ -12,7 +12,7 @@ LASO is a Laravel 12 application for German sole-proprietor bookkeeping and EÜR
 - `npm run build` builds production frontend assets.
 - `./vendor/bin/pint` formats PHP code according to Laravel Pint.
 
-If you use Sail or a devcontainer, run commands inside that environment so the expected MySQL service is available.
+Run commands inside the Sail/Docker environment (for example `docker exec laso-laravel.test-1 php artisan test`), because the expected MySQL service is only reachable from there: the `mysql` hostname in `.env` does not resolve from the host shell. This applies to the test suite in particular — the feature tests use `RefreshDatabase` against the `testing` database, so they will fail with a connection error unless run inside the container.
 
 ## Coding Style & Naming Conventions
 Follow PSR-12 and Laravel conventions: 4-space indentation for PHP, StudlyCase class names, camelCase methods, and snake_case database columns. Keep controllers thin where practical and put repeated business logic into reusable methods or services. Blade component and view names should stay kebab-case, for example `travel-allowance/index.blade.php`. Use Pint for PHP formatting; keep JS and CSS changes minimal and consistent with the existing Vite/Tailwind setup.
