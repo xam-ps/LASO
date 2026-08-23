@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class AvailableYears
 {
-    private const AFA_COST_TYPE_ID = 6;
+    private const AFA_COST_TYPE_SHORT_NAME = 'AfA';
 
     /**
      * @return Collection<int, int>
@@ -52,7 +52,9 @@ class AvailableYears
     private function depreciationYears(): Collection
     {
         return Expense::query()
-            ->where('cost_type_id', self::AFA_COST_TYPE_ID)
+            ->whereHas('costType', function ($query) {
+                $query->where('short_name', self::AFA_COST_TYPE_SHORT_NAME);
+            })
             ->get(['payment_date', 'depreciation', 'net'])
             ->flatMap(function (Expense $expense) {
                 if (

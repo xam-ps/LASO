@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\CostType;
 use App\Models\Expense;
 use App\Models\Revenue;
 use App\Models\TravelAllowance;
@@ -45,11 +46,12 @@ class AvailableYearsTest extends TestCase
     public function test_it_includes_only_years_with_positive_depreciation(): void
     {
         Carbon::setTestNow('2030-07-15');
+        $afaCostTypeId = CostType::where('short_name', 'AfA')->value('id');
 
         $januaryAsset = Expense::factory()->create([
             'billing_date' => '2020-01-01',
             'payment_date' => '2020-01-01',
-            'cost_type_id' => 6,
+            'cost_type_id' => $afaCostTypeId,
             'depreciation' => 3,
             'net' => 360,
         ]);
@@ -64,7 +66,7 @@ class AvailableYearsTest extends TestCase
         Expense::factory()->create([
             'billing_date' => '2021-07-01',
             'payment_date' => '2021-07-01',
-            'cost_type_id' => 6,
+            'cost_type_id' => $afaCostTypeId,
             'depreciation' => 2,
             'net' => 240,
         ]);
