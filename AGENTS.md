@@ -44,6 +44,10 @@ Once a year, when the new Anlage EÜR is published:
 The command is a maintainer tool: it is hidden from `artisan list`, refuses to run outside `local`, and must never be part of a user's upgrade instructions. Mappings ship with the release so that every instance on the same version shows the same numbers.
 
 ## Commit & Pull Request Guidelines
+Never create Git commits automatically. Make and verify file changes, then leave
+committing, amending, rebasing, and pushing to the user unless they explicitly
+request one of those operations.
+
 Recent history uses short imperative subjects such as `Update dependencies` and `Update CHANGELOG`. Keep commit messages concise, capitalized, and focused on one change. For pull requests, include a brief summary, note any schema or seed changes, list test coverage (`php artisan test`), and attach screenshots when UI output changes.
 
 ## Security & Configuration Tips
