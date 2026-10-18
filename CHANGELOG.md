@@ -1,6 +1,27 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v1.3.1...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v1.3.2...main)
+
+## [v1.3.2](https://github.com/laravel/laravel/compare/v1.3.1...v1.3.2) - 2026-10-18
+
+### Full list of changes
+
+- Update PHP and JavaScript dependencies
+- Fix mass-assignment field definitions for expenses, revenues, travel allowances, and VAT notices
+- Add regression tests to verify model fillable definitions and expected attributes
+
+To update please run:
+`git pull --ff-only`
+`composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader`
+`php artisan optimize:clear`
+and
+`npm ci`
+`npm run build`
+to build the frontend
+
+### For a fresh installation please have a look at the [README](https://github.com/xam-ps/LASO?tab=readme-ov-file#deployment-manually).
+
+**Full Changelog**: https://github.com/xam-ps/LASO/compare/v1.3.1...v1.3.2
 
 ## [v1.3.1](https://github.com/laravel/laravel/compare/v1.2.2...v1.3.1) - 2026-08-23
 
