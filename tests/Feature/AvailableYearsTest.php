@@ -12,6 +12,7 @@ use App\Services\AvailableYears;
 use Carbon\Carbon;
 use Database\Seeders\CostTypeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class AvailableYearsTest extends TestCase
@@ -38,45 +39,97 @@ class AvailableYearsTest extends TestCase
         VatNotice::factory()->create(['notice_date' => '2018-01-01']);
 
         $this->assertSame(
-            [2019, 2022, 2023, 2024, 2025, 2026],
+            [2018, 2019, 2022, 2023, 2024, 2025, 2026],
             app(AvailableYears::class)->get(2019)->all(),
         );
     }
 
-    public function test_it_includes_only_years_with_positive_depreciation(): void
+    public function test_it_excludes_depreciation_only_years_but_keeps_the_purchase_year(): void
     {
-        Carbon::setTestNow('2030-07-15');
-        $afaCostTypeId = CostType::where('short_name', 'AfA')->value('id');
-
-        $januaryAsset = Expense::factory()->create([
-            'billing_date' => '2020-01-01',
-            'payment_date' => '2020-01-01',
-            'cost_type_id' => $afaCostTypeId,
-            'depreciation' => 3,
-            'net' => 360,
-        ]);
-
-        $this->assertSame(
-            [2019, 2020, 2021, 2022, 2030],
-            app(AvailableYears::class)->get(2019)->all(),
-        );
-
-        $januaryAsset->delete();
+        Carbon::setTestNow('2026-07-15');
 
         Expense::factory()->create([
-            'billing_date' => '2021-07-01',
-            'payment_date' => '2021-07-01',
-            'cost_type_id' => $afaCostTypeId,
-            'depreciation' => 2,
-            'net' => 240,
+            'billing_date' => '2019-07-01',
+            'payment_date' => '2019-07-01',
+            'cost_type_id' => CostType::where('short_name', 'AfA')->value('id'),
+            'depreciation' => 10,
+            'net' => 1200,
         ]);
 
-        Carbon::setTestNow('2022-07-15');
-
         $this->assertSame(
-            [2019, 2021, 2022],
-            app(AvailableYears::class)->get(2019)->all(),
+            [2019, 2026],
+            app(AvailableYears::class)->get(2026)->all(),
         );
+    }
+
+    public function test_an_empty_installation_keeps_the_current_and_selected_years(): void
+    {
+        Carbon::setTestNow('2026-07-15');
+
+        $this->assertSame([2026], app(AvailableYears::class)->get(2026)->all());
+        $this->assertSame([2021, 2026], app(AvailableYears::class)->get(2021)->all());
+    }
+
+    #[DataProvider('yearNavigationLocations')]
+    public function test_all_screens_use_record_years_without_depreciation_expansion(string $location): void
+    {
+        Carbon::setTestNow('2026-07-15');
+
+        Expense::factory()->create([
+            'billing_date' => '2019-07-01',
+            'payment_date' => '2019-07-01',
+            'cost_type_id' => CostType::where('short_name', 'AfA')->value('id'),
+            'depreciation' => 10,
+            'net' => 1200,
+        ]);
+        VatNotice::factory()->create(['notice_date' => '2020-01-01']);
+        TravelAllowance::factory()->create(['travel_date' => '2021-06-01']);
+        Revenue::factory()->create([
+            'billing_date' => '2022-06-01',
+            'payment_date' => '2022-06-01',
+        ]);
+        Expense::factory()->create([
+            'billing_date' => '2023-06-01',
+            'payment_date' => '2023-06-01',
+        ]);
+
+        $this->actingAs(User::factory()->create())
+            ->get(route($location.'.index'))
+            ->assertOk()
+            ->assertViewHas('years', fn ($years) => $years->all() === [2019, 2020, 2021, 2022, 2023, 2026])
+            ->assertSee('href="'.route($location.'.year', ['year' => 2019]).'"', false)
+            ->assertDontSee('href="'.route($location.'.year', ['year' => 2024]).'"', false);
+    }
+
+    public static function yearNavigationLocations(): array
+    {
+        return [
+            'dashboard' => ['dashboard'],
+            'statement' => ['statement'],
+            'VAT notices' => ['vat-notice'],
+            'travel allowances' => ['travel-allowance'],
+        ];
+    }
+
+    public function test_a_directly_selected_depreciation_only_statement_still_includes_afa(): void
+    {
+        Carbon::setTestNow('2026-07-15');
+
+        Expense::factory()->create([
+            'billing_date' => '2019-07-01',
+            'payment_date' => '2019-07-01',
+            'cost_type_id' => CostType::where('short_name', 'AfA')->value('id'),
+            'depreciation' => 10,
+            'net' => 1200,
+        ]);
+
+        $this->actingAs(User::factory()->create())
+            ->get('/statement/2021')
+            ->assertOk()
+            ->assertViewHas('years', fn ($years) => $years->all() === [2019, 2021, 2026])
+            ->assertViewHas('costs', fn ($costs) => $costs->firstWhere('elster_key', 'AfA')->total_net == 120)
+            ->assertViewHas('expTotal', 120)
+            ->assertViewHas('profit', -120);
     }
 
     public function test_unpaid_dashboard_records_only_appear_in_their_billing_year(): void
