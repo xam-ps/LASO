@@ -6,4 +6,5 @@
     <div id="dashboard_page" class="py-4">
         <x-revenue-overview :$revenues :$revNetSum :$revTaxSum :$revGrossSum :$year />
         <x-expenses-overview :$expenses :$expNetSum :$expTaxSum :$expGrossSum :$year />
+    </div>
 </x-app-layout>

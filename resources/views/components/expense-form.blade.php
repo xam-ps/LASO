@@ -113,10 +113,10 @@
         <div class="mx-auto w-full md:w-1/3 bg-white dark:bg-gray-800 border-gray-200 border p-8 relative">
             <p class="cursor-pointer text-lg absolute top-2 right-5 trans">✕</p>
             <h2>Kostentypen:</h2>
-            <table>
+            <table class="data-table">
                 @foreach ($cost_types as $cost_type)
                 <tr title="{{$cost_type->description}}">
-                    <td style="background: #{{$cost_type->color_code}}; width: 20px"></td>
+                    <td><span class="cost-type-marker" style="--cost-color: #{{$cost_type->color_code}}"></span></td>
                     <td>{{$cost_type->short_name}}</td>
                     <td>{{$cost_type->full_name}}</td>
                 </tr>

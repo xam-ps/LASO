@@ -5,10 +5,10 @@
 
     <div id="statement_page" class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 print:max-w-fit">
-            <div id="revenue" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
-                <div class="flex justify-end mt-4 absolute right-6 text-4xl print:hidden">
-                    <button type="button" onclick="window.print()" aria-label="Jahresabschluss drucken"
-                        class="text-gray-700 dark:text-gray-300 fill-current stroke-current w-8 h-8">
+            <div id="revenue" class="table-panel">
+                <div class="absolute right-4 top-3 z-10 print:hidden">
+                    <button type="button" onclick="window.print()" aria-label="Jahresabschluss drucken" title="Jahresabschluss drucken"
+                        class="statement-print">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true">
                             <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
                             <path
@@ -16,8 +16,8 @@
                         </svg>
                     </button>
                 </div>
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1>Einnahme-Überschuss-Rechnung für {{$year}}</h1>
+                <div class="table-panel-content p-6 text-gray-900 dark:text-gray-100">
+                    <h1 class="statement-title">Einnahme-Überschuss-Rechnung für {{$year}}</h1>
 
                     @if ($elster === null && $elsterFormPending)
                     <p id="elster_pending" class="my-2 text-sm text-gray-500 dark:text-gray-400">
@@ -44,7 +44,7 @@
                     </p>
                     @endif
 
-                    <table>
+                    <table class="data-table statement-table">
                         {{-- visible column headers for screen readers. --}}
                         <caption class="sr-only">
                             Einnahme-Überschuss-Rechnung für {{ $year }}. Spalten: Zeile der Anlage EÜR,
@@ -59,22 +59,22 @@
                             <tr>
                                 <x-elster-line :$elster line-key="revenue_net" />
                                 <td>Einnahmen Netto</td>
-                                <td>{{Number::currency($revNetSum, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($revNetSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr>
                                 <x-elster-line :$elster line-key="revenue_vat" />
                                 <td>Einnahmen Ust</td>
-                                <td>{{Number::currency($revTaxSum, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($revTaxSum, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr>
                                 <x-elster-line :$elster line-key="vat_refund" />
                                 <td>Rückerstattung Ust</td>
-                                <td>{{Number::currency($receivedVatPayments, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($receivedVatPayments, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr class="font-bold">
                                 <td></td>
                                 <td>Gesamt</td>
-                                <td>{{Number::currency($revTotal, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($revTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
 
                             <tr>
@@ -86,7 +86,7 @@
                             <tr title="{{$cost->description}}">
                                 <x-elster-line :$elster :line-key="$cost->elster_key" />
                                 <td>{{$cost->full_name}}</td>
-                                <td>
+                                <td class="currency">
                                     {{Number::currency($cost->total_net, in: 'EUR', locale: 'de')}}
                                 </td>
                             </tr>
@@ -94,13 +94,13 @@
                             <tr>
                                 <td></td>
                                 <td>Gesamtausgaben</td>
-                                <td>{{Number::currency($expTotal, in: 'EUR', locale:
+                                <td class="currency">{{Number::currency($expTotal, in: 'EUR', locale:
                                     'de')}}</td>
                             </tr>
                             <tr class="font-bold">
                                 <td></td>
                                 <td>Jahresergebnis</td>
-                                <td>{{Number::currency($profit, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($profit, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="text-align: left;">
@@ -115,7 +115,7 @@
                             <tr>
                                 <x-elster-line :$elster line-key="einlagen" />
                                 <td>Nutzung privat PKW</td>
-                                <td>{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
+                                <td class="currency">{{Number::currency($travelAllowanceTotal, in: 'EUR', locale: 'de')}}</td>
                             </tr>
                         </tbody>
                     </table>

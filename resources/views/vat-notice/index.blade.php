@@ -2,69 +2,73 @@
     <x-slot name="header">
         <x-year-nav :$year :$years location='vat-notice' />
     </x-slot>
-    <div id="vat-notice_page" class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div id="vat-notices" class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
-                <div class="flex justify-end mt-4 absolute right-4">
-                    <a href="{{ route('vat-notice.createYear', ['year' => $year]) }}">
-                        <x-primary-button>
-                            {{ __('+') }}
-                        </x-primary-button>
-                    </a>
+    <div id="vat-notice_page" class="page-table-page py-5">
+        <section id="vat-notices" class="page-table-panel table-panel" aria-labelledby="vat_title">
+            <x-corner-add :href="route('vat-notice.createYear', ['year' => $year])" label="Umsatzsteuervoranmeldung hinzufügen" />
+            <div class="table-panel-content text-gray-900 dark:text-gray-100">
+                <div class="table-panel-header">
+                    <h1 id="vat_title" class="table-panel-title">Umsatzsteuer {{ $year }}</h1>
                 </div>
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1>Umsatzsteuer {{$year}}</h1>
-                    <div class="total_amounts flex flex-row flex-wrap text-center my-4">
-                        <div class="font-semibold w-1/2">
-                            <p>Zu meldende steuerpflichtige Umsätze</p>
-                            <span>{{Number::currency($remainingNetRevenue, in: 'EUR', locale: 'de')}}</span>
+                <div class="vat-balance-columns">
+                    <section class="vat-balance-group" aria-labelledby="vat-revenue-heading">
+                        <h2 id="vat-revenue-heading">Umsatzsteuer aus Einnahmen</h2>
+                        <div class="vat-balance-items">
+                            <div class="vat-balance-item">
+                                <p>Zu meldende steuerpflichtige Umsätze</p>
+                                <span>{{ Number::currency($remainingNetRevenue, in: 'EUR', locale: 'de') }}</span>
+                            </div>
+                            <div class="vat-balance-item">
+                                <p>Zu meldende Steuereinnahmen</p>
+                                <span>{{ Number::currency($remainingRevenueTax, in: 'EUR', locale: 'de') }}</span>
+                            </div>
                         </div>
-                        <div class="opacity-30 w-1/2 mb-4">
-                            <p>Gezahlte Steuern Gesamt</p>
-                            <span>{{Number::currency($totalExpenseTax, in: 'EUR', locale: 'de')}}</span>
+                    </section>
+                    <section class="vat-balance-group" aria-labelledby="vat-expense-heading">
+                        <h2 id="vat-expense-heading">Vorsteuer aus Ausgaben</h2>
+                        <div class="vat-balance-items">
+                            <div class="vat-balance-item is-muted">
+                                <p>Gezahlte Steuern Gesamt</p>
+                                <span>{{ Number::currency($totalExpenseTax, in: 'EUR', locale: 'de') }}</span>
+                            </div>
+                            <div class="vat-balance-item">
+                                <p>Zu meldende Steuerzahlungen</p>
+                                <span>{{ Number::currency($remainingExpenseTax, in: 'EUR', locale: 'de') }}</span>
+                            </div>
                         </div>
-                        <div class="font-semibold w-1/2">
-                            <p>Zu meldende Steuereinnahmen</p>
-                            <span>{{Number::currency($remainingRevenueTax, in: 'EUR', locale: 'de')}}</span>
-                        </div>
-                        <div class="font-semibold w-1/2">
-                            <p>Zu meldende Steuerzahlungen</p>
-                            <span>{{Number::currency($remainingExpenseTax, in: 'EUR', locale: 'de')}}</span>
-                        </div>
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="editable">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Gemeldete Steuereinnahmen:</th>
-                                    <th>Gemeldete Steuerzahlungen:</th>
-                                    <th>Datum:</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($vat_notices as $vat_notice)
-                                <tr>
-                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-xs hover:text-slate-100">
-                                        <a class="block h-auto"
-                                            href="{{ route('vat-notice.edit', ['id' => $vat_notice->id]) }}">
-                                            &#9998;
-                                        </a>
-                                    </td>
-                                    <td class="currency">{{Number::currency($vat_notice->vat_received, in: 'EUR',
-                                        locale:
-                                        'de')}}</td>
-                                    <td class="currency">{{Number::currency($vat_notice->vat_paid, in: 'EUR',
-                                        locale:
-                                        'de')}}</td>
-                                    <td>{{ $vat_notice->notice_date }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    </section>
+                </div>
+                <div class="table-viewport">
+                    <table class="data-table">
+                        <colgroup>
+                            <col class="vat-action-column">
+                            <col class="vat-amount-column">
+                            <col class="vat-amount-column">
+                            <col class="vat-date-column">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="table-action-heading"><span class="sr-only">Aktion</span></th>
+                                <th class="text-right">Gemeldete Steuereinnahmen</th>
+                                <th class="text-right">Gemeldete Steuerzahlungen</th>
+                                <th>Datum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($vat_notices as $vat_notice)
+                            <tr>
+                                <td class="table-action-cell">
+                                    <x-table-action :href="route('vat-notice.edit', ['id' => $vat_notice->id])"
+                                        label="Voranmeldung bearbeiten" />
+                                </td>
+                                <td class="currency">{{ Number::currency($vat_notice->vat_received, in: 'EUR', locale: 'de') }}</td>
+                                <td class="currency">{{ Number::currency($vat_notice->vat_paid, in: 'EUR', locale: 'de') }}</td>
+                                <td>{{ $vat_notice->notice_date }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </x-app-layout>

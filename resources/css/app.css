@@ -5,94 +5,341 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @theme {
-  --font-sans:
-    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    h1 {
+        @apply mb-2 text-3xl;
+    }
+
+    h2 {
+        @apply mb-1 text-lg font-bold;
+    }
 }
 
-h1 {
-    @apply text-3xl;
-    @apply mb-2;
-}
+@layer components {
+    .data-table {
+        @apply m-0 w-full border-collapse border-spacing-0 whitespace-nowrap;
+    }
 
-h2 {
-    @apply text-lg;
-    @apply mb-1;
-    @apply font-bold;
-}
+    .data-table th,
+    .data-table td {
+        @apply h-9.5 border-0 border-b border-gray-200 px-2.5 py-1.75 text-left align-middle dark:border-gray-700;
+    }
 
-header {
-    ul {
-        li {
-            a.active {
-                text-decoration: underline overline;
-            }
+    .data-table th {
+        @apply sticky top-0 z-[2] bg-slate-50 text-sm leading-normal font-semibold text-slate-600 dark:bg-gray-900 dark:text-slate-300;
+    }
+
+    .data-table tbody tr:hover {
+        @apply bg-slate-50 dark:bg-[#293444];
+    }
+
+    .data-table .currency {
+        @apply min-w-24 text-right font-mono text-[15px] font-semibold whitespace-nowrap tabular-nums;
+    }
+
+    .data-table .table-action-heading,
+    .data-table .table-action-cell {
+        @apply w-9 min-w-9 p-0;
+    }
+
+    .data-table .table-action-heading {
+        @apply border-b-0 bg-white dark:bg-gray-800;
+    }
+
+    .table-action {
+        @apply grid h-8.5 w-9 place-items-center text-slate-500 transition-colors duration-120 ease-[ease] dark:text-slate-300;
+    }
+
+    .table-action,
+    .corner-add,
+    .statement-print {
+        @apply cursor-pointer;
+    }
+
+    .table-action:hover,
+    .table-action:focus-visible {
+        @apply text-slate-900 dark:text-white;
+    }
+
+    .table-action:focus-visible,
+    .corner-add:focus-visible,
+    .statement-print:focus-visible {
+        @apply outline-2 outline-solid -outline-offset-2 outline-sky-600 dark:outline-sky-400;
+    }
+
+    .table-action svg {
+        @apply size-4;
+    }
+
+    .table-viewport {
+        @apply min-h-0 overflow-auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-slate-300) transparent;
+
+        @variant dark {
+            scrollbar-color: var(--color-slate-500) transparent;
         }
     }
-}
 
-table {
-    @apply my-4;
-    @apply mx-auto;
-    @apply border-spacing-2;
-    @apply border-collapse;
-    th {
-        @apply bg-slate-50;
-        @apply dark:bg-slate-950;
+    .table-panel {
+        @apply relative min-w-0 overflow-hidden rounded-[7px] bg-white shadow-sm dark:bg-gray-800;
     }
-    th,
-    td {
-        @apply border;
-        @apply p-2;
-    }
-    .currency {
-        @apply text-right;
-        font-family: "Andale Mono", Courier, "Courier New", monospace;
-        font-weight: 600;
-    }
-    &.editable {
-        th:first-of-type {
-            @apply bg-transparent;
-            @apply border-0;
-        }
-    }
-}
 
-#year_nav {
-    overflow: hidden;
-    overflow-x: scroll;
-    direction: rtl;
-    ul {
-        @apply flex;
-        @apply flex-row;
-        @apply justify-end;
-        @apply sm:justify-center;
+    .table-panel-content {
+        @apply flex min-h-0 flex-col px-4.5 pt-3 pb-3.5;
+    }
+
+    .table-panel-header {
+        @apply flex min-h-8.5 items-center justify-between pr-12;
+    }
+
+    .table-panel-title {
+        @apply m-0 text-2xl leading-tight font-medium;
+    }
+
+    .corner-add {
+        @apply absolute top-0 right-0 z-[4] block size-15 bg-slate-800 text-white transition-colors duration-120 ease-[ease] dark:bg-slate-300 dark:text-slate-900;
+        clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+
+    .corner-add:hover,
+    .corner-add:focus-visible {
+        @apply bg-slate-700 dark:bg-slate-50;
+    }
+
+    .corner-add svg {
+        @apply absolute top-2.5 right-2.5 size-4.5;
+    }
+
+    .total_amounts {
+        @apply mx-0 mt-1.25 mb-2.5 grid grid-cols-3 items-start gap-2 text-center;
+    }
+
+    .total_amounts>div {
+        @apply min-w-0;
+    }
+
+    .total_amounts.two-values {
+        @apply grid-cols-2;
+    }
+
+    .total_amounts p {
+        @apply m-0 mb-0.5 text-[15px] leading-tight text-slate-500 dark:text-slate-300;
+    }
+
+    .total_amounts span {
+        @apply block text-2xl leading-[1.3] font-normal whitespace-nowrap text-slate-800 dark:text-gray-100;
+    }
+
+    .cost-type-label {
+        @apply inline-flex items-center gap-1.75 whitespace-nowrap;
+    }
+
+    .cost-type-marker {
+        @apply inline-block h-5.5 w-3 flex-none basis-1.5 rounded-xs;
+        background: var(--cost-color, var(--color-slate-400));
+    }
+
+    .page-table-panel {
+        @apply mx-auto max-w-7xl max-md:w-[calc(100%_-_16px)];
+    }
+
+    .page-table-panel .table-panel-content {
+        @apply px-5.5 py-5 max-md:px-3 max-md:py-3.5;
+    }
+
+    .page-table-panel .table-viewport {
+        @apply max-h-[calc(100dvh_-_350px)] max-md:max-h-[calc(100dvh_-_300px)];
+    }
+
+    .depreciation-progress {
+        @apply relative h-7 min-w-27 overflow-hidden rounded-[3px] bg-slate-100 dark:bg-gray-700;
+    }
+
+    .depreciation-progress span {
+        @apply absolute inset-y-0 left-0 bg-green-200 dark:bg-green-800;
+    }
+
+    .depreciation-progress strong {
+        @apply relative z-[1] block px-2 py-1.25 text-xs leading-normal font-medium;
+    }
+
+    .table-section-row td {
+        @apply bg-slate-50 text-xs leading-normal font-semibold text-slate-600 dark:bg-gray-900 dark:text-slate-300;
+    }
+
+    .year-nav ul li a {
+        @apply inline-block px-0.5 pt-0.75 pb-1.25 font-medium text-slate-400;
+    }
+
+    .year-nav ul li a.active {
+        @apply border-b-2 border-slate-900 font-semibold text-slate-900 no-underline dark:border-slate-200 dark:text-slate-50;
+    }
+
+    #year_nav {
+        @apply overflow-x-auto;
+        direction: rtl;
+        scrollbar-width: none;
+    }
+
+    #year_nav::-webkit-scrollbar {
+        @apply hidden;
+    }
+
+    #year_nav ul {
+        @apply flex min-w-max flex-row justify-center px-4;
         direction: ltr;
-        li {
-            @apply mr-6;
+    }
 
-            &:last-of-type {
-                @apply mr-0;
-            }
-        }
+    #year_nav ul li {
+        @apply mr-5.5 last:mr-0;
+    }
+
+    #dashboard_page {
+        @apply mx-auto grid h-[calc(100dvh_-_9rem)] min-h-140 w-[calc(100%_-_32px)] max-w-[1400px] grid-rows-2 gap-4 px-0 pt-2 pb-2.5;
+        @apply max-md:h-[calc(100dvh_-_8.5rem)] max-md:min-h-150 max-md:w-[calc(100%_-_16px)] max-md:gap-2.5;
+    }
+
+    #dashboard_page>.table-panel {
+        @apply flex min-h-0 flex-col;
+    }
+
+    #dashboard_page .table-panel-content {
+        @apply flex-1 max-md:px-2.5 max-md:pt-2.5 max-md:pb-3;
+    }
+
+    #dashboard_page .table-viewport {
+        @apply flex-1 overscroll-contain;
+    }
+
+    #dashboard_page .table-panel-title {
+        @apply max-md:text-lg;
+    }
+
+    #dashboard_page .total_amounts {
+        @apply max-md:mt-1.25 max-md:mb-2 max-md:gap-0.5;
+    }
+
+    #dashboard_page .total_amounts p {
+        @apply max-md:text-[13px];
+    }
+
+    #dashboard_page .total_amounts span {
+        @apply max-md:text-base;
+    }
+
+    #vat-notice_page .vat-balance-columns {
+        @apply mx-auto mt-2.5 mb-5 grid max-w-[1100px] grid-cols-2 gap-6;
+        @apply max-md:mt-3 max-md:mb-4 max-md:grid-cols-1 max-md:gap-3.5;
+    }
+
+    #vat-notice_page .vat-balance-group:first-child {
+        @apply border-r border-gray-200 pr-6 dark:border-gray-700 max-md:border-r-0 max-md:border-b max-md:pr-0 max-md:pb-3.5;
+    }
+
+    #vat-notice_page .vat-balance-group h2 {
+        @apply m-0 mb-2.5 text-center text-[14px] font-semibold text-slate-500 dark:text-slate-300;
+    }
+
+    #vat-notice_page .vat-balance-items {
+        @apply grid grid-cols-2 gap-2.5;
+    }
+
+    #vat-notice_page .vat-balance-item {
+        @apply text-center;
+    }
+
+    #vat-notice_page .vat-balance-item p {
+        @apply m-0 mb-0.75 flex min-h-9 items-end justify-center text-sm leading-[1.3] text-slate-500 dark:text-slate-300;
+        @apply max-md:min-h-10.5 max-md:text-[13px];
+    }
+
+    #vat-notice_page .vat-balance-item span {
+        @apply block text-[22px] leading-[1.3] whitespace-nowrap text-slate-800 dark:text-gray-100 max-md:text-lg;
+    }
+
+    #vat-notice_page .vat-balance-item.is-muted p,
+    #vat-notice_page .vat-balance-item.is-muted span {
+        @apply opacity-40 dark:text-slate-400 dark:opacity-100;
+    }
+
+    #vat-notice_page .table-viewport {
+        @apply mx-auto w-full max-w-[900px];
+    }
+
+    #vat-notice_page .data-table {
+        @apply min-w-[700px] table-fixed max-md:min-w-0 max-md:table-auto;
+    }
+
+    #vat-notice_page .data-table th {
+        @apply max-md:whitespace-normal;
+    }
+
+    #vat-notice_page .vat-action-column {
+        @apply w-[5%] max-md:w-auto;
+    }
+
+    #vat-notice_page .vat-amount-column {
+        @apply w-[34%] max-md:w-auto;
+    }
+
+    #vat-notice_page .vat-date-column {
+        @apply w-[27%] max-md:w-auto;
+    }
+
+    #statement_page .data-table {
+        @apply mx-auto w-full max-w-[850px] whitespace-normal;
+    }
+
+    #statement_page .data-table td:last-child {
+        @apply text-right;
+    }
+
+    #statement_page .data-table tbody tr:has(td[colspan]) td {
+        @apply border-b-0 pt-4;
+    }
+
+    #statement_page .data-table h2 {
+        @apply m-0 text-[15px];
+    }
+
+    #statement_page .statement-print {
+        @apply grid size-12 place-items-center text-slate-600 transition-colors duration-120 ease-[ease] dark:text-slate-300;
+    }
+
+    #statement_page .statement-print:hover,
+    #statement_page .statement-print:focus-visible {
+        @apply text-slate-900 dark:text-white;
+    }
+
+    #statement_page .statement-print svg {
+        @apply size-6.5 fill-current;
+    }
+
+    #statement_page .statement-title {
+        @apply pr-14 print:pr-0;
+    }
+
+    #costTypeOverlay .data-table {
+        @apply w-full text-left whitespace-normal;
+    }
+
+    #costTypeOverlay .data-table td:first-child {
+        @apply w-5.5 px-1;
     }
 }
 
@@ -100,82 +347,19 @@ table {
     @apply text-red-600;
 }
 
-#dashboard_page {
-    .total_amounts {
-        div {
-            @apply basis-4/12;
+@media print {
 
-            p {
-                @apply text-2xl;
-            }
-            span {
-                @apply text-xl;
-            }
-        }
+    .table-panel,
+    #revenue {
+        @apply overflow-visible rounded-none shadow-none;
     }
 
-    #revenues,
-    #expenses {
-        max-height: calc(50vh - 94px);
-        overflow-y: scroll;
-        .table-wrapper {
-            overflow-x: auto;
-            table {
-                white-space: nowrap;
-            }
-        }
-    }
-}
-
-#vat-notice_page {
-    .total_amounts {
-        div {
-            @apply mx-auto;
-
-            p {
-                @apply text-2xl;
-            }
-            span {
-                @apply text-xl;
-            }
-        }
-    }
-}
-
-#travel-allowance_page {
-    .total_amounts {
-        div {
-            @apply mx-auto;
-
-            p {
-                @apply text-2xl;
-            }
-            span {
-                @apply text-xl;
-            }
-        }
+    #statement_page .data-table {
+        @apply w-full max-w-none whitespace-normal;
     }
 
-    #travel-allowences {
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            table {
-                width: 100%;
-                white-space: nowrap;
-            }
-        }
-    }
-}
-
-#assets_page {
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        table {
-            width: 100%;
-            white-space: nowrap;
-        }
+    #statement_page .data-table th {
+        @apply static;
     }
 }
 
@@ -189,12 +373,10 @@ table {
 #edit_travel-allowance_page {
     form {
         input {
-            @apply dark:bg-slate-500;
-            @apply my-2;
+            @apply my-2 dark:bg-slate-500;
 
             &:invalid {
-                @apply border-red-700;
-                @apply border-2;
+                @apply border-2 border-red-700;
             }
         }
 
@@ -204,16 +386,6 @@ table {
     }
 }
 
-#statement_page {
-    table {
-        td {
-            &:last-of-type {
-                text-align: right;
-            }
-        }
-    }
-}
-
 option:focus {
-    font-weight: bold;
+    @apply font-bold;
 }

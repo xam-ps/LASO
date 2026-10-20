@@ -29,11 +29,14 @@ class VatNoticeTest extends TestCase
             ->get('/vat-notice/');
 
         $vatNoticePage->assertSeeInOrder([
+            'Umsatzsteuer aus Einnahmen',
             'Zu meldende steuerpflichtige Umsätze',
-            'Gezahlte Steuern Gesamt',
             'Zu meldende Steuereinnahmen',
+            'Vorsteuer aus Ausgaben',
+            'Gezahlte Steuern Gesamt',
             'Zu meldende Steuerzahlungen',
         ]);
+        $vatNoticePage->assertSee('<div class="vat-balance-item is-muted">', false);
         $vatNoticePage->assertStatus(200);
     }
 
