@@ -34,13 +34,18 @@ class TravelAllowanceController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(?TravelAllowance $travelAllowance = null)
     {
         $companyNames = DB::table('revenues')->select('company_name')->distinct()->pluck('company_name');
 
         $now = Carbon::now()->toDateString();
 
-        return view('travel-allowance.create', ['companyNames' => $companyNames, 'now' => $now]);
+        if ($travelAllowance !== null) {
+            $travelAllowance = $travelAllowance->replicate();
+            $travelAllowance->travel_date = $now;
+        }
+
+        return view('travel-allowance.create', ['companyNames' => $companyNames, 'now' => $now, 'travelAllowance' => $travelAllowance]);
     }
 
     /**

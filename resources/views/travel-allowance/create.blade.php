@@ -4,7 +4,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xs sm:rounded-lg relative">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h1>Neue Fahrt anlegen</h1>
-                    <x-travel-form :$now :$companyNames />
+                    <x-travel-form :$now :$companyNames :$travelAllowance />
                 </div>
             </div>
         </div>

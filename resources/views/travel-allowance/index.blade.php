@@ -29,7 +29,7 @@
                         <table class="editable">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th colspan="2"><span class="sr-only">Bearbeiten und Übernehmen</span></th>
                                     <th>Erstattung:</th>
                                     <th>Distanz:</th>
                                     <th>Datum:</th>
@@ -44,10 +44,18 @@
                             <tbody>
                                 @foreach ($travel_allowances as $travel_allowance)
                                 <tr>
-                                    <td class="p-0 hover:bg-slate-600 cursor-pointer rounded-xs hover:text-slate-100">
-                                        <a class="block h-auto"
-                                            href="{{ route('travel-allowance.edit', ['id' => $travel_allowance->id]) }}">
-                                            &#9998;
+                                    <td class="p-0">
+                                        <a class="flex h-9 w-9 items-center justify-center text-gray-700 hover:text-gray-950 dark:text-gray-200 dark:hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-500"
+                                            href="{{ route('travel-allowance.edit', ['id' => $travel_allowance->id]) }}"
+                                            title="Fahrt bearbeiten" aria-label="Fahrt bearbeiten">
+                                            <span aria-hidden="true">&#9998;</span>
+                                        </a>
+                                    </td>
+                                    <td class="p-0">
+                                        <a class="flex h-9 w-9 items-center justify-center text-xl text-gray-700 hover:text-gray-950 dark:text-gray-200 dark:hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-sky-500"
+                                            href="{{ route('travel-allowance.copy', ['travelAllowance' => $travel_allowance->id]) }}"
+                                            title="Als neue Fahrt übernehmen" aria-label="Fahrt nach {{ $travel_allowance->destination }} als neue Fahrt übernehmen">
+                                            <span aria-hidden="true">&#10697;</span>
                                         </a>
                                     </td>
                                     <td class="currency">{{Number::currency($travel_allowance->refund, in: 'EUR',

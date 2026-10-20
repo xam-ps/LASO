@@ -49,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [TravelAllowanceController::class, 'index'])->name('index');
         Route::get('/all/{year}', [TravelAllowanceController::class, 'index'])->whereNumber('year')->name('year');
         Route::get('/create', [TravelAllowanceController::class, 'create'])->name('create');
+        Route::get('/create/{travelAllowance}', [TravelAllowanceController::class, 'create'])->whereNumber('travelAllowance')->name('copy');
         Route::post('/', [TravelAllowanceController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [TravelAllowanceController::class, 'edit'])->name('edit');
         Route::put('/{id}', [TravelAllowanceController::class, 'update'])->name('update');

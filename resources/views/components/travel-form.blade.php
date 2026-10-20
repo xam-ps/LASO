@@ -1,6 +1,6 @@
-@props(['now', 'companyNames', 'travelAllowance'])
+@props(['now' => null, 'companyNames', 'travelAllowance' => null])
 
-@if (isset($travelAllowance))
+@if ($travelAllowance?->exists)
 <form class="my-2" method="post" action="{{ route('travel-allowance.update', ['id'=>$travelAllowance->id]) }}">
     @method('PUT')
     @else
