@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: true
@@ -21,14 +21,26 @@ jobs:
 
     name: PHP ${{ matrix.php }}
 
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: laso
+          MYSQL_USER: laso
+          MYSQL_PASSWORD: laso
+          MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+          MYSQL_ROOT_HOST: localhost
+        ports:
+          - "127.0.0.1:3306:3306"
+        options: >-
+          --health-cmd="mysql --protocol=TCP -h 127.0.0.1 -u laso -plaso -D laso -e 'SELECT 1'"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=12
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up mySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE laso;' -uroot -proot
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -38,7 +50,7 @@ jobs:
           coverage: none
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: "22"
 
