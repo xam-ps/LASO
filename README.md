@@ -2,7 +2,7 @@
 
 ## Disclaimer: Is it perfect? By far no! Is it doing it's job? For me: Absolutely!
 
-This was coded part time in a week while working a full time job. There is still tons of room for improvements. If you have ideas on how to improve LASO, feel free to let me know. Right now LASO concentrates heavily on helping to create the **German "Einnahmen-Überschuss-Rechnung"** (EÜR) and most likely is of no use in any other country. But eventually we're getting there if anyone is interested in extending LASO.
+This project is maintained while working a full time job. I'm using it now for four years already, but there is still room for improvements. If you have ideas on how to improve LASO, feel free to let me know. Right now LASO concentrates heavily on helping to create the **German "Einnahmen-Überschuss-Rechnung"** (EÜR) and most likely is of no use in any other country. But eventually we're getting there if anyone is interested in extending LASO.
 
 # LASO
 
